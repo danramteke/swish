@@ -1,3 +1,5 @@
 import SwiftyBuildLib
 
-print("running a demo")
+let options = TargetOptions(scheme: "MyScheme", workspace: "MyWorkspace")
+
+BuildAction.build(options).run()

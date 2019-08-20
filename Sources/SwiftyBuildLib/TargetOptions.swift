@@ -1,4 +1,4 @@
-public struct ProjectOptions {
+public struct TargetOptions {
   public let scheme: String?
   public let project: String?
   public let workspace: String?
