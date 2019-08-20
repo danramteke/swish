@@ -1,9 +1,12 @@
 public enum BuildAction {
-  case build(TargetOptions), test(TargetOptions), archive(TargetOptions), export
+  case build(TargetOptions)
+  case test(TargetOptions)
+  case archive(TargetOptions, sdk: String, archivePath: String)
+  case export(archivePath: String, exportPath: String, ExportOptions)
 
   var additionalRenders: String {
     switch self {
-      case .archive(let targetOptions): return targetOptions.rendered
+      case .archive(let targetOptions, let sdk, let archivePath): return targetOptions.rendered + "-sdk \(sdk) -archivePath \(archivePath)"
       case .build(let targetOptions): return "-destination generic/platform=iOS " + targetOptions.rendered
       case .export: return ""
       case .test(let targetOptions): return targetOptions.rendered
