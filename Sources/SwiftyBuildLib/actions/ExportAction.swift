@@ -16,7 +16,7 @@ public struct ExportAction: Codable {
   }
 }
 
-extension ExportAction: Action {
+extension ExportAction: ShellAction {
   public var name: String { return "Export" }
   public func render() -> [String] {
     var buffer = ["xcodebuild", "-exportArchive", "-archivePath", "\"\(archivePath)\"", "-exportOptionsPlist", "\"\(exportOptionsPlistPath)\"", "-exportPath", "\"\(exportPath)\""]

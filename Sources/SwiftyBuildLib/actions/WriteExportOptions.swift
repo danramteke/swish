@@ -1,7 +1,7 @@
 import Foundation
 import Rainbow
 
-public struct WriteExportOptions: Codable {
+public struct WriteExportOptions {
   public let path: Path
   public let exportOptions: ExportOptions
   public init(path: Path, exportOptions: ExportOptions) {
@@ -10,9 +10,19 @@ public struct WriteExportOptions: Codable {
   }
 }
 
-extension WriteExportOptions: Action {
+extension WriteExportOptions: SwiftAction {
   public var name: String { return "WriteExportOptions" }
-  public func render() -> [String] {
-    return ["cat", try! exportOptions.asString(), ">", path.path]
+  public func run() -> (success: Bool, stdout: String, stderr: String) {
+    do {
+      try exportOptions.write(to: path)
+    } catch {
+
+      return (false, "", error.localizedDescription)
+    }
+    return (true, "Wrote export options to \(self.path)", "")
+  }
+
+  public func dryRun() {
+    print("Wrote export options to \(self.path)")
   }
 }

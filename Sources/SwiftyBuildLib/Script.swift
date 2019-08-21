@@ -3,12 +3,12 @@ import Foundation
  * A `Script` represents a synchronous queue of actions to take.
  */
 public struct Script {
-  public let name: String
+  public let name: String?
   public let actions: [Action]
   public let output: Path
   internal let logs: Path
   public let isDryRun: Bool
-  public init(name: String = "SwiftyBuildScript", _ actions: [Action], output: Path = "./.swiftybuild", dryRun: Bool = false) throws {
+  public init(name: String? = nil, actions: [Action], output: Path = "./.swiftybuild", dryRun: Bool = false) throws {
     self.name = name
     self.actions = actions
     self.output = output
@@ -32,6 +32,6 @@ public struct Script {
   }
 }
 
-private enum Log {
-  case stdErr, stdOut
+internal enum Log: String {
+  case stderr, stdout
 }

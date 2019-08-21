@@ -12,7 +12,7 @@ public struct ArchiveAction: Codable {
   }
 }
 
-extension ArchiveAction: Action {
+extension ArchiveAction: ShellAction {
   public var name: String { return "Archive" }
   public func render() -> [String] {
     return ["xcodebuild", "archive"] + targetOptions.renderedList + ["-sdk", sdk.rawValue, "-archivePath", "\"\(archivePath)\""]

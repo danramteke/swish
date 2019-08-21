@@ -13,4 +13,6 @@ let actions: [Action] = [
   ArchiveAction(targetOptions: options, sdk: .iphoneos, archivePath: "./.swiftybuild/\(options.scheme!).xcarchive"),
 ]
 
-try run(actions)
+// try run("MyScheme", actions)
+
+try Script(name: "DemoScript", actions: actions).run()

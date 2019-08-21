@@ -1,8 +1,5 @@
 import Foundation
 import Rainbow
-public func dryRun(_ actions: [Action]) throws {
-  try Script(actions, dryRun: true).run()
-}
 
 extension Script {
   internal func dryRun() {
@@ -12,7 +9,7 @@ extension Script {
   }
 }
 
-public extension Action {
+public extension ShellAction {
   func renderString() -> String {
     return "/usr/bin/env ".lightWhite + self.render().joined(separator: " ")
   }
