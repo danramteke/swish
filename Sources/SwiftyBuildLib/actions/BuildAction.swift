@@ -1,5 +1,6 @@
 import Foundation
-public struct BuildAction: Codable {
+
+public struct BuildAction {
   public let targetOptions: TargetOptions
   public let destination: Destination
 

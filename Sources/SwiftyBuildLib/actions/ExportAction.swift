@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ExportAction: Codable {
+public struct ExportAction {
   public let archivePath: String
   public let exportDir: String
   public let exportOptionsPlistPath: String
