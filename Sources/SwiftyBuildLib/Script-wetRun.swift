@@ -17,8 +17,10 @@ extension Script {
       stdOutLog.touch()
       let result = try action.run(stdOut: stdOutLog, stdErr: stdErrLog)
       if result != 0 {
-        print("build failed with status".red.bold, result)
+        print("Action \(action.name) failed with status".red.bold, result)
         exit(1)
+      } else {
+        print("✅\(action.name)")
       }
     }
   }
