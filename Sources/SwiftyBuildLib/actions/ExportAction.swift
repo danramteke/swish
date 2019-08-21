@@ -32,11 +32,14 @@ extension ExportAction: ShellAction {
 }
 
 public extension Context {
+  var defaultExportDir: Path {
+    return self.output + "export"
+  }
 
-
-  func export(archivePath: String, exportDir: String, exportOptionsNamed exportOptionsName: String, allowProvisioningUpdates: Bool = false, allowProvisioningDeviceRegistration: Bool = false) throws {
+  func export(archivePath: String, exportDir: String?, exportOptionsNamed exportOptionsName: String, allowProvisioningUpdates: Bool = false, allowProvisioningDeviceRegistration: Bool = false) throws {
+    let actualExportDir = exportDir ?? self.defaultExportDir.path
     let exportOptionsPath = self.pathForExportOptions(named: exportOptionsName)
-    let action = ExportAction(archivePath: archivePath, exportDir: exportDir, exportOptionsPlistPath: exportOptionsPath, allowProvisioningUpdates: allowProvisioningUpdates, allowProvisioningDeviceRegistration: allowProvisioningDeviceRegistration)
+    let action = ExportAction(archivePath: archivePath, exportDir: actualExportDir, exportOptionsPlistPath: exportOptionsPath, allowProvisioningUpdates: allowProvisioningUpdates, allowProvisioningDeviceRegistration: allowProvisioningDeviceRegistration)
     try self.run(action: action)
   }
   func export(archivePath: String, exportDir: String, exportOptionsPlistPath: Path, allowProvisioningUpdates: Bool = false, allowProvisioningDeviceRegistration: Bool = false) throws {
