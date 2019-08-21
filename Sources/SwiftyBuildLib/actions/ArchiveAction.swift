@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ArchiveAction: Codable {
+public struct ArchiveAction {
   public let targetOptions: TargetOptions
   public let sdk: SDK
   public let archivePath: String
