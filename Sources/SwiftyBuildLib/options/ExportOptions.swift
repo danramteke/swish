@@ -21,6 +21,14 @@ public struct ExportOptions: Codable {
     let data = try encoder.encode(self)
     try data.write(to: path)
   }
+
+  public func asString() throws -> String {
+    let encoder = PropertyListEncoder()
+    encoder.outputFormat = .xml
+    let data = try encoder.encode(self)
+    let string = String(data: data, encoding: .utf8)!
+    return string
+  }
 }    
 
 extension ExportOptions {

@@ -11,7 +11,6 @@ extension Path: ExpressibleByStringLiteral {
   }
 
   public init(stringLiteral value: StringLiteralType) {
-    self.init(String(value))
+    self.init(value)
   }
-
 }
