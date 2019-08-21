@@ -8,4 +8,4 @@ let actions: [Action] = [
   ArchiveAction(targetOptions: options, sdk: .iphoneos, archivePath: "./.swiftybuild/\(options.scheme!).xcarchive"),
 ]
 
-dryRun(actions)
+run(actions)
