@@ -29,11 +29,11 @@ extension Context {
 
   private func getResult(for action: Action, logPaths: LogPaths) throws  {
     if isDryRun {
-      try action.run(logPaths: logPaths)
-    } else {
       if let shellAction = action as? ShellAction {
         print("[\(action.name)] " + "/usr/bin/env ".lightWhite + shellAction.render().joined(separator: " "))
       }
+    } else {
+      try action.run(logPaths: logPaths)
     }
   }
 

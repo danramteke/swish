@@ -17,11 +17,6 @@ public struct Context {
     
     self.logs = self.output + Path("logs")
     self.isDryRun = dryRun
-
-    guard !isDryRun else {
-      return
-    }
-
     try self.output.createDirectories()
     try self.logs.createDirectories()
   }
