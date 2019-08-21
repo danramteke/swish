@@ -13,19 +13,13 @@ public func run(_ actions: [Action]) throws {
 
 public extension Action {
   func run() throws -> Int32 {
-    let stdOut = Pipe()
-    let stdErr = Pipe()
     let process = Process()
     process.launchPath = "/usr/bin/env"
     process.arguments = self.render()
-    // process.standardOutput = pipe
-    // process.standardError = pipe
+    process.standardOutput = try FileHandle(forWritingTo: Path(".swiftybuild/stdOut.log").url)
+    process.standardError = try FileHandle(forWritingTo: Path(".swiftybuild/stdErr.log").url)
     process.launch()
     process.waitUntilExit()
-    // let stdOutData = stdOut.fileHandleForReading.readDataToEndOfFile()
-    // let stdErrData = stdErr.fileHandleForReading.readDataToEndOfFile()
-    // try stdOutData.write(to: Path(".swiftybuild/stdOut.log"))
-    // try stdErrData.write(to: Path(".swiftybuild/stdErr.log"))
     
     return process.terminationStatus
   }
