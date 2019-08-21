@@ -2,8 +2,7 @@ import Foundation
 
 public protocol Action: Codable {
   var name: String { get }
-  func run(stdOut: Path, stdErr: Path) throws -> Int32 
-  func dryRun()
+  func run(logPaths: LogPaths) throws -> Bool 
 }
 
 public protocol SwiftAction: Action {
@@ -12,4 +11,9 @@ public protocol SwiftAction: Action {
 
 public protocol ShellAction: Action {
   func render() -> [String]
+}
+
+public enum ActionType {
+  case swift(SwiftAction)
+  case shell(ShellAction)
 }

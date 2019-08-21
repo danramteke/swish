@@ -16,3 +16,10 @@ extension BuildAction: ShellAction {
     return ["xcodebuild", "build"] + targetOptions.renderedList + ["-destination", destination.rawValue]
   }
 }
+
+public extension Context {
+  func build(targetOptions: TargetOptions, destination: Destination) throws {
+    let action = BuildAction(targetOptions: targetOptions, destination: destination)
+    try self.run(action: action)
+  }
+}
