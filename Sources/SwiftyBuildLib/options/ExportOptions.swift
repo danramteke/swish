@@ -18,7 +18,7 @@ public struct ExportOptions: Codable {
   public func write(to path: String) throws {
     let encoder = PropertyListEncoder()
     let data = try encoder.encode(self)
-    let url = URL(fileReferenceLiteralResourceName: path)
+    let url = URL(fileURLWithPath: path)
     try data.write(to: url, options: .atomic)
   }
 }    
