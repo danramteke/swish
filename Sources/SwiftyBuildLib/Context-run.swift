@@ -10,7 +10,17 @@ extension Context {
     let logPaths = self.setupLogs(for: action)
 
     print("[\(action.name)] 🛫  starting")
-    let result = try action.run(logPaths: logPaths)
+    let result: Bool = try {
+      if isDryRun {
+        return try action.run(logPaths: logPaths)
+      } else {
+        if let shellAction = action as? ShellAction {
+          print("[\(action.name)] " + "/usr/bin/env ".lightWhite + shellAction.render().joined(separator: " "))
+        }
+        
+        return true
+      }
+    }()
     if result {
       print("[\(action.name)] ✅  success ")
     } else {
@@ -18,6 +28,8 @@ extension Context {
       throw RunError.failedAction(action.name)
     }
   }
+
+  
 
   private func setupLogs(for action: Action) -> LogPaths {
     let stdOutLog: Path = logPath(action: action, log: .stdout)
