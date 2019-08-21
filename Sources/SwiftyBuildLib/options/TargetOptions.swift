@@ -28,3 +28,23 @@ public struct TargetOptions: Codable {
     return buffer.joined(separator: " ")
   }
 }
+
+extension TargetOptions: CustomStringConvertible {
+  var description: String {
+    var buffer: [String] = [""]
+    if let configuration = configuration {
+      buffer.append("configuration: \(configuration)")
+    }
+    if let scheme = scheme {
+      buffer.append("scheme: \(scheme)")
+    }
+    if let project = project {
+      buffer.append("project: \(project).xcodeproj")
+    }
+    if let workspace = workspace {
+      buffer.append("workspace: \(workspace).xcworkspace")
+    }
+
+    return "TargetOptions(" + buffer.joined(separator: ",") + ")"
+  }
+}
