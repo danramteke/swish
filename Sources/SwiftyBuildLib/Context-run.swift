@@ -24,6 +24,7 @@ extension Context {
       self.presentSuccess(for: action)
     } catch {
       self.presentFailure(for: action, error: error)
+      throw RunError.failedAction(action.name)
     }
   }
 
