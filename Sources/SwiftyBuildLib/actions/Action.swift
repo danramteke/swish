@@ -5,7 +5,7 @@ public protocol Action: Codable {
 }
 
 public extension Action {
-  func dryRun() throws {
+  func dryRun() {
     print(self.render())
   }
 }
