@@ -19,7 +19,7 @@ See below for what the `Package.swift` and `main.swift` might look like.
 
     import PackageDescription
     let package = Package(
-        name: "Underway",
+        name: "SwiftScripts",
 
         dependencies: [
           .package(url: "https://github.com/danramteke/SwiftyBuild", .branch("master"))
@@ -52,4 +52,4 @@ See below for what the `Package.swift` and `main.swift` might look like.
 
 ## Attributions
 
-The `Path` section of code was heavily borrowed and inspired by [PathKit](https://github.com/kylef/PathKit/blob/master/Sources/PathKit.swift)
+The `Path` section of code was heavily borrowed and inspired by [PathKit](https://github.com/kylef/PathKit/blob/master/Sources/PathKit.swift). The license for the borrowed code is available [here](https://github.com/kylef/PathKit/blob/master/LICENSE).
