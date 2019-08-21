@@ -30,7 +30,7 @@ public struct TargetOptions: Codable {
 }
 
 extension TargetOptions: CustomStringConvertible {
-  var description: String {
+  public var description: String {
     var buffer: [String] = [""]
     if let configuration = configuration {
       buffer.append("configuration: \(configuration)")
