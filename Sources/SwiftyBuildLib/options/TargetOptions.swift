@@ -1,4 +1,4 @@
-public struct TargetOptions {
+public struct TargetOptions: Codable {
   public let configuration: String?
   public let scheme: String?
   public let project: String?
