@@ -2,7 +2,7 @@ import Foundation
 
 public protocol Action: Codable {
   var name: String { get }
-  func run(logPaths: LogPaths) throws -> Bool 
+  func run(logPaths: LogPaths) throws
 }
 
 public protocol SwiftAction: Action {
