@@ -15,12 +15,13 @@ extension Script {
       let stdErrLog: Path = logPath(action: action, log: .stderr)
       stdErrLog.touch()
       stdOutLog.touch()
+      print("[\(action.name)] 🛫  starting")
       let result = try action.run(stdOut: stdOutLog, stdErr: stdErrLog)
       if result != 0 {
-        print("Action \(action.name) failed with status".red.bold, result)
+        print("[\(action.name)] 🥀 " + " failed with status: ".red.bold + "\(result)")
         exit(1)
       } else {
-        print("✅\(action.name)")
+        print("[\(action.name)] ✅  success ")
       }
     }
   }
