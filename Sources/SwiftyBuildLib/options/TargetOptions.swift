@@ -1,3 +1,4 @@
+import Rainbow
 public struct TargetOptions: Codable {
   public let configuration: String?
   public let scheme: String?
@@ -31,7 +32,7 @@ public struct TargetOptions: Codable {
 
 extension TargetOptions: CustomStringConvertible {
   public var description: String {
-    var buffer: [String] = [""]
+    var buffer: [String] = []
     if let configuration = configuration {
       buffer.append("configuration: \(configuration)")
     }
@@ -39,12 +40,12 @@ extension TargetOptions: CustomStringConvertible {
       buffer.append("scheme: \(scheme)")
     }
     if let project = project {
-      buffer.append("project: \(project).xcodeproj")
+      buffer.append("project: \(project)")
     }
     if let workspace = workspace {
-      buffer.append("workspace: \(workspace).xcworkspace")
+      buffer.append("workspace: \(workspace)")
     }
 
-    return "TargetOptions(" + buffer.joined(separator: ",") + ")"
+    return "TargetOptions(".lightBlue + buffer.joined(separator: ",".yellow) + ")".lightBlue
   }
 }

@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "SwiftyBuildLib", targets: ["SwiftyBuildLib"])
     ],
     dependencies: [
+        .package(url: "https://github.com/onevcat/Rainbow", from: "3.0.0")
     ],
     targets: [
         .target(
@@ -17,7 +18,7 @@ let package = Package(
             dependencies: ["SwiftyBuildLib"]),
         .target(
             name: "SwiftyBuildLib",
-            dependencies: []),
+            dependencies: ["Rainbow"]),
         .testTarget(
             name: "SwiftyBuildTests",
             dependencies: ["SwiftyBuild"]),
