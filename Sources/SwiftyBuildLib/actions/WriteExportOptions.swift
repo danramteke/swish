@@ -26,3 +26,10 @@ extension WriteExportOptions: SwiftAction {
     print("Wrote export options to \(self.path)")
   }
 }
+
+public extension Context {
+  func writeExportOptions(path: Path, exportOptions: ExportOptions) throws {
+    let action = WriteExportOptions(path: path, exportOptions: exportOptions)
+    try self.run(action: action)
+  }
+}

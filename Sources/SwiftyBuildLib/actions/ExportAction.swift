@@ -30,3 +30,10 @@ extension ExportAction: ShellAction {
     return buffer
   }
 }
+
+public extension Context {
+  func export(archivePath: String, exportDir: String, exportOptionsPlistPath: String, allowProvisioningUpdates: Bool = false, allowProvisioningDeviceRegistration: Bool = false) throws {
+    let action = ExportAction(archivePath: archivePath, exportDir: exportDir, exportOptionsPlistPath: exportOptionsPlistPath, allowProvisioningUpdates: allowProvisioningUpdates, allowProvisioningDeviceRegistration: allowProvisioningDeviceRegistration)
+    try self.run(action: action)
+  }
+}

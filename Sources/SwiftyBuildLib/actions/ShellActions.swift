@@ -9,10 +9,20 @@ public struct Shell: ShellAction  {
     self.tokens = tokens
   }
 
-  public var name: String { return "Shell" }
+  public init(tokens: [String]) {
+    self.tokens = tokens
+  }
+
+  public let name: String = "Shell"
+
   public func render() -> [String] {
     return tokens
   }
 }
 
-
+public extension Context {
+  func shell(_ tokens: [String]) throws {
+    let action = Shell(tokens: tokens)
+    try self.run(action: action)
+  }
+}
