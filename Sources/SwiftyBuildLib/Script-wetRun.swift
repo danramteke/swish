@@ -17,11 +17,11 @@ extension Script {
       stdOutLog.touch()
       print("[\(action.name)] 🛫  starting")
       let result = try action.run(stdOut: stdOutLog, stdErr: stdErrLog)
-      if result != 0 {
-        print("[\(action.name)] 🥀 " + " failed with status: ".red.bold + "\(result)")
-        exit(1)
-      } else {
+      if result == 0 {
         print("[\(action.name)] ✅  success ")
+      } else {
+        print("[\(action.name)] 🥀 " + " failed with status: ".red.bold + "\(result)")
+        exit(1) 
       }
     }
   }
