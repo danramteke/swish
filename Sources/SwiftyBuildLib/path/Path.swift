@@ -15,5 +15,11 @@ public struct Path: Codable {
   public var url: URL {
     return URL(fileURLWithPath: path)
   }
+
+  public static var current: Path {
+    get {
+      return self.init(FileManager.default.currentDirectoryPath)
+    }
+  }
 }
 
