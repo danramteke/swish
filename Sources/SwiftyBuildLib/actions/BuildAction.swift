@@ -10,7 +10,7 @@ public struct BuildAction: Codable {
 }
 
 extension BuildAction: Action {
-  public func render() -> String {
-    return "xcodebuild build \(targetOptions.rendered) \(destination.rawValue)"
+  public func render() -> [String] {
+    return ["xcodebuild", "build"] + targetOptions.renderedList + ["-destination", destination.rawValue]
   }
 }

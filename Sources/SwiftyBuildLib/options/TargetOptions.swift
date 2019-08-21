@@ -12,21 +12,25 @@ public struct TargetOptions: Codable {
     self.workspace = workspace
   }
 
-  var rendered: String {
+  var renderedList: [String] {
     var buffer: [String] = []
     if let configuration = configuration {
-      buffer.append("-configuration \(configuration)")
+      buffer += ["-configuration", configuration]
     }
     if let scheme = scheme {
-      buffer.append("-scheme \(scheme)")
+      buffer += ["-scheme", scheme]
     }
     if let project = project {
-      buffer.append("-project \(project).xcodeproj")
+      buffer += ["-project", "\(project).xcodeproj"]
     }
     if let workspace = workspace {
-      buffer.append("-workspace \(workspace).xcworkspace")
+      buffer += ["-workspace", "\(workspace).xcworkspace"]
     }
-    return buffer.joined(separator: " ")
+    return buffer
+  }
+
+  var rendered: String {
+    return renderedList.joined(separator: " ")
   }
 }
 

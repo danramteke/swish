@@ -17,14 +17,15 @@ public struct ExportAction: Codable {
 }
 
 extension ExportAction: Action {
-  public func render() -> String {
-    var buffer = "xcodebuild -exportArchive -archivePath \"\(archivePath)\" -exportOptionsPlist \"\(exportOptionsPlistPath)\" -exportPath \"\(exportPath)\""
+  public func render() -> [String] {
+    var buffer = ["xcodebuild", "-exportArchive", "-archivePath", "\"\(archivePath)\"", "-exportOptionsPlist", "\"\(exportOptionsPlistPath)\"", "-exportPath", "\"\(exportPath)\""]
     if allowProvisioningDeviceRegistration {
-      buffer += " -allowProvisioningDeviceRegistration"
+      buffer.append("-allowProvisioningDeviceRegistration")
     }
     if allowProvisioningUpdates {
-      buffer += " -allowProvisioningUpdates"
+      buffer += ["-allowProvisioningUpdates"]
     }
+
     return buffer
   }
 }
