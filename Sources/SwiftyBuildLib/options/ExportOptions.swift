@@ -15,14 +15,11 @@ public struct ExportOptions: Codable {
     self.uploadSymbols = uploadSymbols
   }
 
-  public func write(to path: String) throws {
+  public func write(to path: Path) throws {
     let encoder = PropertyListEncoder()
     encoder.outputFormat = .xml
     let data = try encoder.encode(self)
-    // let dataString = String(data: data, encoding: .utf8)!
-    // print("dataString", dataString)
-    let url = URL(fileURLWithPath: path)
-    try data.write(to: url, options: .atomic)
+    try data.write(to: path)
   }
 }    
 
