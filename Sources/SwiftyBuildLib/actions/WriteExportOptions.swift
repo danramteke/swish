@@ -32,4 +32,10 @@ public extension Context {
     let action = WriteExportOptions(path: path, exportOptions: exportOptions)
     try self.run(action: action)
   }
+
+  func writeExportOptions(named: String, exportOptions: ExportOptions) throws {
+    let path = self.output + Path(named + "-exportOptions.plist")
+    let action = WriteExportOptions(path: path, exportOptions: exportOptions)
+    try self.run(action: action)
+  }
 }
