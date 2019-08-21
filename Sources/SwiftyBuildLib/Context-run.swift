@@ -50,19 +50,11 @@ extension Context {
   }
 
   private func setupLogs(for action: Action) -> LogPaths {
-    let stdOutLog: Path = logPath(action: action, log: .stdout)
-    let stdErrLog: Path = logPath(action: action, log: .stderr)
-    stdErrLog.touch()
+    let stdOutLog: Path = self.logs + Path("\(action.name)-stdout.log")
     stdOutLog.touch()
+    let stdErrLog: Path = self.logs + Path("\(action.name)-stderr.log")
+    stdErrLog.touch()
     return (stdOutLog, stdErrLog)
-  }
-
-  private func logPath(action: Action, log: Log) -> Path {
-    if let scriptName: String = self.name {
-      return self.logs + Path("\(scriptName)-\(action.name)-\(log.rawValue).log")
-    } else {
-      return self.logs + Path("\(action.name)-\(log.rawValue).log")
-    }
   }
 }
 
