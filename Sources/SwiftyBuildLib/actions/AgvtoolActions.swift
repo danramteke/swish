@@ -9,7 +9,7 @@ import Foundation
     agvtool [-noscm | -usecvs | -usesvn] new-marketing-version <versString>
     */
 public struct NextVersion: ShellAction {
-  public let name = "avgtool next version"
+  public let name = "AvgtoolNextVersion"
   public let all: Bool
   public init(all: Bool = true) {
     self.all = all
@@ -25,7 +25,7 @@ public struct NextVersion: ShellAction {
 }
 
 public struct NewVersion: ShellAction {
-  public let name = "avgtool new version"
+  public let name = "AvgtoolNewVersion"
   public let number: Int
   public let all: Bool
   public init(number: Int, all: Bool = true) {
@@ -43,7 +43,7 @@ public struct NewVersion: ShellAction {
 }
 
 public struct NewMarketingVersion {
-  public let name = "avgtool new marketing version"
+  public let name = "AvgtoolNewMarketingVersion"
   public let string: String 
   public init(_ string: String) {
     self.string = string
