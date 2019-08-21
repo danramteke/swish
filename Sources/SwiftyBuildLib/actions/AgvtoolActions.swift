@@ -16,7 +16,7 @@ public struct NextVersion: ShellAction {
   }
 
   public func render() -> [String] {
-    var buffer = ["xcrun", "agvtool", "new-version"]
+    var buffer = ["xcrun", "agvtool", "next-version"]
     if all {
       buffer.append("-all")
     }
