@@ -21,7 +21,3 @@ public struct Context {
     try self.logs.createDirectories()
   }
 }
-
-internal enum Log: String {
-  case stderr, stdout
-}

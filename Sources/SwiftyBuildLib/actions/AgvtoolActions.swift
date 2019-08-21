@@ -24,6 +24,13 @@ public struct NextVersion: ShellAction {
   }
 }
 
+public extension Context {
+  func nextVersion(all: Bool = true) throws {
+    let action = NextVersion(all: all)
+    try self.run(action: action)
+  }
+}
+
 public struct NewVersion: ShellAction {
   public let name = "AvgtoolNewVersion"
   public let number: Int
@@ -42,7 +49,14 @@ public struct NewVersion: ShellAction {
   }
 }
 
-public struct NewMarketingVersion {
+public extension Context {
+  func newVersion(number: Int, all: Bool = true) throws {
+    let action = NewVersion(number: number, all: all)
+    try self.run(action: action)
+  }
+}
+
+public struct NewMarketingVersion: ShellAction {
   public let name = "AvgtoolNewMarketingVersion"
   public let string: String 
   public init(_ string: String) {
@@ -51,5 +65,12 @@ public struct NewMarketingVersion {
 
   public func render() -> [String] {
     return ["xcrun", "agvtool", "new-marketing-version", string]
+  }
+}
+
+public extension Context {
+  func newMarketingVersion(_ string: String) throws {
+    let action = NewMarketingVersion(string)
+    try self.run(action: action)
   }
 }
