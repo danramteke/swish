@@ -14,6 +14,13 @@ public struct ExportOptions: Codable {
     self.uploadBitcode = uploadBitcode
     self.uploadSymbols = uploadSymbols
   }
+
+  public func write(to path: String) throws {
+    let encoder = PropertyListEncoder()
+    let data = try encoder.encode(self)
+    let url = URL(fileReferenceLiteralResourceName: path)
+    try data.write(to: url, options: .atomic)
+  }
 }    
 
 extension ExportOptions {
