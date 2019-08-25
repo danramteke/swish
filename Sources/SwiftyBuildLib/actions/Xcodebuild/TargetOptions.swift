@@ -1,11 +1,11 @@
 import Rainbow
 public struct TargetOptions: Codable {
   public let configuration: String?
-  public let scheme: String?
+  public let scheme: String
   public let project: String?
   public let workspace: String?
 
-  public init(configuration: String? = nil, project: String? = nil, scheme: String? = nil, workspace: String? = nil) {
+  public init(configuration: String? = nil, scheme: String, project: String? = nil, workspace: String? = nil) {
     self.configuration = configuration
     self.project = project
     self.scheme = scheme
@@ -13,12 +13,9 @@ public struct TargetOptions: Codable {
   }
 
   var renderedList: [String] {
-    var buffer: [String] = []
+    var buffer: [String] = ["-scheme", scheme]
     if let configuration = configuration {
       buffer += ["-configuration", configuration]
-    }
-    if let scheme = scheme {
-      buffer += ["-scheme", scheme]
     }
     if let project = project {
       buffer += ["-project", "\(project).xcodeproj"]
@@ -40,9 +37,9 @@ extension TargetOptions: CustomStringConvertible {
     if let configuration = configuration {
       buffer.append("configuration: \(configuration)")
     }
-    if let scheme = scheme {
-      buffer.append("scheme: \(scheme)")
-    }
+
+    buffer.append("scheme: \(scheme)")
+
     if let project = project {
       buffer.append("project: \(project)")
     }
