@@ -3,17 +3,22 @@ import Foundation
 extension Context {
   private static var _default: Context? 
   public static var `default`: Context {
-    if let _default = _default {
-      return _default
-    } else {
-      do {
-        let newContext = try Context(name: nil, path:"./.swiftybuild", dryRun: false)
-        Context._default = newContext
-        return newContext
-      } catch {
-        print("could not instantiate default Context.", error)
-        exit(1)
+    get {
+      if let _default = _default {
+        return _default
+      } else {
+        do {
+          let newContext = try Context(name: nil, path:"./.swiftybuild", dryRun: false)
+          Context._default = newContext
+          return newContext
+        } catch {
+          print("could not instantiate default Context.", error)
+          exit(1)
+        }
       }
+    }
+    set {
+      _default = newValue
     }
   }
 }
