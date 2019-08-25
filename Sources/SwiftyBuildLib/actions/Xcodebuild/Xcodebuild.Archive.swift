@@ -20,9 +20,4 @@ extension Xcodebuild.Archive: ShellAction {
   }
 }
 
-// public extension Context {
-//   func archive(targetOptions: TargetOptions, sdk: SDK, archivePath: String) throws {
-//     let action = ArchiveAction(targetOptions: targetOptions, sdk: sdk, archivePath: archivePath)
-//     try self.run(action: action)
-//   }
-// }
+
