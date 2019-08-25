@@ -1,5 +1,7 @@
 import Foundation
 
-public enum Destination: String, Codable {
-  case generic_iOS = "generic/platform=iOS"
+extension Xcodebuild {
+  public enum Destination: String, Codable {
+    case generic_iOS = "generic/platform=iOS"
+  }
 }

@@ -1,5 +1,7 @@
 import Foundation
-public enum SDK: String, Codable {
-  case iphoneos
-  case iphonesimulator
+extension Xcodebuild {
+  public enum SDK: String, Codable {
+    case iphoneos
+    case iphonesimulator
+  }
 }

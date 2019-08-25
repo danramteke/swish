@@ -1,7 +1,7 @@
 import SwiftyBuildLib
 
 let exportOptions = ExportOptions(method: .appstore, teamID: "XXXXXXXXXX")
-let options = TargetOptions(scheme: "MyScheme", workspace: "MyWorkspace")
+let options = Xcodebuild.TargetOptions(scheme: "MyScheme", workspace: "MyWorkspace")
 
 do {
   let currentVersion = try Agvtool.WhatVersion().run()
