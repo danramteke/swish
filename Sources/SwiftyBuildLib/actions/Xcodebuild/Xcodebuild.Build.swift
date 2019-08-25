@@ -13,7 +13,7 @@ extension Xcodebuild {
 }
 
 extension Xcodebuild.Build: ShellAction {
-  public var name: String { return "Build" }
+  public var name: String { return "Xcodebuild.Build" }
   public func render() -> [String] {
     return ["xcodebuild", "build"] + targetOptions.renderedList + ["-destination", destination.rawValue]
   }

@@ -11,7 +11,7 @@ extension Xcodebuild {
 }
 
 extension Xcodebuild.Test: ShellAction {
-  public var name: String { return "Test" }
+  public var name: String { return "Xcodebuild.Test" }
   public func render() -> [String] {
     return ["xcodebuild", "test"] + targetOptions.renderedList + ["-destination", destination.rawValue]
   }

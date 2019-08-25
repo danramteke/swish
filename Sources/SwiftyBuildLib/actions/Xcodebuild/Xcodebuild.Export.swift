@@ -25,7 +25,7 @@ extension Xcodebuild {
 }
 
 extension Xcodebuild.Export: ShellAction {
-  public var name: String { return "Export" }
+  public var name: String { return "Xcodebuild.Export" }
   public func render() -> [String] {
     var buffer = ["xcodebuild", "-exportArchive", "-archivePath", archivePath, "-exportOptionsPlist", exportOptionsPlistPath.absolute().path, "-exportPath", exportDir]
     if allowProvisioningDeviceRegistration {

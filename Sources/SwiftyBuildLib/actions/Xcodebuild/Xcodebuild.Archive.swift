@@ -14,7 +14,7 @@ extension Xcodebuild {
   }
 }
 extension Xcodebuild.Archive: ShellAction {
-  public var name: String { return "Archive" }
+  public var name: String { return "Xcodebuild.Archive" }
   public func render() -> [String] {
     return ["xcodebuild", "archive"] + targetOptions.renderedList + ["-sdk", sdk.rawValue, "-archivePath", archivePath]
   }
