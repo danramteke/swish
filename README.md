@@ -55,15 +55,23 @@ See below for what the `Package.swift` and `main.swift` might look like.
 
     let exportOptions = ExportOptions(method: .appstore, teamID: "XXXXXXXXXX")
     let targetOptions = TargetOptions(project: "MyProject", scheme: "MyScheme")
-    let actions: [Action] = [
-      WriteExportOptions(path: "./.swiftybuild/exportOptions.plist", exportOptions: exportOptions),
-      NextVersion(),
-      BuildAction(targetOptions: targetOptions, destination: .generic_iOS),
-      ArchiveAction(targetOptions: targetOptions, sdk: .iphoneos, archivePath: "./.swiftybuild/\(targetOptions.scheme!).xcarchive"),
-      ExportAction(archivePath: "./.swiftybuild/\(targetOptions.scheme!).xcarchive", exportDir: "./.swiftybuild/", exportOptionsPlistPath: "./.swiftybuild/exportOptions.plist")
-    ]
 
-    try Script(name: targetOptions.scheme!, actions: actions, dryRun: false).run()
+    do {
+        try exportOptions.write(to: Context.default.output + "exportOptions.plist")
+      
+        try Agvtool.NextVersion().run()
+        try Xcodebuild.Build(targetOptions: targetOptions, 
+                             destination: .generic_iOS).run()
+        try Xcodebuild.Archive(targetOptions: targetOptions, 
+                               sdk: .iphoneos, 
+                               archivePath: Context.default.output + Path("\(targetOptions.scheme).xcarchive")).run()
+        try Xcodebuild.Export(archivePath: Context.default.output + "\(targetOptions.scheme).xcarchive", 
+                              exportDir: Context.default.output, 
+                              exportOptionsPlistPath: Context.default.output + "exportOptions.plist").run()
+
+    } catch {
+        print("build error", error)
+    }
 
 ## More fun samples
 

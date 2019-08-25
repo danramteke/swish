@@ -9,7 +9,7 @@ public struct Context {
   public let name: String?
   public let output: Path
   public let logs: Path
-  public let isDryRun: Bool
+  public var isDryRun: Bool
   public init(name: String? = nil, path: Path = "./.swiftybuild", dryRun: Bool = false) throws {
     let output = path
     self.name = name
