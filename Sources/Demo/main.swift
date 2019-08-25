@@ -6,10 +6,9 @@ let options = TargetOptions(scheme: "MyScheme", workspace: "MyWorkspace")
 
 
 do {
-  let context = try Context()
-  try exportOptions.write(to: context.output + "exportOptions.plist")
-  try Xcodebuild.Build(targetOptions: options, destination: .generic_iOS).run(in: context)
-  try Xcodebuild.Test(targetOptions: options, destination: .generic_iOS).run(in: context)
+  try exportOptions.write(to: "./.swiftybuild/Demo-exportOptions.plist")
+  try Xcodebuild.Build(targetOptions: options, destination: .generic_iOS).run()
+  try Xcodebuild.Test(targetOptions: options, destination: .generic_iOS).run()
 } catch {
   print("Error:", error.localizedDescription)
 }
