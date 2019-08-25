@@ -65,6 +65,14 @@ See below for what the `Package.swift` and `main.swift` might look like.
 
     try Script(name: targetOptions.scheme!, actions: actions, dryRun: false).run()
 
+## More fun samples
+
+### Setting the build number
+
+Assuming your current marketing version is stored in a file called `marketing-version`, you can write that version to all your `Info.plist` files like so:
+
+      let currentVersion = try String(path: "./marketing-version")!
+      try Agvtool.NewMarketingVersion(currentVersion).run()
 
 ## Attributions
 

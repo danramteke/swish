@@ -11,7 +11,8 @@ let package = Package(
         .library(name: "SwiftyBuildLib", targets: ["SwiftyBuildLib"])
     ],
     dependencies: [
-        .package(url: "https://github.com/onevcat/Rainbow", from: "3.0.0")
+        .package(url: "https://github.com/onevcat/Rainbow", from: "3.0.0"),
+        .package(url: "https://github.com/mxcl/Version.git", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -19,7 +20,7 @@ let package = Package(
             dependencies: ["SwiftyBuildLib"]),
         .target(
             name: "SwiftyBuildLib",
-            dependencies: ["Rainbow"]),
+            dependencies: ["Rainbow", "Version"]),
         .testTarget(
             name: "SwiftyBuildTests",
             dependencies: ["SwiftyBuild"]),

@@ -1,4 +1,5 @@
 import Foundation
+import Rainbow
 
 public typealias LogPaths = (stdout: Path, stderr: Path)
 /**
@@ -9,7 +10,8 @@ public struct Context {
   public let output: Path
   public let logs: Path
   public let isDryRun: Bool
-  public init(name: String? = nil, output: Path = "./.swiftybuild", dryRun: Bool = false) throws {
+  public init(name: String? = nil, path: Path = "./.swiftybuild", dryRun: Bool = false) throws {
+    let output = path
     self.name = name
     if let name = name {
       self.output = output + Path(name)
@@ -32,15 +34,15 @@ public struct Context {
   }
 
   func presentSuccess(for action: Action) {
-    print("[\(action.name)] ✅  success ")
+    print("[".cyan + action.name + "]".cyan + " ✅  success ")
   }
 
   func presentFailure(for action: Action, error: Error) {
-    print("[\(action.name)] 🥀 " + "\(error.localizedDescription)".red.bold )
+    print("[".cyan + action.name + "]".cyan + " 🥀 " + "\(error.localizedDescription)".red.bold )
+    exit(1)
   }
 
   func presentStart(for action: Action) {
-    print("[\(action.name)] 🛫  starting")
+    print("[".cyan + action.name + "]".cyan + " 🛫  starting")
   }
-  
 }
