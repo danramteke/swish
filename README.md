@@ -2,6 +2,16 @@
 
 Who wants to use a Ruby script to upload your iOS project? Not me. Let's use Swift.
 
+## Approach
+
+This project aims to give a programmatic interface to common iOS build actions. 
+This approach enables the full expression, such as control flow and functions without 
+being limited by the cuteness of a DSL. 
+(Although I suppose, this is a DSL of sorts.)
+
+This project aims give some high level assistance (build a project and upload it to the App Store!) 
+as well as expose every option that Xcode's tools give.
+
 ## Getting Started
 
 In the root directory of your iOS project:
