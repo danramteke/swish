@@ -1,22 +1,17 @@
-// xcrun altool --upload-app -t ios \
-//   -f ./.build/GrowFlowRetail.ipa \
-//   -u $APP_LOADER_USERNAME -p $APP_LOADER_PASSWORD && \
 
 extension Altool {
 
   public struct Upload: ShellAction {
-    private let credentials: Credentials
-    public let file: Path
     public let platform: Platform
-    public init(platform: Platform, file: Path, credentials: Credentials) {
+    public let file: Path
+    public let username: String
+    private let password: Password
+
+    public init(platform: Platform, file: Path, username: String, password: Password) {
       self.platform = platform
       self.file = file
-      self.credentials = credentials
-    }
-    public init(platform: Platform, file: Path, username: String, password: String) {
-      self.platform = platform
-      self.file = file
-      self.credentials = Credentials(username: username, password: password)
+      self.username = username
+      self.password = password
     }
     public var name: String { return "Altool.Upload" }
     public func render() -> [String] {
