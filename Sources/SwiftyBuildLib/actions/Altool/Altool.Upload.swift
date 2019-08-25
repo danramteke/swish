@@ -15,7 +15,11 @@ extension Altool {
     }
     public var name: String { return "Altool.Upload" }
     public func render() -> [String] {
-      return ["xcrun", "altool", "--upload-app", "-f", file.absolute().path] + credentials.renderedList
+      return ["xcrun", "altool", 
+        "--upload-app", 
+        "-f", file.absolute().path,
+        "--username", username,
+      ] + password.renderedList
     }
   }
 }

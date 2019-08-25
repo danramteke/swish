@@ -1,3 +1,4 @@
+import Foundation
 public enum Altool {
   public enum Platform: String, Codable {
     case osx, ios, appletvos
@@ -7,26 +8,38 @@ public enum Altool {
     }
   }
 
-  public enum Password {
-    case .literal(String)
-    case .env(String)
-    case .keychain(String)
+  public enum Password: RawRepresentable, Codable {
+    case literal(String)
+    case env(String)
+    case keychain(String)
 
-    public init(_ string: String) {
-      self = .literal(String)
+    public init?(rawValue: String) {
+      if rawValue.starts(with: Password.keychainPrefix), let keychain = rawValue.removing(prefix: Password.keychainPrefix) {
+        self = .keychain(keychain)
+      } else if rawValue.starts(with: Password.envPrefix), let env = rawValue.removing(prefix: Password.envPrefix) {
+        self = .env(env)
+      } else {
+        self = .literal(rawValue)
+      }
     }
 
-    public var renderedList: String {
-      return ["--password"] + {
-        switch self {
-        case .env(let name):
-          return "@env:\(name)"
-        case .literal(let password):
-          return password
-        case .keychain(let name):
-          return "@keychain:\(name)"
-        }
-      }()
+    public static let envPrefix: String = "@env:"
+    public static let keychainPrefix: String = "@keychain:"
+
+    public var rawValue: String {
+      switch self {
+      case .env(let name):
+        return Password.envPrefix + name
+      case .literal(let password):
+        return password
+      case .keychain(let name):
+        return Password.keychainPrefix + name
+      }
+    }
+    
+
+    public var renderedList: [String] {
+      return ["--password", self.rawValue]
     }
 /*
         Password. Required if username specified.
