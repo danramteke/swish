@@ -9,16 +9,22 @@ extension SwiftAction {
 }
 
 extension ShellAction {
-  public func run(logPaths: LogPaths) throws {
+  public func run(in context: Context) throws {
+    let logsPath = context.setupLogs(for: self)
+    context.presentStart(for: self)
     let process = Process()
     process.launchPath = "/usr/bin/env"
     process.arguments = self.render()
-    process.standardOutput = try logPaths.stdout.fileHandleForWriting()
-    process.standardError = try logPaths.stderr.fileHandleForWriting()
+    process.standardOutput = try logsPath.stdout.fileHandleForWriting()
+    process.standardError = try logsPath.stderr.fileHandleForWriting()
     process.launch()
     process.waitUntilExit()
     if 0 != process.terminationStatus {
-      throw RunError.nonZeroShell(process.terminationStatus)
+      let error = RunError.nonZeroShell(process.terminationStatus)
+      context.presentFailure(for: self, error: error)
+      throw error
+    } else {
+      context.presentSuccess(for: self)
     }
   }
 }

@@ -12,6 +12,12 @@ being limited by the cuteness of a DSL.
 This project aims give some high level assistance (build a project and upload it to the App Store!) 
 as well as expose every option that Xcode's tools give.
 
+# Architecture
+
+Actions are run in a context. The context provides where the logs for StandardOutput and 
+StandardError are written to.
+
+
 ## Getting Started
 
 In the root directory of your iOS project:

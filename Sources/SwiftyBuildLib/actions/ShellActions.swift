@@ -19,10 +19,3 @@ public struct Shell: ShellAction  {
     return tokens
   }
 }
-
-public extension Context {
-  func shell(_ tokens: [String]) throws {
-    let action = Shell(tokens: tokens)
-    try self.run(action: action)
-  }
-}

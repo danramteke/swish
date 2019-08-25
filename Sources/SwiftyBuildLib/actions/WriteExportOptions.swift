@@ -10,37 +10,37 @@ public struct WriteExportOptions {
   }
 }
 
-extension WriteExportOptions: SwiftAction {
-  public var name: String { return "WriteExportOptions" }
-  public func run() -> (success: Bool, stdout: String, stderr: String) {
-    do {
-      try exportOptions.write(to: path)
-    } catch {
+// extension WriteExportOptions: SwiftAction {
+//   public var name: String { return "WriteExportOptions" }
+//   public func run() -> (success: Bool, stdout: String, stderr: String) {
+//     do {
+//       try exportOptions.write(to: path)
+//     } catch {
 
-      return (false, "", error.localizedDescription)
-    }
-    return (true, "Wrote export options to \(self.path)", "")
-  }
+//       return (false, "", error.localizedDescription)
+//     }
+//     return (true, "Wrote export options to \(self.path)", "")
+//   }
 
-  public func dryRun() {
-    print("Wrote export options to \(self.path)")
-  }
-}
+//   public func dryRun() {
+//     print("Wrote export options to \(self.path)")
+//   }
+// }
 
-public extension Context {
-  func writeExportOptions(path: Path, exportOptions: ExportOptions) throws {
-    let action = WriteExportOptions(path: path, exportOptions: exportOptions)
-    try self.run(action: action)
-  }
+// public extension Context {
+//   func writeExportOptions(path: Path, exportOptions: ExportOptions) throws {
+//     let action = WriteExportOptions(path: path, exportOptions: exportOptions)
+//     try self.run(action: action)
+//   }
 
-  func writeExportOptions(named exportOptionsName: String, exportOptions: ExportOptions) throws {
-    let path = self.pathForExportOptions(named: exportOptionsName)
-    let action = WriteExportOptions(path: path, exportOptions: exportOptions)
-    try self.run(action: action)
-  }
+//   func writeExportOptions(named exportOptionsName: String, exportOptions: ExportOptions) throws {
+//     let path = self.pathForExportOptions(named: exportOptionsName)
+//     let action = WriteExportOptions(path: path, exportOptions: exportOptions)
+//     try self.run(action: action)
+//   }
 
-  func pathForExportOptions(named exportOptionsName: String) -> Path {
-    let path = self.output + Path(exportOptionsName + "-exportOptions.plist")
-    return path
-  }
-}
+//   func pathForExportOptions(named exportOptionsName: String) -> Path {
+//     let path = self.output + Path(exportOptionsName + "-exportOptions.plist")
+//     return path
+//   }
+// }
