@@ -10,9 +10,8 @@ extension Agvtool {
 
     public func parseResult(output: String, error: String?) -> Result<Version, Error> {
       let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
-      print(trimmedOutput)
-      guard let version = Version(trimmedOutput) else {
 
+      guard let version = Version(trimmedOutput) else {
         return .failure(RunError.parseError)
       }
 
