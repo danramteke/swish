@@ -5,10 +5,19 @@
 extension Altool {
 
   public struct Upload: ShellAction {
-    let credentials: Credentials
-    let file: Path
-    let platform: Platform
-
+    private let credentials: Credentials
+    public let file: Path
+    public let platform: Platform
+    public init(platform: Platform, file: Path, credentials: Credentials) {
+      self.platform = platform
+      self.file = file
+      self.credentials = credentials
+    }
+    public init(platform: Platform, file: Path, username: String, password: String) {
+      self.platform = platform
+      self.file = file
+      self.credentials = Credentials(username: username, password: password)
+    }
     public var name: String { return "Altool.Upload" }
     public func render() -> [String] {
       return ["xcrun", "altool", "--upload-app", "-f", file.absolute().path] + credentials.renderedList
