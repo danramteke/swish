@@ -69,6 +69,10 @@ See below for what the `Package.swift` and `main.swift` might look like.
                               exportDir: Context.default.output, 
                               exportOptionsPlistPath: Context.default.output + "exportOptions.plist").run()
 
+        let marketingVersion = try Agvtool.WhatMarketingVersion().run()
+        let buildNumber = try Agvtool.WhatVersion().run()
+        print("Built and uploaded build \(buildNumber) of version \(marketingVersion)!")
+
     } catch {
         print("build error", error)
     }
