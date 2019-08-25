@@ -9,6 +9,9 @@ extension SwiftAction {
 }
 
 extension ShellAction {
+  public func run() throws {
+    return try self.run(in: Context.default)
+  }
   public func run(in context: Context) throws {
     let logsPath = context.setupLogs(for: self)
     context.presentStart(for: self)
@@ -27,4 +30,8 @@ extension ShellAction {
       context.presentSuccess(for: self)
     }
   }
+}
+
+extension Context {
+  public static let `default`: Context = try! Context(name: nil, output:"./.swiftybuild", dryRun:false)
 }
