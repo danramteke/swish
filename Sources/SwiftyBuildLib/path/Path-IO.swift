@@ -15,8 +15,15 @@ extension String {
     try self.data(using: .utf8)!.write(to: path)
   }
 
-  public init?(path: Path) throws {
+  public init?(path: Path, trimming: Bool = true) throws {
     let data = try Data.init(contentsOf: path.url)
-    self.init(data: data, encoding: .utf8)
+    guard let string = String.init(data: data, encoding: .utf8) else {
+      return nil
+    }
+    if trimming {
+      self = string.trimmingCharacters(in: .whitespacesAndNewlines) 
+    } else {
+      self = string
+    }
   }
 }
