@@ -9,10 +9,11 @@ extension Agvtool {
     }
 
     public func render() -> [String] {
-      var buffer = ["xcrun", "agvtool", "new-version", String(number)]
+      var buffer = ["xcrun", "agvtool", "new-version"]
       if all {
         buffer.append("-all")
       }
+      buffer.append(String(number))
       return buffer
     }
   }
