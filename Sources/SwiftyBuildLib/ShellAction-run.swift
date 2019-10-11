@@ -5,11 +5,16 @@ extension ShellAction {
     return try self.run(in: Context.default)
   }
   public func run(in context: Context) throws {
-    let logsPath = context.setupLogs(for: self)
+    let logsPath = try context.setupLogs(for: self)
     context.presentStart(for: self)
+    let rendered = self.render()
+
+    let string: String = rendered.joined(separator: " ")
+    try string.write(to: logsPath.cmd)
+
     let process = Process()
     process.launchPath = "/usr/bin/env"
-    process.arguments = self.render()
+    process.arguments = rendered
     process.standardOutput = try logsPath.stdout.fileHandleForWriting()
     process.standardError = try logsPath.stderr.fileHandleForWriting()
     process.launch()

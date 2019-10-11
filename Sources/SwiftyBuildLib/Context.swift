@@ -1,7 +1,7 @@
 import Foundation
 import Rainbow
 
-public typealias LogPaths = (stdout: Path, stderr: Path)
+public typealias LogPaths = (cmd: Path, stdout: Path, stderr: Path)
 /**
  * A `Script` represents a synchronous queue of actions to take.
  */
@@ -25,12 +25,16 @@ public struct Context {
     try self.logs.createDirectories()
   }
 
-  public func setupLogs(for action: Action) -> LogPaths {
+  public func setupLogs(for action: Action) throws -> LogPaths {
+    let cmdLog: Path = self.logs + Path("\(action.name)-cmd.log")
+    try cmdLog.clear()
+
     let stdOutLog: Path = self.logs + Path("\(action.name)-stdout.log")
-    stdOutLog.touch()
+    try stdOutLog.clear()
     let stdErrLog: Path = self.logs + Path("\(action.name)-stderr.log")
-    stdErrLog.touch()
-    return (stdOutLog, stdErrLog)
+    try stdErrLog.clear()
+
+    return (cmdLog, stdOutLog, stdErrLog)
   }
 
   func presentSuccess(for action: Action) {

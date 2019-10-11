@@ -1,5 +1,12 @@
 import Foundation
 
+extension Path {
+  func clear() throws {
+    try "".write(to: self)
+  }
+  
+}
+
 extension Data {
   public init(path: Path) throws {
     try self.init(contentsOf: path.url)
