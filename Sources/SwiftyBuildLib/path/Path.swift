@@ -1,9 +1,16 @@
 import Foundation
-public struct Path: Codable {
+
+public struct Path: Codable, Equatable, Comparable {
+
   public let path: String
   public init(_ path: String) {
     self.path = path
   }
+  public static let separator: String = "/"
+  public var components: [String] {
+    path.split(separator: Character(Self.separator)).map(String.init)
+  }
+    
   public var quoted: String {
     if !path.starts(with: "\"") && !path.hasSuffix("\"") && !path.contains("\"") {
       return "\"\(self.path)\""
@@ -18,8 +25,12 @@ public struct Path: Codable {
 
   public static var current: Path {
     get {
-      return self.init(FileManager.default.currentDirectoryPath)
+      .init(FileManager.default.currentDirectoryPath)
     }
+  }
+
+  public static func < (lhs: Path, rhs: Path) -> Bool {
+    lhs.path < rhs.path
   }
 }
 

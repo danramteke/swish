@@ -5,7 +5,7 @@
 
 import Foundation
 extension Path {
-  public static let separator = "/"
+  
 
   public init<S : Collection>(components: S) where S.Iterator.Element == String {
     if components.isEmpty {

@@ -2,7 +2,7 @@ import Foundation
 
 extension Path {
   func clear() throws {
-    try "".write(to: self)
+    try Data().write(to: self)
   }
   
 }
