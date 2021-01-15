@@ -14,7 +14,7 @@ extension Altool {
       self.password = password
     }
 
-    public var name: String { return "Altool.Upload" }
+    public var name: String { "Altool.Upload" }
     public func render() -> [String] {
       return ["xcrun", "altool", 
         "--upload-app", 
