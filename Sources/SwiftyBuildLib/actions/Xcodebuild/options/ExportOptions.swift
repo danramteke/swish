@@ -33,6 +33,13 @@ public struct ExportOptions: Codable {
 
 extension ExportOptions {
   public enum Method: String, Codable {
-    case appstore = "app-store", validation, adhoc = "ad-hoc", package, enterprise, development, developerid = "developer-id", macapplication = "mac-application"
+    case appstore = "app-store",
+         validation,
+         adhoc = "ad-hoc",
+         package,
+         enterprise,
+         development,
+         developerid = "developer-id",
+         macapplication = "mac-application"
   }
 }

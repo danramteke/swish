@@ -28,15 +28,27 @@ public extension ShellQuery where ResultSuccessType: ShellQueryOutputInitable {
   }
 }
 
+extension RawRepresentable where RawValue == String {
+  public init(shellQueryOutput: String) throws {
+    let trimmedOutput = shellQueryOutput.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard let value = Self.init(rawValue: trimmedOutput) else {
+      throw RunError.parseError
+    }
+
+    self = value
+  }
+}
+
 extension String: ShellQueryOutputInitable {
   public init(shellQueryOutput: String) throws {
-    self = shellQueryOutput
+    self = shellQueryOutput.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 }
 
 extension Int: ShellQueryOutputInitable {
   public init(shellQueryOutput: String) throws {
-    guard let value = Int(shellQueryOutput) else {
+    let trimmedOutput = shellQueryOutput.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard let value = Int(trimmedOutput) else {
       throw RunError.parseError
     }
 
