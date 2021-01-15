@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftyBuild",
+    platforms: [
+        .macOS(.v10_15)
+    ],
     products: [
         .executable(name: "SwiftyBuild", targets: ["SwiftyBuild"]),
         .executable(name: "Demo", targets: ["Demo"]),
