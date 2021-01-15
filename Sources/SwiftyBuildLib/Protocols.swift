@@ -55,3 +55,9 @@ extension Int: ShellQueryOutputInitable {
     self = value
   }
 }
+
+extension Path: ShellQueryOutputInitable {
+    public init(shellQueryOutput: String) throws {
+        self.init(shellQueryOutput.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+}
