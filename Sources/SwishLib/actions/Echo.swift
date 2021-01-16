@@ -1,7 +1,11 @@
 import Combine
 import Foundation
 
-public struct Echo<T: CustomStringConvertible & ShellOutputInitable>: ShellAction {
+public struct Echo<T: CustomStringConvertible & ShellOutputInitable>: ShellQuery {
+  public var publisher: CurrentValueSubject<String, Never> = .init("")
+
+  public typealias ResultSuccessType = String
+
   public let id = UUID()
   public let name: String = "Echo"
   public let output: Output<T>

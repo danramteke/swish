@@ -1,13 +1,14 @@
+import Combine
 import XCTest
 import SwishLib
 
 final class EchoTests: XCTestCase {
   func testEcho() throws {
-    let output: Output<String> = .init()
+    let output: CurrentValueSubject<String, Never> = .init("initial")
     try swish {
-      Echo("hello").store(in: output)
+      Echo("hello").store2(in: output)
     }
-    XCTAssertTrue(output.didChangeFromInitialValue)
+
     XCTAssertEqual(output.value, "hello")
   }
 
