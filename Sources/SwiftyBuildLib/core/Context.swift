@@ -80,6 +80,7 @@ public class Context {
     self.presentStart(for: action)
     do {
       try action.run(in: self)
+      self.presentSuccess(for: action)
     } catch {
       let cmd = try String(path: logPaths.cmd)
       let stdErrString = try String(path: logPaths.stderr)

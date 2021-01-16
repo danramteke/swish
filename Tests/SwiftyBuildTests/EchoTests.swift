@@ -23,6 +23,6 @@ final class EchoTests: XCTestCase {
     XCTAssertEqual(cmdPath, ".swiftybuild/Echo/logs/00-Echo-cmd.log")
 
     let cmdValue = try String(path: cmdPath)
-    XCTAssertEqual(cmdValue, "\"echo\" \"hello\"")
+    XCTAssertEqual(cmdValue, "echo hello")
   }
 }

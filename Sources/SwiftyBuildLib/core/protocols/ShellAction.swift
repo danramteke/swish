@@ -9,7 +9,7 @@ extension ShellAction {
   public func run(in context: Context) throws {
     let logPaths = context.logPaths(for: self)
 
-    let rendered: String = self.render().map { "\"\($0)\"" }.joined(separator: " ")
+    let rendered: String = self.render().joined(separator: " ")
     try rendered.write(to: logPaths.cmd)
 
     let process = Process()
