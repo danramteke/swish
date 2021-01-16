@@ -2,20 +2,19 @@ import Foundation
 
 public protocol Action {
   var name: String { get }
-  func act() throws
   func run(in: Context) throws
+}
+
+extension Action {
+  public func run() throws {
+    try run(in: Context.default)
+  }
 }
 
 extension Action {
   typealias ID = UUID
   var id: ID {
     UUID()
-  }
-}
-
-extension Array where Element: Action {
-  public func act() throws {
-    Context.default.run(actions: self)
   }
 }
 

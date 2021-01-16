@@ -58,25 +58,20 @@ public class Context {
 
 //  }
   
-  public func run(action: Action) {
-    self.run(actions: [action])
-  }
-  public func run(actions: [Action]) {
-    
+  public func run(action: Action) throws {
+    let loggroup = try self.setupLogs(for: action)
+    self.presentStart(for: action)
     do {
-      for action in actions {
-        let loggroup = try self.setupLogs(for: action)
-        self.presentStart(for: action)
-        do {
-          try action.run(in: self)
-        } catch {
-          let cmd = try String(path: loggroup.cmd) ?? "not found"
-          let stdErrString = try String(path: loggroup.stderr) ?? "not found"
-          self.presentFailure(for: action, error: error, cmd: cmd, stdErrString: stdErrString)
-        }
-      }
+      try action.run(in: self)
     } catch {
-      print("error", error)
+      let cmd = try String(path: loggroup.cmd) ?? "not found"
+      let stdErrString = try String(path: loggroup.stderr) ?? "not found"
+      self.presentFailure(for: action, error: error, cmd: cmd, stdErrString: stdErrString)
+    }
+  }
+  public func run(actions: [Action]) throws {
+    for action in actions {
+      try self.run(action: action)
     }
   }
 }

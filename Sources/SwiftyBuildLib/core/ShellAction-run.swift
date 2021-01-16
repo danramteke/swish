@@ -2,10 +2,6 @@ import Foundation
 
 extension ShellAction {
 
-  public func act() throws {
-    try self.run(in: Context.default)
-  }
-
   public func run(in context: Context) throws {
     let logsPath = try context.setupLogs(for: self)
     context.presentStart(for: self)

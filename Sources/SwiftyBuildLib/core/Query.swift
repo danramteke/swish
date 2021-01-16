@@ -1,35 +1,31 @@
 import Foundation
 
-public struct Query<Output> {
-  public var output: Output
-}
-
-extension Query: Action {
-  public var name: String {
-    "Query"
+public class Output<Value: ShellQueryOutputInitable> {
+  public var value: Value? {
+    didSet {
+      self.didChangeFromInitialValue = true
+    }
   }
 
-  public func act() throws {
-
-  }
-}
-
-public class Output<Value> {
-  public var value: Value?
+  public var didChangeFromInitialValue: Bool = false
 
   public init() {
-    value = nil
+    self.value = nil
+  }
+
+  public init(_ value: Value) {
+    self.value = value
   }
 }
 
 extension ShellAction {
-  public func store<Value>(in output: Output<Value>) -> Action {
+  public func store<Value: ShellQueryOutputInitable>(in output: Output<Value>) -> Action {
     QueryAction(shellAction: self, output: output)
   }
 }
 
 
-class QueryAction<Value>: Action {
+class QueryAction<Value: ShellQueryOutputInitable>: Action {
   var name: String {
     "Query:\(shellAction.name)"
   }

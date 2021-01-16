@@ -1,8 +1,8 @@
 import Foundation
 
-public func script(@ScriptBuilder _ content: () -> [Action]) {
+public func script(context: Context = .default, @ScriptBuilder _ content: () -> [Action]) throws {
   let actions: [Action] = content()
-  Context.default.run(actions: actions)
+  try context.run(actions: actions)
 }
 
 @_functionBuilder

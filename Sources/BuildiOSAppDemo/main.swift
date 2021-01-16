@@ -9,7 +9,7 @@ var currentVersion: Output<Int> = .init()
 
 //print(currentVersion)
 
-script {
+try script {
   Agvtool.WhatVersion()
     .store(in: currentVersion)
   Echo(String(describing: currentVersion))

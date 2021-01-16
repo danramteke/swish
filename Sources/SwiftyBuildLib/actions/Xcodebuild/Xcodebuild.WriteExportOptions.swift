@@ -15,9 +15,9 @@ extension Xcodebuild {
     public init(path: Path, method: Xcodebuild.ExportOptions.Method = .appstore, teamID: String, generateAppStoreInformation: Bool = true, uploadBitcode: Bool = true, uploadSymbols: Bool = true) {
       self.path = path
       self.exportOptions = ExportOptions(method: method, teamID: teamID, generateAppStoreInformation: generateAppStoreInformation, uploadBitcode: uploadBitcode, uploadSymbols: uploadSymbols)
-
     }
-    public func act() throws {
+
+    public func run(in context: Context) throws {
       let string = try self.exportOptions.asString()
       try string.write(to: self.path)
     }
