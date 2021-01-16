@@ -11,7 +11,6 @@ public class Context {
   public let logsRootPath: Path
   public var isDryRun: Bool
 
-//  private var logPaths: [Action.ID: LogPaths] = [:]
   private var actionLog: [Action] = []
   private var actionLogPaths: [Action.ID: LogPaths] = [:]
   
@@ -31,8 +30,6 @@ public class Context {
   }
 
   private func setupLogs(for action: Action, index: Int) -> LogPaths {
-
-
     let paddedIndex: String = String(format: "%02d", index)
     let cmdLog: Path = self.logsRootPath + Path("\(paddedIndex)-\(action.name)-cmd.log")
     try? cmdLog.clear()

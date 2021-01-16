@@ -12,6 +12,10 @@ extension ShellAction {
     let rendered: String = self.render().joined(separator: " ")
     try rendered.write(to: logPaths.cmd)
 
+    if context.isDryRun {
+      return
+    }
+
     let process = Process()
     process.launchPath = "/bin/sh"
     process.arguments = [logPaths.cmd.absolute().path]

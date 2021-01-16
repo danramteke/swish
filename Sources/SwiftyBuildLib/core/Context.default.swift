@@ -8,7 +8,7 @@ extension Context {
         return _default
       } else {
         do {
-          let newContext = try Context(name: "default", path:"./.swiftybuild", dryRun: false)
+          let newContext = try Context(name: "default", path:"./.swiftybuild")
           Context._default = newContext
           return newContext
         } catch {
