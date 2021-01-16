@@ -76,14 +76,14 @@ public class Context {
   
   public func run(action: Action) throws {
     actionLog.append(action)
-//    let logPaths = self.logPaths(for: action)
+    let logPaths = self.logPaths(for: action)
     self.presentStart(for: action)
     do {
       try action.run(in: self)
     } catch {
-//      let cmd = try String(path: logPaths.cmd)
-//      let stdErrString = try String(path: logPaths.stderr)
-      self.presentFailure(for: action, error: error)//, cmd: cmd, stdErrString: stdErrString)
+      let cmd = try String(path: logPaths.cmd)
+      let stdErrString = try String(path: logPaths.stderr)
+      self.presentFailure(for: action, error: error, cmd: cmd, stdErrString: stdErrString)
     }
   }
   public func run(actions: [Action]) throws {

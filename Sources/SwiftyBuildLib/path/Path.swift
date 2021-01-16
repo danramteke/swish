@@ -33,4 +33,3 @@ public struct Path: Codable, Equatable, Comparable {
     lhs.path < rhs.path
   }
 }
-

@@ -24,9 +24,8 @@ extension ShellAction {
   }
 }
 
-
 class QueryAction<Value: ShellQueryOutputInitable>: Action {
-  public let id = ID()
+  let id = ID()
   var name: String {
     "Query:\(shellAction.name)"
   }

@@ -1,12 +1,16 @@
 import Foundation
 
+public protocol ShellAction: Action {
+  func render() -> [String]
+}
+
 extension ShellAction {
 
   public func run(in context: Context) throws {
     let logPaths = context.logPaths(for: self)
-    let rendered = self.render()
-    let string: String = rendered.map { "\"\($0)\"" }.joined(separator: " ")
-    try string.write(to: logPaths.cmd)
+
+    let rendered: String = self.render().map { "\"\($0)\"" }.joined(separator: " ")
+    try rendered.write(to: logPaths.cmd)
 
     let process = Process()
     process.launchPath = "/bin/sh"
