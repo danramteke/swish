@@ -8,12 +8,12 @@ extension Context {
         return _default
       } else {
         do {
-          let newContext = try Context(name: "default", path:"./.swish")
+          let newContext = try Context(name: nil, path: "./.swish")
           Context._default = newContext
           return newContext
         } catch {
-          print("could not instantiate default Context.", error)
-          exit(1)
+          print("Error:", error)
+          fatalError("could not instantiate default Context.")
         }
       }
     }

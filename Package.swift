@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v10_15)
     ],
     products: [
-        .executable(name: "swish", targets: ["Swish"]),
+        .executable(name: "swish", targets: ["swish"]),
         .library(name: "SwishLib", targets: ["SwishLib"])
     ],
     dependencies: [
@@ -18,14 +18,14 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Swish",
+            name: "swish",
             dependencies: ["SwishLib"]),
         .target(
             name: "SwishLib",
             dependencies: ["Rainbow", "Version"]),
         .testTarget(
             name: "SwishTests",
-            dependencies: ["Swish"]),
+            dependencies: ["SwishLib"]),
         .target(
             name: "BuildiOSAppDemo",
             dependencies: ["SwishLib"]),

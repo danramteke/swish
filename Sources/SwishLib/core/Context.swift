@@ -11,6 +11,8 @@ public class Context {
   public let logsRootPath: Path
   public var isDryRun: Bool
 
+  public let environment = Environment()
+
   private var actionLog: [Action] = []
   private var actionLogPaths: [Action.ID: LogPaths] = [:]
   
@@ -84,9 +86,14 @@ public class Context {
       self.presentFailure(for: action, error: error, cmd: cmd, stdErrString: stdErrString)
     }
   }
+
   public func run(actions: [Action]) throws {
     for action in actions {
       try self.run(action: action)
     }
+  }
+
+  public func exit(from action: Action, message: String) {
+    print("[".cyan + action.name + "]".cyan + " 💥 requested exit with message: " + message.red.bold)
   }
 }
