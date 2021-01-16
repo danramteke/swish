@@ -3,6 +3,14 @@ import Foundation
 public protocol Action {
   var name: String { get }
   func act() throws
+  func run(in: Context) throws
+}
+
+extension Action {
+  typealias ID = UUID
+  var id: ID {
+    UUID()
+  }
 }
 
 extension Array where Element: Action {
@@ -15,8 +23,7 @@ public protocol ShellAction: Action {
   func render() -> [String]
 }
 
-public protocol ShellQuery: Action {
-  func render() -> [String]
+public protocol ShellQuery: ShellAction {
 
   associatedtype ResultSuccessType
   func parseResult(output: String, error: String?) -> Result<ResultSuccessType, Error>

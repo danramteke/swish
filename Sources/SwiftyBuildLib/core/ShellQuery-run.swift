@@ -1,11 +1,8 @@
 import Foundation
 
 extension ShellQuery {
-  public func run() throws -> Result<ResultSuccessType, Error> {
-    return try self.run(in: Context.default)
-  }
   public func act() throws {
-    _ = try self.run().get()
+    _ = try self.run(in: Context.default).get()
   }
 
   public func run(in context: Context) throws -> Result<ResultSuccessType, Error> {

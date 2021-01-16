@@ -5,7 +5,7 @@ public typealias LogPaths = (cmd: Path, stdout: Path, stderr: Path)
 /**
  * A `Script` represents a synchronous queue of actions to take.
  */
-public struct Context {
+public class Context {
   public let name: String?
   public let output: Path
   public let logsRootPath: Path
@@ -28,7 +28,6 @@ public struct Context {
   public func setupLogs(for action: Action) throws -> LogPaths {
     let cmdLog: Path = self.logsRootPath + Path("\(action.name)-cmd.log")
     try cmdLog.clear()
-    
     let stdOutLog: Path = self.logsRootPath + Path("\(action.name)-stdout.log")
     try stdOutLog.clear()
     let stdErrLog: Path = self.logsRootPath + Path("\(action.name)-stderr.log")
@@ -54,6 +53,10 @@ public struct Context {
   func presentStart(for action: Action) {
     print("[".cyan + action.name + "]".cyan + " 🛫  starting")
   }
+
+//  func logPath(for id: Action.ID) -> Path {
+
+//  }
   
   public func run(action: Action) {
     self.run(actions: [action])
@@ -65,7 +68,7 @@ public struct Context {
         let loggroup = try self.setupLogs(for: action)
         self.presentStart(for: action)
         do {
-          try action.act()
+          try action.run(in: self)
         } catch {
           let cmd = try String(path: loggroup.cmd) ?? "not found"
           let stdErrString = try String(path: loggroup.stderr) ?? "not found"
