@@ -1,6 +1,6 @@
 import SwiftyBuildLib
 
-let exportOptions = ExportOptions(method: .appstore, teamID: "XXXXXXXXXX")
+let exportOptions = Xcodebuild.ExportOptions(method: .appstore, teamID: "XXXXXXXXXX")
 let options = Xcodebuild.TargetOptions(scheme: "MyScheme", workspace: "MyWorkspace")
 
 

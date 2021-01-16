@@ -7,7 +7,7 @@ public protocol Action {
 
 extension Array where Element: Action {
   public func act() throws {
-
+    Context.default.run(actions: self)
   }
 }
 
