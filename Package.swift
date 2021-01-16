@@ -10,7 +10,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "SwiftyBuild", targets: ["SwiftyBuild"]),
-        .executable(name: "Demo", targets: ["Demo"]),
+        .executable(name: "BuildiOSAppDemo", targets: ["BuildiOSAppDemo"]),
         .library(name: "SwiftyBuildLib", targets: ["SwiftyBuildLib"])
     ],
     dependencies: [
@@ -28,7 +28,7 @@ let package = Package(
             name: "SwiftyBuildTests",
             dependencies: ["SwiftyBuild"]),
         .target(
-            name: "Demo",
+            name: "BuildiOSAppDemo",
             dependencies: ["SwiftyBuildLib"]),
     ]
 )

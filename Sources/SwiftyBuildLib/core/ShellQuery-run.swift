@@ -7,6 +7,7 @@ extension ShellQuery {
   public func act() throws {
     _ = try self.run().get()
   }
+
   public func run(in context: Context) throws -> Result<ResultSuccessType, Error> {
     let logsPath = try context.setupLogs(for: self)
     context.presentStart(for: self)

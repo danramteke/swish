@@ -1,6 +1,6 @@
 extension Agvtool {
   public struct NewMarketingVersion: ShellAction {
-    public let name = "AvgtoolNewMarketingVersion"
+    public let name = "Avgtool.NewMarketingVersion"
     public let string: String 
     public init(_ string: String) {
       self.string = string
