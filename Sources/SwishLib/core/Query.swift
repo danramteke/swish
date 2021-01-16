@@ -1,6 +1,13 @@
 import Foundation
 
 public class Output<Value: ShellOutputInitable> {
+  enum State {
+    case initial
+    case fulfilled(Value)
+  }
+
+  var state: State = .initial
+
   public var value: Value? {
     didSet {
       self.didChangeFromInitialValue = true
@@ -9,8 +16,12 @@ public class Output<Value: ShellOutputInitable> {
 
   public private(set) var didChangeFromInitialValue: Bool = false
 
-  public init() {
-    self.value = nil
+  public init() {}
+
+
+
+  public func fulfill(_ value: Value) {
+    self.state = .fulfilled(value)
   }
 
   public init(_ value: Value) {

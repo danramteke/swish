@@ -5,8 +5,6 @@
 
 import Foundation
 extension Path {
-  
-
   public init<S : Collection>(components: S) where S.Iterator.Element == String {
     if components.isEmpty {
       path = "."
@@ -18,6 +16,10 @@ extension Path {
     }
   }
 }
+
+//public func +(lhs: Output<Path>, rhs: Path) -> Output<Path> {
+//  
+//}
 
 public func +(lhs: Path, rhs: Path) -> Path {
   return lhs.path + rhs.path
