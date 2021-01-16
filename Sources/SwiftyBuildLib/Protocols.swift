@@ -2,6 +2,13 @@ import Foundation
 
 public protocol Action {
   var name: String { get }
+  func act() throws
+}
+
+extension Array where Element: Action {
+  public func act() throws {
+
+  }
 }
 
 public protocol ShellAction: Action {

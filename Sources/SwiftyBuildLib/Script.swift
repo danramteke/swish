@@ -1,6 +1,12 @@
 import Foundation
 
-//@_functionBuilder
-struct ScriptBuilder {
+struct Script {
+}
 
+
+@_functionBuilder
+struct ScriptBuilder {
+  static func buildBlock(actions: Action...) -> [Action] {
+    actions
+  }
 }

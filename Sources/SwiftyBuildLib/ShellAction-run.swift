@@ -1,15 +1,21 @@
 import Foundation
 
 extension ShellAction {
-  public func run() throws {
-    return try self.run(in: Context.default)
+  public func run() throws -> Result<Void, Error> {
+    try self.run(in: Context.default)
   }
-  public func run(in context: Context) throws {
+  public func act() throws {
+    try self.act()
+  }
+  public func act(in context: Context) throws {
+    try self.run(in: Context.default).get()
+  }
+  public func run(in context: Context) throws -> Result<Void, Error> {
     let logsPath = try context.setupLogs(for: self)
     context.presentStart(for: self)
 
     let rendered = self.render()
-    let string: String = rendered.joined(separator: " ")
+    let string: String = rendered.joined(separator: "\" \"")
     try string.write(to: logsPath.cmd)
 
     let process = Process()
@@ -22,9 +28,10 @@ extension ShellAction {
     if 0 != process.terminationStatus {
       let error = RunError.nonZeroShell(process.terminationStatus)
       context.presentFailure(for: self, error: error)
-      throw error
+      return .failure(error)
     } else {
       context.presentSuccess(for: self)
+      return .success(())
     }
   }
 }

@@ -8,7 +8,7 @@ public typealias LogPaths = (cmd: Path, stdout: Path, stderr: Path)
 public struct Context {
   public let name: String?
   public let output: Path
-  public let logs: Path
+  public let logsRootPath: Path
   public var isDryRun: Bool
   public init(name: String? = nil, path: Path = "./.swiftybuild", dryRun: Bool = false) throws {
     let output = path
@@ -19,34 +19,61 @@ public struct Context {
       self.output = output
     }
     
-    self.logs = self.output + Path("logs")
+    self.logsRootPath = self.output + Path("logs")
     self.isDryRun = dryRun
     try self.output.createDirectories()
-    try self.logs.createDirectories()
+    try self.logsRootPath.createDirectories()
   }
-
+  
   public func setupLogs(for action: Action) throws -> LogPaths {
-    let cmdLog: Path = self.logs + Path("\(action.name)-cmd.log")
+    let cmdLog: Path = self.logsRootPath + Path("\(action.name)-cmd.log")
     try cmdLog.clear()
-
-    let stdOutLog: Path = self.logs + Path("\(action.name)-stdout.log")
+    
+    let stdOutLog: Path = self.logsRootPath + Path("\(action.name)-stdout.log")
     try stdOutLog.clear()
-    let stdErrLog: Path = self.logs + Path("\(action.name)-stderr.log")
+    let stdErrLog: Path = self.logsRootPath + Path("\(action.name)-stderr.log")
     try stdErrLog.clear()
-
+    
     return (cmdLog, stdOutLog, stdErrLog)
   }
-
+  
   func presentSuccess(for action: Action) {
     print("[".cyan + action.name + "]".cyan + " ✅  success ")
   }
-
+  
   func presentFailure(for action: Action, error: Error) {
     print("[".cyan + action.name + "]".cyan + " 🥀 " + "\(error.localizedDescription)".red.bold )
-    exit(1)
   }
-
+  
+  func presentFailure(for action: Action, error: Error, cmd: String, stdErrString: String) {
+    print("[".cyan + action.name + "]".cyan + " 🥀 " + "\(error.localizedDescription)".red.bold )
+    print("[".cyan + action.name + "]".cyan + " 🥀 command was: " + cmd.lightRed)
+    print("[".cyan + action.name + "]".cyan + " 🥀 error log: " + stdErrString.lightRed)
+  }
+  
   func presentStart(for action: Action) {
     print("[".cyan + action.name + "]".cyan + " 🛫  starting")
+  }
+  
+  public func run(action: Action) {
+    self.run(actions: [action])
+  }
+  public func run(actions: [Action]) {
+    
+    do {
+      for action in actions {
+        let loggroup = try self.setupLogs(for: action)
+        self.presentStart(for: action)
+        do {
+          try action.act()
+        } catch {
+          let cmd = try String(path: loggroup.cmd) ?? "not found"
+          let stdErrString = try String(path: loggroup.stderr) ?? "not found"
+          self.presentFailure(for: action, error: error, cmd: cmd, stdErrString: stdErrString)
+        }
+      }
+    } catch {
+      print("error", error)
+    }
   }
 }
