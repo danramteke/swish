@@ -35,6 +35,41 @@ extension Docker {
       return buffer
     }
   }
+
+  public struct Build2: ShellAction {
+    public let name = "Docker.Build2"
+    public let id = UUID()
+
+    public let context: Output<Path>
+    public let tag: Output<String>?
+    public let target: Output<String>?
+    public let file: Output<Path>?
+    public init(context: Output<Path>, tag: Output<String>? = nil, target: Output<String>? = nil, file: Output<Path>? = nil) {
+      self.tag = tag
+      self.context = context
+      self.target = target
+      self.file = file
+    }
+    public func render() -> [String] {
+      var buffer = ["docker", "build"]
+
+      if let tag = self.tag {
+        buffer += ["-t", tag.value!]
+      }
+
+      if let target = self.target {
+        buffer += ["--target", target.value!]
+      }
+
+      if let file = self.file {
+        buffer += ["-f", file.value!.path]
+      }
+
+      buffer.append(context.value!.path)
+
+      return buffer
+    }
+  }
 }
 
 
