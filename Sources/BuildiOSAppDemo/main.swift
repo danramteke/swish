@@ -7,8 +7,6 @@ let targetOptions = Xcodebuild.TargetOptions(scheme: "MyScheme", workspace: "MyW
 
 var currentVersion: Output<Int> = .init()
 
-//print(currentVersion)
-
 try swish {
   Agvtool.WhatVersion()
     .store(in: currentVersion)

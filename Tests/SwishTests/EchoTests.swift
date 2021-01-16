@@ -20,7 +20,7 @@ final class EchoTests: XCTestCase {
     }
 
     let cmdPath = context.logPaths(for: action).cmd
-    XCTAssertEqual(cmdPath, ".swiftybuild/Echo/logs/00-Echo-cmd.log")
+    XCTAssertEqual(cmdPath, ".swish/Echo/logs/00-Echo-cmd.log")
 
     let cmdValue = try String(path: cmdPath)
     XCTAssertEqual(cmdValue, "echo hello")

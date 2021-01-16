@@ -1,4 +1,4 @@
-# SwiftyBuild
+# Swish
 
 Who wants to use a Ruby script to upload your iOS project? Not me. Let's use Swift.
 
@@ -30,27 +30,26 @@ See below for what the `Package.swift` and `main.swift` might look like.
 
 ### Sample Package.swift
 
-    // swift-tools-version:5.0
-    // The swift-tools-version declares the minimum version of Swift required to build this package.
+    // swift-tools-version:5.3
 
     import PackageDescription
     let package = Package(
         name: "SwiftScripts",
-
+        platforms: [ .macOS(.v10_15) ],
         dependencies: [
-          .package(url: "https://github.com/danramteke/SwiftyBuild", .branch("master"))
+            .package(url: "https://github.com/danramteke/Swish", .branch("master"))
         ],
         targets: [
             .target(
                 name: "appstore",
-                dependencies: ["SwiftyBuildLib"],
+                dependencies: ["SwishLib"],
                 path: "swift-scripts/appstore"),
         ]
     )
 
 ### Sample main.swift
 
-    import SwiftyBuildLib
+    import SwishLib
     import Foundation
 
     let exportOptions = ExportOptions(method: .appstore, teamID: "XXXXXXXXXX")
@@ -88,4 +87,4 @@ Assuming your current marketing version is stored in a file called `marketing-ve
 
 ## Attributions
 
-The `Path` section of code was heavily borrowed and inspired by [PathKit](https://github.com/kylef/PathKit/blob/master/Sources/PathKit.swift). The license for the borrowed code is available [here](https://github.com/kylef/PathKit/blob/master/LICENSE).
+The `Path` section of code was borrowed and inspired by [PathKit](https://github.com/kylef/PathKit/blob/master/Sources/PathKit.swift). The license for the borrowed code is available [here](https://github.com/kylef/PathKit/blob/master/LICENSE).

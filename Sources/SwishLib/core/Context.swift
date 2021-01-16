@@ -14,7 +14,7 @@ public class Context {
   private var actionLog: [Action] = []
   private var actionLogPaths: [Action.ID: LogPaths] = [:]
   
-  public init(name: String? = nil, path: Path = "./.swiftybuild", dryRun: Bool = false) throws {
+  public init(name: String? = nil, path: Path = "./.swish", dryRun: Bool = false) throws {
     let output = path
     self.name = name
     if let name = name {

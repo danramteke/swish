@@ -10,7 +10,6 @@ let package = Package(
     ],
     products: [
         .executable(name: "swish", targets: ["Swish"]),
-        .executable(name: "BuildiOSAppDemo", targets: ["BuildiOSAppDemo"]),
         .library(name: "SwishLib", targets: ["SwishLib"])
     ],
     dependencies: [
