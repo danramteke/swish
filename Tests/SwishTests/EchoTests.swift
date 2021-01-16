@@ -12,7 +12,6 @@ final class EchoTests: XCTestCase {
   }
 
   func testEchoRender() throws {
-
     let context = try Context(name: "Echo")
     let action = Echo("hello")
     try swish(context: context) {
@@ -24,5 +23,36 @@ final class EchoTests: XCTestCase {
 
     let cmdValue = try String(path: cmdPath)
     XCTAssertEqual(cmdValue, "echo hello")
+  }
+
+  func testEchoLoop() throws {
+    let liquids = ["water", "oil", "wine", "tea"]
+
+    try swish {
+      Echo("liquids:")
+      liquids.map(Echo.init)
+    }
+  }
+
+  func testEchoForEach() throws {
+    let liquids = ["water", "oil", "wine", "tea"]
+
+    try swish {
+      Echo("liquids:")
+      ForEach(liquids) {
+        Echo($0)
+      }
+      ForEach(liquids) {
+        Echo($0)
+        Echo($0)
+      }
+    }
+  }
+
+  func testWithoutFunctionBuilder() throws {
+    let liquids = ["water", "oil", "wine", "tea"]
+
+    let context = Context.default
+    try context.run(actions: liquids.map(Echo.init))
   }
 }

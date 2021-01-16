@@ -87,6 +87,12 @@ public class Context {
     }
   }
 
+  public func run(actionGroupConvertibles: [ActionGroupConvertible]) throws {
+    let actionGroups: [ActionGroup] = actionGroupConvertibles.map { $0.asActionGroup }
+    let actions: [Action] = actionGroups.map({ $0.actions }).flatMap { $0 }
+    try self.run(actions: actions)
+  }
+
   public func run(actions: [Action]) throws {
     for action in actions {
       try self.run(action: action)

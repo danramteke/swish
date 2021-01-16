@@ -3,20 +3,24 @@ import Foundation
 @_functionBuilder
 public struct SwishBuilder {
   public init() {}
-  public static func buildBlock() -> [Action] { [] }
-  public static func buildBlock(_ actions: Action...) -> [Action] {
+  public static func buildBlock() -> [ActionGroupConvertible] { [] }
+  public static func buildBlock(_ actions: ActionGroupConvertible...) -> [ActionGroupConvertible] {
     actions
   }
 
-  public static func buildEither(first: Action) -> [Action]  {
+  public static func buildBlock(_ actions: [ActionGroupConvertible]) -> [ActionGroupConvertible] {
+    actions
+  }
+
+  public static func buildEither(first: ActionGroupConvertible) -> [ActionGroupConvertible]  {
     [first]
   }
 
-  public static func buildEither(second: Action) -> [Action] {
+  public static func buildEither(second: ActionGroupConvertible) -> [ActionGroupConvertible] {
     [second]
   }
 
-  public static func buildIf(_ value: Action?) -> [Action] {
+  public static func buildIf(_ value: ActionGroupConvertible?) -> [ActionGroupConvertible] {
     if let value = value {
       return [value]
     } else {
