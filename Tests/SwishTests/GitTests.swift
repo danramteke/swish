@@ -1,13 +1,13 @@
 import XCTest
-import SwiftyBuildLib
+import SwishLib
 
 final class GitTests: XCTestCase {
     func testGitRoot() throws {
       let gitRootOutput: Output<Path> = .init()
-      try script {
+      try swish {
         Git.Root().store(in: gitRootOutput)
       }
       XCTAssertTrue(gitRootOutput.didChangeFromInitialValue)
-      XCTAssertEqual(gitRootOutput.value?.components.last, "SwiftyBuild")
+      XCTAssertEqual(gitRootOutput.value?.components.last, "Swish")
     }
 }

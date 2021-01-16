@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftyBuild",
+    name: "Swish",
     platforms: [
         .macOS(.v10_15)
     ],
     products: [
-        .executable(name: "SwiftyBuild", targets: ["SwiftyBuild"]),
+        .executable(name: "swish", targets: ["Swish"]),
         .executable(name: "BuildiOSAppDemo", targets: ["BuildiOSAppDemo"]),
-        .library(name: "SwiftyBuildLib", targets: ["SwiftyBuildLib"])
+        .library(name: "SwishLib", targets: ["SwishLib"])
     ],
     dependencies: [
         .package(url: "https://github.com/onevcat/Rainbow", from: "3.0.0"),
@@ -19,16 +19,16 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "SwiftyBuild",
-            dependencies: ["SwiftyBuildLib"]),
+            name: "Swish",
+            dependencies: ["SwishLib"]),
         .target(
-            name: "SwiftyBuildLib",
+            name: "SwishLib",
             dependencies: ["Rainbow", "Version"]),
         .testTarget(
-            name: "SwiftyBuildTests",
-            dependencies: ["SwiftyBuild"]),
+            name: "SwishTests",
+            dependencies: ["Swish"]),
         .target(
             name: "BuildiOSAppDemo",
-            dependencies: ["SwiftyBuildLib"]),
+            dependencies: ["SwishLib"]),
     ]
 )

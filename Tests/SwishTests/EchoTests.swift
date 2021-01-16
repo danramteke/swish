@@ -1,10 +1,10 @@
 import XCTest
-import SwiftyBuildLib
+import SwishLib
 
 final class EchoTests: XCTestCase {
   func testEcho() throws {
     let output: Output<String> = .init()
-    try script {
+    try swish {
       Echo("hello").store(in: output)
     }
     XCTAssertTrue(output.didChangeFromInitialValue)
@@ -15,7 +15,7 @@ final class EchoTests: XCTestCase {
 
     let context = try Context(name: "Echo")
     let action = Echo("hello")
-    try script(context: context) {
+    try swish(context: context) {
       action
     }
 
