@@ -1,9 +1,11 @@
+import Combine
 import SwishLib
 import Version
 
 let exportOptions = Xcodebuild.ExportOptions(method: .appstore, teamID: "XXXXXXXXXX")
 let targetOptions = Xcodebuild.TargetOptions(scheme: "MyScheme", workspace: "MyWorkspace")
 
+var currentV = CurrentValueSubject<Int, Never>(0)
 
 var currentVersion: Output<Int> = .init()
 

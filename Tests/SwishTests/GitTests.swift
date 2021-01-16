@@ -1,13 +1,13 @@
 import XCTest
 import SwishLib
+import Combine
 
 final class GitTests: XCTestCase {
     func testGitRoot() throws {
-      let gitRootOutput: Output<Path> = .init()
+      let gitRootOutput: CurrentValueSubject<Path, Never> = .init("")
       try swish {
-        Git.Root().store(in: gitRootOutput)
+        Git.Root().store2(in: gitRootOutput)
       }
-      XCTAssertTrue(gitRootOutput.didChangeFromInitialValue)
-      XCTAssertEqual(gitRootOutput.value?.components.last, "swish")
+      XCTAssertEqual(gitRootOutput.value.components.last, "swish")
     }
 }

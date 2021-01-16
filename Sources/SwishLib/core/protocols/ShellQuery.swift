@@ -1,9 +1,16 @@
 import Foundation
+import Combine
 
 public protocol ShellQuery: ShellAction {
 
   associatedtype ResultSuccessType
   func parseResult(output: String) -> Result<ResultSuccessType, Error>
+
+  var publisher: CurrentValueSubject<ResultSuccessType, Never> { get }
+
+
+
+
 }
 
 
@@ -12,6 +19,10 @@ extension ShellQuery {
     let logPaths = context.logPaths(for: self)
     let stdoutContents = try String(path: logPaths.stdout)
     return self.parseResult(output: stdoutContents.trimmingCharacters(in: .whitespacesAndNewlines))
+  }
+
+  public func store2<ResultSuccessType: ShellOutputInitable>(in subject: CurrentValueSubject<ResultSuccessType, Never>)  -> Action {
+    QueryAction2<ResultSuccessType>(shellAction: self, output: subject)
   }
 }
 

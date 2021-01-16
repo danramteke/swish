@@ -1,3 +1,4 @@
+import Combine
 import Version
 extension Agvtool {
   public struct WhatMarketingVersion: ShellQuery {
@@ -10,6 +11,8 @@ extension Agvtool {
     public func render() -> [String] {
       return ["xcrun", "agvtool", "what-marketing-version", "-terse1"]
     }
+
+    public var publisher: CurrentValueSubject<ResultSuccessType, Never> = .init(Version(0, 0, 0))
   }
 }
 

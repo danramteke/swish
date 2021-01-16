@@ -1,3 +1,5 @@
+import Combine
+
 extension Git {
   public struct Root: ShellQuery {
     public let id = ID()
@@ -8,5 +10,8 @@ extension Git {
     public func render() -> [String] { 
       ["git", "rev-parse", "--show-toplevel"] 
     }
+
+    public var publisher: CurrentValueSubject<ResultSuccessType, Never> = .init("initialValue")
+
   }
 }

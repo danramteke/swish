@@ -1,3 +1,4 @@
+import Combine
 
 extension Agvtool {
   public class WhatVersion: ShellQuery {
@@ -10,5 +11,7 @@ extension Agvtool {
     public func render() -> [String] {
       return ["xcrun", "agvtool", "what-version", "-terse"]
     }
+
+    public var publisher: CurrentValueSubject<ResultSuccessType, Never> = .init(0)
   }
 }

@@ -13,8 +13,9 @@ let package = Package(
         .library(name: "SwishLib", type: .dynamic, targets: ["SwishLib"])
     ],
     dependencies: [
-        .package(url: "https://github.com/onevcat/Rainbow", from: "3.0.0"),
-        .package(url: "https://github.com/mxcl/Version.git", from: "1.0.0")
+        .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.0.0"),
+        .package(url: "https://github.com/mxcl/Version.git", from: "1.0.0"),
+//        .package(url: "https://github.com/OpenCombine/OpenCombine.git", from: "0.11.0"),
     ],
     targets: [
         .target(
@@ -22,7 +23,9 @@ let package = Package(
             dependencies: ["SwishLib"]),
         .target(
             name: "SwishLib",
-            dependencies: ["Rainbow", "Version"]),
+            dependencies: ["Rainbow", "Version",
+//                           "OpenCombine",
+            ]),
         .testTarget(
             name: "SwishTests",
             dependencies: ["SwishLib"]),
