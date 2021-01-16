@@ -8,6 +8,6 @@ final class GitTests: XCTestCase {
         Git.Root().store(in: gitRootOutput)
       }
       XCTAssertTrue(gitRootOutput.didChangeFromInitialValue)
-      XCTAssertEqual(gitRootOutput.value?.components.last, "Swish")
+      XCTAssertEqual(gitRootOutput.value?.components.last, "swish")
     }
 }
