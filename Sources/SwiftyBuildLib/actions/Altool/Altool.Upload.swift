@@ -2,6 +2,7 @@
 extension Altool {
 
   public struct Upload: ShellAction {
+    public let id = ID()
     public let platform: Platform
     public let file: Path
     public let username: String

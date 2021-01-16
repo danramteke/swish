@@ -1,5 +1,6 @@
 extension Agvtool {
   public struct NewVersion: ShellAction {
+    public let id = ID()
     public let name = "Avgtool.NewVersion"
     public let number: Int
     public let all: Bool

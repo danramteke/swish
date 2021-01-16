@@ -10,6 +10,4 @@ final class GitTests: XCTestCase {
       XCTAssertTrue(gitRootOutput.didChangeFromInitialValue)
       XCTAssertEqual(gitRootOutput.value?.components.last, "SwiftyBuild")
     }
-
-
 }

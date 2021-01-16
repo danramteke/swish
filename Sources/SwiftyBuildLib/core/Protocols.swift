@@ -3,6 +3,9 @@ import Foundation
 public protocol Action {
   var name: String { get }
   func run(in: Context) throws
+
+  var id: ID { get }
+  typealias ID = UUID
 }
 
 extension Action {
@@ -11,12 +14,6 @@ extension Action {
   }
 }
 
-extension Action {
-  typealias ID = UUID
-  var id: ID {
-    UUID()
-  }
-}
 
 public protocol ShellAction: Action {
   func render() -> [String]
@@ -25,7 +22,7 @@ public protocol ShellAction: Action {
 public protocol ShellQuery: ShellAction {
 
   associatedtype ResultSuccessType
-  func parseResult(output: String, error: String?) -> Result<ResultSuccessType, Error>
+  func parseResult(output: String?, error: String?) -> Result<ResultSuccessType, Error>
 }
 
 public protocol ShellQueryOutputInitable {
@@ -33,10 +30,15 @@ public protocol ShellQueryOutputInitable {
 }
 
 public extension ShellQuery where ResultSuccessType: ShellQueryOutputInitable {
-  func parseResult(output: String, error: String?) -> Result<ResultSuccessType, Error> {
-    let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
+  func parseResult(output: String?, error: String?) -> Result<ResultSuccessType, Error> {
+
+
     return Result {
-      try ResultSuccessType.init(shellQueryOutput: trimmedOutput)
+      guard let output = output else {
+        throw RunError.queryHadNoOutput
+      }
+      let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
+      return try ResultSuccessType.init(shellQueryOutput: trimmedOutput)
     }
   }
 }

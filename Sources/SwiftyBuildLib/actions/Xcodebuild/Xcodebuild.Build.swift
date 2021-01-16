@@ -2,6 +2,7 @@ import Foundation
 
 extension Xcodebuild {
   public struct Build {
+    public let id = ID()
     public let targetOptions: TargetOptions
     public let destination: Destination
     public let allowProvisioningUpdates: Bool

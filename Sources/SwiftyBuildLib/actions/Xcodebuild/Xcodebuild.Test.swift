@@ -1,5 +1,6 @@
 extension Xcodebuild {
   public struct Test {
+    public let id = ID()
     public let targetOptions: TargetOptions
     public let destination: Destination
 

@@ -2,6 +2,7 @@ import Foundation
 
 extension Xcodebuild {
   public struct Archive {
+    public let id = ID()
     public let targetOptions: TargetOptions
     public let sdk: SDK
     public let archivePath: Path

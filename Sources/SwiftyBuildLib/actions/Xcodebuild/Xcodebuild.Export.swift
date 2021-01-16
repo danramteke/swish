@@ -2,6 +2,7 @@ import Foundation
 
 extension Xcodebuild {
   public struct Export {
+    public let id = ID()
     public let archivePath: Path
     public let exportDir: Path
     public let exportOptionsPlistPath: Path
@@ -19,7 +20,7 @@ extension Xcodebuild {
     public init(context: Context, archivePath: Path, exportDir: Path?, exportOptionsPlistPath: Path, allowProvisioningUpdates: Bool = false, allowProvisioningDeviceRegistration: Bool = false) throws {
       let defaultExportDir: Path = context.output + "export"
       let actualExportDir = exportDir ?? defaultExportDir
-      self = Export(archivePath: archivePath, exportDir: actualExportDir, exportOptionsPlistPath: exportOptionsPlistPath, allowProvisioningUpdates: allowProvisioningUpdates, allowProvisioningDeviceRegistration: allowProvisioningDeviceRegistration)
+      self.init(archivePath: archivePath, exportDir: actualExportDir, exportOptionsPlistPath: exportOptionsPlistPath, allowProvisioningUpdates: allowProvisioningUpdates, allowProvisioningDeviceRegistration: allowProvisioningDeviceRegistration)
     }
   }
 }

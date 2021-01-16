@@ -1,6 +1,7 @@
 import Version
 extension Agvtool {
   public struct WhatMarketingVersion: ShellQuery {
+    public let id = ID()
     public typealias ResultSuccessType = Version
 
     public let name = "Avgtool.WhatVersion"

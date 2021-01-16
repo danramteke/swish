@@ -7,7 +7,7 @@ public class Output<Value: ShellQueryOutputInitable> {
     }
   }
 
-  public var didChangeFromInitialValue: Bool = false
+  public private(set) var didChangeFromInitialValue: Bool = false
 
   public init() {
     self.value = nil
@@ -26,6 +26,7 @@ extension ShellAction {
 
 
 class QueryAction<Value: ShellQueryOutputInitable>: Action {
+  public let id = ID()
   var name: String {
     "Query:\(shellAction.name)"
   }
@@ -37,17 +38,13 @@ class QueryAction<Value: ShellQueryOutputInitable>: Action {
 
   let shellAction: ShellAction
 
-
   func run(in context: Context) throws {
-    try shellAction.run(in: context)
-//    context.logs(for: shellAction.id)
+    try context.run(action: shellAction)
+
+    let logPaths = context.logPaths(for: shellAction)
+
+    let shellOutput = try String(path: logPaths.stdout)
+    let value = try Value.init(shellQueryOutput: shellOutput)
+    self.output.value = value
   }
-
-
 }
-
-//extension ShellQuery {
-//  public func query(_ outputReference: inout ResultSuccessType?) {
-//
-//  }
-//}

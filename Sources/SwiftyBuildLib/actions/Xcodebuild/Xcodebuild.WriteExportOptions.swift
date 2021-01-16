@@ -2,6 +2,7 @@ import Foundation
 
 extension Xcodebuild {
   public struct WriteExportOptions: Action {
+    public let id = ID()
     public let name: String = "WriteExportOptions"
 
     public let path: Path

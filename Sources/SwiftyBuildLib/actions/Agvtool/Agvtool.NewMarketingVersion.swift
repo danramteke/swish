@@ -1,5 +1,6 @@
 extension Agvtool {
   public struct NewMarketingVersion: ShellAction {
+    public let id = ID()
     public let name = "Avgtool.NewMarketingVersion"
     public let string: String 
     public init(_ string: String) {

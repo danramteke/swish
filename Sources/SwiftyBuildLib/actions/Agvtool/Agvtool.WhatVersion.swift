@@ -1,6 +1,7 @@
 
 extension Agvtool {
-  public struct WhatVersion: ShellQuery {
+  public class WhatVersion: ShellQuery {
+    public let id = ID()
     public typealias ResultSuccessType = Int
 
     public let name = "Avgtool.WhatVersion"
