@@ -1,10 +1,9 @@
 import Foundation
 
 extension Path {
-  func clear() throws {
+  public func clear() throws {
     try Data().write(to: self)
   }
-  
 }
 
 extension Data {
@@ -39,7 +38,7 @@ extension String {
     let encoding: String.Encoding
 
     public var errorDescription: String? {
-      "Couldnt read as \(encoding.description) at \(path.absolute())"
+      "Couldn't read as \(encoding.description) at \(path.absolute())"
     }
 
     init(path: Path, encoding:  String.Encoding) {
