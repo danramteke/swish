@@ -1,6 +1,6 @@
 import Foundation
 
-public class Output<Value: ShellQueryOutputInitable> {
+public class Output<Value: ShellOutputInitable> {
   public var value: Value? {
     didSet {
       self.didChangeFromInitialValue = true
@@ -19,12 +19,12 @@ public class Output<Value: ShellQueryOutputInitable> {
 }
 
 extension ShellAction {
-  public func store<Value: ShellQueryOutputInitable>(in output: Output<Value>) -> Action {
+  public func store<Value: ShellOutputInitable>(in output: Output<Value>) -> Action {
     QueryAction(shellAction: self, output: output)
   }
 }
 
-class QueryAction<Value: ShellQueryOutputInitable>: Action {
+class QueryAction<Value: ShellOutputInitable>: Action {
   let id = ID()
   var name: String {
     "Query:\(shellAction.name)"

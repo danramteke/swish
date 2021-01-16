@@ -17,7 +17,7 @@ extension ShellQuery {
 }
 
 
-public extension ShellQuery where ResultSuccessType: ShellQueryOutputInitable {
+public extension ShellQuery where ResultSuccessType: ShellOutputInitable {
   func parseResult(output: String?, error: String?) -> Result<ResultSuccessType, Error> {
     return Result {
       guard let output = output else {

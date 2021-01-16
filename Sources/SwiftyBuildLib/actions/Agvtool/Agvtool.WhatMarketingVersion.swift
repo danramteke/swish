@@ -13,7 +13,7 @@ extension Agvtool {
   }
 }
 
-extension Version: ShellQueryOutputInitable {
+extension Version: ShellOutputInitable {
   public init(shellQueryOutput output: String) throws {
     let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
     guard let version = Version(trimmedOutput) else {
