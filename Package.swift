@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.0.0"),
         .package(url: "https://github.com/mxcl/Version.git", from: "1.0.0"),
+
 //        .package(url: "https://github.com/OpenCombine/OpenCombine.git", from: "0.11.0"),
     ],
     targets: [
@@ -34,3 +35,10 @@ let package = Package(
             dependencies: ["SwishLib"]),
     ]
 )
+
+#if !canImport(Combine)
+package.dependencies.append(.package(url: "https://github.com/OpenCombine/OpenCombine.git", from: "0.11.0"))
+package.targets.first(where: { $0.name == "SwishLib"})?.dependencies.append("OpenCombine")
+#else
+
+#endif

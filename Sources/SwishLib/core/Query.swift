@@ -1,5 +1,9 @@
 import Foundation
+#if canImport(Combine)
 import Combine
+#else
+import OpenCombine
+#endif
 
 public class Output<Value: ShellOutputInitable> {
   enum State {

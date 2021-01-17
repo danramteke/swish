@@ -1,4 +1,8 @@
+#if canImport(Combine)
 import Combine
+#else
+import OpenCombine
+#endif
 
 extension Git {
   public struct Root: ShellQuery {

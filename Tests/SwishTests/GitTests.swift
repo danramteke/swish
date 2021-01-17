@@ -1,6 +1,10 @@
 import XCTest
 import SwishLib
+#if canImport(Combine)
 import Combine
+#else
+import OpenCombine
+#endif
 
 final class GitTests: XCTestCase {
     func testGitRoot() throws {

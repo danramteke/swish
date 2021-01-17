@@ -1,4 +1,8 @@
+#if canImport(Combine)
 import Combine
+#else
+import OpenCombine
+#endif
 import Version
 extension Agvtool {
   public struct WhatMarketingVersion: ShellQuery {
