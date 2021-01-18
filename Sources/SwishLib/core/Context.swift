@@ -1,4 +1,5 @@
 import Foundation
+import NIO
 import Rainbow
 
 public typealias LogPaths = (cmd: Path, stdout: Path, stderr: Path)
@@ -15,6 +16,9 @@ public class Context {
 
   private var actionLog: [Action] = []
   private var actionLogPaths: [Action.ID: LogPaths] = [:]
+
+  var eventLoopGroup: EventLoopGroup { multiThreadedEventLoopGroup }
+  private let multiThreadedEventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 3)
   
   public init(name: String? = nil, path: Path = "./.swish", dryRun: Bool = false) throws {
     let output = path
@@ -29,6 +33,14 @@ public class Context {
     self.isDryRun = dryRun
     try self.output.createDirectories()
     try self.logsRootPath.createDirectories()
+  }
+
+  deinit {
+    do {
+    try multiThreadedEventLoopGroup.syncShutdownGracefully()
+    } catch {
+      print("error shutting down event loop group", error)
+    }
   }
 
   private func setupLogs(for action: Action, index: Int) -> LogPaths {

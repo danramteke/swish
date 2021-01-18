@@ -88,3 +88,6 @@ Assuming your current marketing version is stored in a file called `marketing-ve
 ## Attributions
 
 The `Path` section of code was borrowed and inspired by [PathKit](https://github.com/kylef/PathKit/blob/master/Sources/PathKit.swift). The license for the borrowed code is available [here](https://github.com/kylef/PathKit/blob/master/LICENSE).
+
+
+## Testing on Linux with Docker
