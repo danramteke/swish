@@ -1,7 +1,7 @@
 .DS_Store
-/.build
-/Packages
-/*.xcodeproj
-/.swish
-/.idea
-/.swiftpm
+.build
+Packages
+*.xcodeproj
+.swish
+.idea
+.swiftpm

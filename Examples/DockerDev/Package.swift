@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "DockerDev",
+    platforms: [.macOS(.v11)],
     products: [
         .executable(name: "DockerDev", targets: ["DockerDev"]),
     ],
