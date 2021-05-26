@@ -1,20 +1,36 @@
 import Foundation
 
-public struct ShellQuery<T: ShellOutputInitable>: Query {
-	let text: String
-	
-	public init(_ text: String) {
-		self.text = text
-	}
-	
-	public func execute() -> Result<T, Error> {
+public protocol ShellQuery: Query where Output: ShellOutputInitable {
+	var text: String { get }
+}
+
+extension ShellQuery {
+	public func execute() -> Result<Output, Error> {
 		print("print running:".blue, text)
 		return Result {
-			try T.init(shellOutput: "Hello")
+			try Output.init(shellOutput: "Hello")
 		}
 	}
 
-	public func callAsFunction() -> Result<T, Error> {
+	public func callAsFunction() -> Result<Output, Error> {
+		return execute()
+	}
+}
+
+
+public protocol ParsingShellQuery: Query {
+	func parse(shellOutput: String) throw -> Output
+}
+
+extension ParsingShellQuery {
+	public func execute() -> Result<Output, Error> {
+		print("print running:".blue, text)
+		return Result {
+			try Output.init(shellOutput: "Hello")
+		}
+	}
+
+	public func callAsFunction() -> Result<Output, Error> {
 		return execute()
 	}
 }

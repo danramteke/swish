@@ -1,13 +1,11 @@
 import Foundation
 import Rainbow
 
-public struct ShellCommand: Command {
-	let text: String
+public protocol ShellCommand: Command {
+	var text: String { get }
+}
 
-	public init(_ text: String) {
-		self.text = text
-	}
-
+extension ShellCommand {
 	public func execute() -> Result<Void, Error> {
 		print("print running:".blue, text)
 		return .success(())

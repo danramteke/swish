@@ -1,4 +1,4 @@
-public struct DependentShellCommand: DependantCommand {
+public struct DependentShellCommand: DependantCommand, ShellCommand {
 	public let text: String
 	public let dependsOn: [Command]
 

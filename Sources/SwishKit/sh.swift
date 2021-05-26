@@ -1,11 +1,11 @@
 public let sharedShellHelper = ShellHelper()
 
 public func sh(_ text: String) -> ShellCommand {
-	ShellCommand(text)
+	ConcreteShellCommand(text)
 }
 
-public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> ShellQuery<T> {
-	ShellQuery<T>(text)
+public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> ConcreteShellQuery<T> {
+	ConcreteShellQuery<T>(text)
 }
 
 //public func shq<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> Result<T, Error> {

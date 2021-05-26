@@ -32,27 +32,40 @@ func isContainerRunning(_ name: String) -> String {
   "docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
 }
 
-let isRedisRunning = sh(isContainerRunning(redisName))
+struct ContainerIsRunning: ShellQuery {
+	let name: String
+	var text: String {
+		"docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
+	}
+
+	typealias Output = Bool
+
+	func parse(output: String) -> Bool {
+		
+	}
+}
+
+let isRedisRunning = ContainerIsRunning(redisName)
 let isPostgresRunning = BooleanShellCommand(isContainerRunning(postgresName))
 let isNetworkExisting = BooleanShellCommand("docker network -aq -f name=\(networkName) | grep -w \(networkName)", .equals(networkName))
 let isVolumeExisting = BooleanShellCommand("docker volume -aq -f name=\(volumeName) | grep -w \(volumeName)", .equals(volumeName))
 
-let teardownRedis = ShellCommand("docker rm -f \(redisName)", if: isRedisRunning)
-let teardownPostgres = ShellCommand("docker rm -f \(postgresName)", if: isPostgresRunning)
-let teardownVolume = ShellCommand("docker volume rm \(volumeName)", dependsOn: [teardownPostgres], if: isVolumeExisting)
-let teardownNetwork = ShellCommand("docker network rm \(networkName)", dependsOn: [teardownRedis, teardownPostgres], if: isNetworkExisting)
+let teardownRedis = sh("docker rm -f \(redisName)")
+let teardownPostgres = sh("docker rm -f \(postgresName)")
+let teardownVolume = sh("docker volume rm \(volumeName)", dependsOn: [teardownPostgres])
+let teardownNetwork = sh("docker network rm \(networkName)", dependsOn: [teardownRedis, teardownPostgres])
 
 func teardownAll() throws {
     if isRedisRunning.booleanValue {
-        teardownRedis.run()
+        teardownRedis()
     }
 
     if isPostgresRunning.booleanValue {
-        teardownRedis.run()
+        teardownRedis()
     }
 
     if isVolumeExisting.booleanValue {
-        teardownVolume.run()
+        teardownVolume()
     }
 }
 
