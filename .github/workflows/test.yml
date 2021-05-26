@@ -14,8 +14,6 @@ jobs:
         include:
           - os: macos-11.0
             BUILD_CMD: swift build -c release
-          - os: macos-10.15
-            BUILD_CMD: swift build -c release
           - os: ubuntu-20.04
             BUILD_CMD: swift build -c release -Xswiftc -static-executable 
     steps:
@@ -24,4 +22,4 @@ jobs:
       - run: swift --version   
 
       - name: Test
-        run: swift test  --enable-test-discovery
+        run: swift test

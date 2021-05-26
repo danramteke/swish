@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "MPath",
+        "repositoryURL": "https://github.com/danramteke/MPath.git",
+        "state": {
+          "branch": null,
+          "revision": "14daed14512131e15daf3ba312cca8aeeaab49e3",
+          "version": "0.9.6"
+        }
+      },
+      {
         "package": "Rainbow",
         "repositoryURL": "https://github.com/onevcat/Rainbow.git",
         "state": {
@@ -11,12 +20,12 @@
         }
       },
       {
-        "package": "swift-nio",
-        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "43931b7a7daf8120a487601530c8bc03ce711992",
-          "version": "2.25.1"
+          "revision": "986d191f94cec88f6350056da59c2e59e83d1229",
+          "version": "0.4.3"
         }
       },
       {
