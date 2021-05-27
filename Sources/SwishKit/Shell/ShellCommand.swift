@@ -1,13 +1,13 @@
 import Foundation
 import Rainbow
 
-public protocol ShellCommand: Command {
+public protocol ShellCommand: ShellRunnable, Command {
 	var text: String { get }
 }
 
 extension ShellCommand {
 	public func execute() throws {
-		_ = try SharedShellRunner.execute(text: text)
+		_ = try shellRunner.execute(runnable: self)
 	}
 
 	public func callAsFunction() throws {
