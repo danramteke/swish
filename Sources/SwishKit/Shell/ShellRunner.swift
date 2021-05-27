@@ -57,6 +57,10 @@ public class ShellRunner {
 			throw NonZeroShellTermination(status: process.terminationStatus)
 		}
 
+		if try stderr.isEmpty() {
+			try stderr.delete()
+		}
+
 		if runnable.usesStdOut {
 			return try stdout.read(encoding: .utf8)
 		} else {

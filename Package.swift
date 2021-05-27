@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.0.0"),
         .package(url: "https://github.com/mxcl/Version.git", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
-        .package(url: "https://github.com/danramteke/MPath.git", from: "0.9.0"),
+        .package(url: "https://github.com/danramteke/MPath.git", from: "0.9.7"),
     ],
     targets: [
         .executableTarget(
