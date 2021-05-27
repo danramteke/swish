@@ -48,6 +48,8 @@ public class ShellRunner {
 		try process.run()
 		process.waitUntilExit()
 		if 0 != process.terminationStatus {
+			print("stdout".yellow, stdout.absolute().path)
+			print("stderr".yellow, stderr.absolute().path)
 			throw NonZeroShellTermination(status: process.terminationStatus)
 		}
 

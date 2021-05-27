@@ -40,8 +40,8 @@ class ContainerIsRunning: ConcreteBooleanShellQuery {
 
 let isRedisRunning = ContainerIsRunning(name: redisName)
 let isPostgresRunning = ContainerIsRunning(name: postgresName)
-let isNetworkExisting = sh("docker network -aq -f name=\(networkName)", .equals(networkName))
-let isVolumeExisting = sh("docker volume -aq -f name=\(volumeName)", .equals(volumeName))
+let isNetworkExisting = sh("docker network ls -q -f name=\(networkName)", .equals(networkName))
+let isVolumeExisting = sh("docker volume ls -q -f name=\(volumeName)", .equals(volumeName))
 
 let teardownRedis = sh("docker rm -f \(redisName)")
 let teardownPostgres = sh("docker rm -f \(postgresName)")
@@ -76,6 +76,15 @@ func setupAll() throws {
 enum Action: String, ExpressibleByArgument, CaseIterable {
 	case setup
 	case teardown
+
+	func run() throws {
+		switch self {
+		case .setup:
+			try setupAll()
+		case .teardown:
+			try teardownAll()
+		}
+	}
 }
 
 struct DockerDev: ParsableCommand {
@@ -83,12 +92,8 @@ struct DockerDev: ParsableCommand {
 	var action: Action
 
 	mutating func run() throws {
-		switch action {
-		case .setup:
-			try setupAll()
-		case .teardown:
-			try teardownAll()
-		}
+		try action.run()
+		print("Success".green)
 	}
 }
 
