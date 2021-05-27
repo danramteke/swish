@@ -6,12 +6,11 @@ public protocol ShellCommand: Command {
 }
 
 extension ShellCommand {
-	public func execute() -> Result<Void, Error> {
-		print("print running:".blue, text)
-		return .success(())
+	public func execute() throws {
+		_ = try SharedShellHelper.execute(text: text)
 	}
 
-	public func callAsFunction() -> Result<Void, Error> {
-		execute()
+	public func callAsFunction() throws {
+		try execute()
 	}
 }

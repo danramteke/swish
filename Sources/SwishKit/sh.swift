@@ -1,4 +1,4 @@
-public let sharedShellHelper = ShellHelper()
+public let SharedShellHelper = ShellHelper()
 
 public func sh(_ text: String) -> ShellCommand {
 	ConcreteShellCommand(text)

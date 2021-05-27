@@ -2,5 +2,5 @@ import Foundation
 
 public protocol Query {
 	associatedtype Output
-	func execute() -> Result<Output, Error>
+	func execute() throws -> Output
 }

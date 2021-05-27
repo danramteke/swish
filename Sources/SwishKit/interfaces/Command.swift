@@ -1,5 +1,5 @@
 public protocol Command {
-	func execute() -> Result<Void, Error>
+	func execute() throws
 }
 
 public protocol DependantCommand: Command {

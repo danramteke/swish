@@ -6,14 +6,12 @@ public protocol ParsableShellQuery: Query {
 }
 
 extension ParsableShellQuery {
-	public func execute() -> Result<Output, Error> {
-		print("print running:".blue, text)
-		return Result {
-			try self.parse(shellOutput: "sample output")
-		}
+	public func execute() throws -> Output {
+		let output = try SharedShellHelper.execute(text: text)
+		return try self.parse(shellOutput: output)
 	}
 
-	public func callAsFunction() -> Result<Output, Error> {
-		execute()
+	public func callAsFunction() throws -> Output {
+		try execute()
 	}
 }

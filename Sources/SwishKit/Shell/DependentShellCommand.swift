@@ -9,6 +9,9 @@ public struct DependentShellCommand: DependantCommand, ShellCommand {
 
 	public func execute() -> Result<Void, Error> {
 		print("print running:".blue, text)
-		return .success(())
+		return .failure(NotYetImplementedError())
 	}
+
+
+	struct NotYetImplementedError: Error { }
 }

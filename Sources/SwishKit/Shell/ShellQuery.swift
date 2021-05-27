@@ -5,14 +5,12 @@ public protocol ShellQuery: Query where Output: ShellOutputInitable {
 }
 
 extension ShellQuery {
-	public func execute() -> Result<Output, Error> {
-		print("print running:".blue, text)
-		return Result {
-			try Output.init(shellOutput: "Hello")
-		}
+	public func execute() throws -> Output {
+		let output = try SharedShellHelper.execute(text: text)
+		return try Output.init(shellOutput: output)
 	}
 
-	public func callAsFunction() -> Result<Output, Error> {
-		execute()
+	public func callAsFunction() throws -> Output {
+		try execute()
 	}
 }
