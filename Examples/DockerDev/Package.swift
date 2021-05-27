@@ -10,12 +10,14 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Swish", path: "../../"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
     ],
     targets: [
         .executableTarget(
             name: "DockerDev",
             dependencies: [
                 .product(name: "SwishKit", package: "Swish"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 ]),
     ]
 )

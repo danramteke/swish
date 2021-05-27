@@ -1,4 +1,5 @@
 import SwishKit
+import ArgumentParser
 
 let env = "dev"
 let networkName = "\(env)-network"
@@ -15,7 +16,7 @@ let runRedis = sh("""
 		--network \(networkName) \
 		-p 6379:6379 \
 		redis:alpine
-		""", dependsOn: [createNetwork])
+		""")
 let createPostgresVolume = sh("docker volume create \(volumeName)")
 let runPostgres = sh("""
 docker run -d --rm --name \(postgresName) \
@@ -26,29 +27,26 @@ docker run -d --rm --name \(postgresName) \
 		-p 5432:5432 \
 		--mount "source=\(postgresName),target=/var/lib/postgresql/data" \
 		postgres:12
-""", dependsOn: [createNetwork, createPostgresVolume])
+""")
 
-func isContainerRunning(_ name: String) -> String {
-	"docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
-}
-
-struct ContainerIsRunning: BooleanShellQuery {
+class ContainerIsRunning: ConcreteBooleanShellQuery {
 	let name: String
-	let interpretation: BooleanStringInterpretation = .isNotEmpty
-	var text: String {
-		"docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
+	init(name: String) {
+		self.name = name
+		let text = "docker ps -aq -f name=\(name) --format \"{{ .Names }}\""
+		super.init(text, interpretation: .equals(name))
 	}
 }
 
 let isRedisRunning = ContainerIsRunning(name: redisName)
 let isPostgresRunning = ContainerIsRunning(name: postgresName)
-let isNetworkExisting = sh("docker network -aq -f name=\(networkName) | grep -w \(networkName)", .equals(networkName))
-let isVolumeExisting = sh("docker volume -aq -f name=\(volumeName) | grep -w \(volumeName)", .equals(volumeName))
+let isNetworkExisting = sh("docker network -aq -f name=\(networkName)", .equals(networkName))
+let isVolumeExisting = sh("docker volume -aq -f name=\(volumeName)", .equals(volumeName))
 
 let teardownRedis = sh("docker rm -f \(redisName)")
 let teardownPostgres = sh("docker rm -f \(postgresName)")
-let teardownVolume = sh("docker volume rm \(volumeName)", dependsOn: [teardownPostgres])
-let teardownNetwork = sh("docker network rm \(networkName)", dependsOn: [teardownRedis, teardownPostgres])
+let teardownVolume = sh("docker volume rm \(volumeName)")
+let teardownNetwork = sh("docker network rm \(networkName)")
 
 func teardownAll() throws {
 	if try isRedisRunning() {
@@ -74,3 +72,24 @@ func setupAll() throws {
 	try runRedis()
 	try runPostgres()
 }
+
+enum Action: String, ExpressibleByArgument, CaseIterable {
+	case setup
+	case teardown
+}
+
+struct DockerDev: ParsableCommand {
+	@Argument(help: "the action. Options are: \(Action.allCases.map { $0.rawValue }.joined(separator: ", "))")
+	var action: Action
+
+	mutating func run() throws {
+		switch action {
+		case .setup:
+			try setupAll()
+		case .teardown:
+			try teardownAll()
+		}
+	}
+}
+
+DockerDev.main()
