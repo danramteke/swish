@@ -1,21 +1,14 @@
 public let SharedShellHelper = ShellHelper()
 
 public func sh(_ text: String) -> ShellCommand {
-	ConcreteShellCommand(text)
+	ConcreteShellCommand(text, shellRunner: SharedShellHelper)
 }
 
 public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> ConcreteShellQuery<T> {
-	ConcreteShellQuery<T>(text)
+	ConcreteShellQuery<T>(text, shellRunner: SharedShellHelper)
 }
 
 public func sh(_ text: String, _ interpretation: BooleanStringInterpretation) -> ConcreteBooleanShellQuery {
-	ConcreteBooleanShellQuery(text, interpretation: interpretation)
+	ConcreteBooleanShellQuery(text, interpretation: interpretation, shellRunner: SharedShellHelper)
 }
 
-public func sh(_ text: String, dependsOn commands: [Command]) -> DependentShellCommand {
-	DependentShellCommand(text, dependsOn: commands)
-}
-
-public func sh(_ text: String, dependsOn command: Command) -> DependentShellCommand {
-	DependentShellCommand(text, dependsOn: [command])
-}

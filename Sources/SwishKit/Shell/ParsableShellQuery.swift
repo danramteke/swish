@@ -1,13 +1,12 @@
 import Foundation
 
-public protocol ParsableShellQuery: Query {
-	var text: String { get }
+public protocol ParsableShellQuery: ShellRunnable, Query {
 	func parse(shellOutput: String) throws -> Output
 }
 
 extension ParsableShellQuery {
 	public func execute() throws -> Output {
-		let output = try SharedShellHelper.execute(text: text)
+		let output = try runShell()
 		return try self.parse(shellOutput: output)
 	}
 

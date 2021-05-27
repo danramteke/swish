@@ -1,12 +1,11 @@
 import Foundation
 
-public protocol ShellQuery: Query where Output: ShellOutputInitable {
-	var text: String { get }
+public protocol ShellQuery: ShellRunnable, Query where Output: ShellOutputInitable {
 }
 
 extension ShellQuery {
 	public func execute() throws -> Output {
-		let output = try SharedShellHelper.execute(text: text)
+		let output = try self.runShell()
 		return try Output.init(shellOutput: output)
 	}
 

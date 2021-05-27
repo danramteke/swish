@@ -23,5 +23,5 @@ print("scriptPath = ", scriptPath.absolute())
 
 //try sh("swift \(scriptPath)")()
 
-try ConcreteShellCommand("swift \(scriptPath)").execute()
+try ConcreteShellCommand("swift \(scriptPath)", shellRunner: SharedShellHelper).execute()
 
