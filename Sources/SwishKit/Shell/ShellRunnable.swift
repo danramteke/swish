@@ -2,7 +2,7 @@ import Foundation
 
 public protocol ShellRunnable {
 	var text: String { get }
-	var shellRunner: ShellHelper { get }
+	var shellRunner: ShellRunner { get }
 }
 
 extension ShellRunnable {

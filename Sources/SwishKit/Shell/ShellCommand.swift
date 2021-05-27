@@ -7,7 +7,7 @@ public protocol ShellCommand: Command {
 
 extension ShellCommand {
 	public func execute() throws {
-		_ = try SharedShellHelper.execute(text: text)
+		_ = try SharedShellRunner.execute(text: text)
 	}
 
 	public func callAsFunction() throws {
