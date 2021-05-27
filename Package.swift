@@ -10,7 +10,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "swish", targets: ["swish"]),
-        .library(name: "SwishKit", type: .dynamic, targets: ["SwishKit"])
+        .library(name: "SwishKit", targets: ["SwishKit"])
     ],
     dependencies: [
         .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.0.0"),
