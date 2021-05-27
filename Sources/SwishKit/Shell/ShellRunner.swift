@@ -37,17 +37,11 @@ public class ShellRunner {
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
 
-		defer {
-			try! stdoutHandle.close()
-			try! stderrHandle.close()
-		}
-
-
 		print("Running".red, runnable.text.cyan)
 
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
-		process.environment = ProcessInfo.processInfo.environment//runnable.environment
+		process.environment = combineEnvironments(base: ProcessInfo.processInfo.environment, overrides: runnable.environment)
 		process.arguments = ["-c", runnable.text]
 		process.standardOutput = stdoutHandle
 		process.standardError = stderrHandle
@@ -70,5 +64,23 @@ public class ShellRunner {
 
 	public struct NonZeroShellTermination: Error {
 		public let status: Int32
+	}
+
+	private func combineEnvironments(base maybeBase: [String: String]?, overrides maybeOverrides: [String: String]?) -> [String: String]? {
+		guard let base = maybeBase else {
+			return maybeOverrides
+		}
+
+		guard let overrides = maybeOverrides else {
+			return base
+		}
+
+		var copy = base
+
+		for pair in overrides {
+			copy[pair.key] = pair.value
+		}
+
+		return copy
 	}
 }
