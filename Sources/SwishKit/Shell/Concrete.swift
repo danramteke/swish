@@ -17,3 +17,14 @@ public struct ConcreteShellCommand: ShellCommand {
 		self.text = text
 	}
 }
+
+public struct ConcreteBooleanShellQuery: BooleanShellQuery {
+	public typealias Output = Bool
+	public let text: String
+	public let interpretation: BooleanStringInterpretation
+
+	public init(_ text: String, interpretation: BooleanStringInterpretation) {
+		self.text = text
+		self.interpretation = interpretation
+	}
+}

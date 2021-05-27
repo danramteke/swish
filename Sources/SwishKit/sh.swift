@@ -8,8 +8,8 @@ public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> Concr
 	ConcreteShellQuery<T>(text)
 }
 
-public func sh(_ text: String, _ interpretation: BooleanShellQuery.Interpretation) -> BooleanShellQuery {
-	BooleanShellQuery(text, interpretation: interpretation)
+public func sh(_ text: String, _ interpretation: BooleanStringInterpretation) -> ConcreteBooleanShellQuery {
+	ConcreteBooleanShellQuery(text, interpretation: interpretation)
 }
 
 public func sh(_ text: String, dependsOn commands: [Command]) -> DependentShellCommand {

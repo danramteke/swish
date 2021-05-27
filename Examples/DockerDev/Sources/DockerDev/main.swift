@@ -40,8 +40,8 @@ struct ContainerIsRunning: ParsableShellQuery {
 
 	typealias Output = Bool
 
-	func parse(shellOutput output: String) -> Bool {
-		!output.isEmpty
+	func parse(shellOutput: String) -> Bool {
+		!shellOutput.isEmpty
 	}
 }
 
@@ -79,4 +79,3 @@ func setupAll() throws {
 	try runRedis()
 	try runPostgres()
 }
-
