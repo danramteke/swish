@@ -5,6 +5,8 @@ public protocol BooleanShellQuery: ParsableShellQuery where Output == Bool {
 }
 
 extension BooleanShellQuery {
+	public var usesStdOut: Bool { true }
+	
 	public func parse(shellOutput: String) throws -> Output {
 		self.interpretation.interpret(shellOutput: shellOutput)
 	}
@@ -14,6 +16,7 @@ public enum BooleanStringInterpretation {
 	case isEmpty
 	case isNotEmpty
 	case equals(String)
+	case equalsTrimming(String)
 	case notEquals(String)
 
 	func interpret(shellOutput: String) -> Bool {
@@ -24,6 +27,8 @@ public enum BooleanStringInterpretation {
 			return !shellOutput.isEmpty
 		case .equals(let string):
 			return string == shellOutput
+		case .equalsTrimming(let string):
+			return string == shellOutput.trimmingCharacters(in: .whitespacesAndNewlines)
 		case .notEquals(let string):
 			return string != shellOutput
 		}

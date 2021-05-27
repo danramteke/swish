@@ -47,14 +47,15 @@ public class ShellRunner {
 		process.standardError = stderrHandle
 		try process.run()
 		process.waitUntilExit()
+
+		if try stderr.isEmpty() {
+			try stderr.delete()
+		}
+
 		if 0 != process.terminationStatus {
 			print("stdout".yellow, stdout.absolute().path)
 			print("stderr".yellow, stderr.absolute().path)
 			throw NonZeroShellTermination(status: process.terminationStatus)
-		}
-
-		if try stderr.isEmpty() {
-			try stderr.delete()
 		}
 
 		if runnable.usesStdOut {

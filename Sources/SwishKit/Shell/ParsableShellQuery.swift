@@ -5,6 +5,8 @@ public protocol ParsableShellQuery: ShellRunnable, Query {
 }
 
 extension ParsableShellQuery {
+	public var usesStdOut: Bool { true }
+	
 	public func execute() throws -> Output {
 		let output = try runShell()
 		return try self.parse(shellOutput: output)

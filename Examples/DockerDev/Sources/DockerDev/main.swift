@@ -1,7 +1,7 @@
 import SwishKit
 import ArgumentParser
 
-let env = "dev"
+let env = "DockerDev"
 let networkName = "\(env)-network"
 let volumeName = "\(env)-pgdata"
 let postgresName = "\(env)-postgres"
@@ -10,23 +10,23 @@ let redisName = "\(env)-redis"
 
 let createNetwork = sh("docker network create \(networkName)")
 let runRedis = sh("""
-		docker run -d --rm --name \(redisName) \
-		--platform linux/amd64 \
-		--network-alias \(redisName) \
-		--network \(networkName) \
-		-p 6379:6379 \
-		redis:alpine
-		""")
+docker run -d --rm --name \(redisName) \
+--platform linux/amd64 \
+--network-alias \(redisName) \
+--network \(networkName) \
+-p 6379:6379 \
+redis:alpine
+""")
 let createPostgresVolume = sh("docker volume create \(volumeName)")
 let runPostgres = sh("""
 docker run -d --rm --name \(postgresName) \
-		--platform linux/amd64 \
-		--network-alias \(postgresName) \
-		--network \(networkName) \
-		-e POSTGRES_PASSWORD=password123 \
-		-p 5432:5432 \
-		--mount "source=\(postgresName),target=/var/lib/postgresql/data" \
-		postgres:12
+--platform linux/amd64 \
+--network-alias \(postgresName) \
+--network \(networkName) \
+-e POSTGRES_PASSWORD=password123 \
+-p 5432:5432 \
+--mount "source=\(postgresName),target=/var/lib/postgresql/data" \
+postgres:12
 """)
 
 class ContainerIsRunning: ConcreteBooleanShellQuery {
@@ -34,14 +34,14 @@ class ContainerIsRunning: ConcreteBooleanShellQuery {
 	init(name: String) {
 		self.name = name
 		let text = "docker ps -aq -f name=\(name) --format \"{{ .Names }}\""
-		super.init(text, interpretation: .equals(name))
+		super.init(text, interpretation: .equalsTrimming(name))
 	}
 }
 
 let isRedisRunning = ContainerIsRunning(name: redisName)
 let isPostgresRunning = ContainerIsRunning(name: postgresName)
-let isNetworkExisting = sh("docker network ls -q -f name=\(networkName)", .equals(networkName))
-let isVolumeExisting = sh("docker volume ls -q -f name=\(volumeName)", .equals(volumeName))
+let isNetworkExisting = sh("docker network ls -q -f name=\(networkName) --format \"{{ .Name }}\"", .equalsTrimming(networkName))
+let isVolumeExisting = sh("docker volume ls -q -f name=\(volumeName) --format \"{{ .Name }}\"", .equalsTrimming(volumeName))
 
 let teardownRedis = sh("docker rm -f \(redisName)")
 let teardownPostgres = sh("docker rm -f \(postgresName)")
@@ -54,7 +54,7 @@ func teardownAll() throws {
 	}
 
 	if try isPostgresRunning() {
-		try teardownRedis()
+		try teardownPostgres()
 	}
 
 	if try isVolumeExisting() {
