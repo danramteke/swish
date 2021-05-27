@@ -32,16 +32,11 @@ func isContainerRunning(_ name: String) -> String {
 	"docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
 }
 
-struct ContainerIsRunning: ParsableShellQuery {
+struct ContainerIsRunning: BooleanShellQuery {
 	let name: String
+	let interpretation: BooleanStringInterpretation = .isNotEmpty
 	var text: String {
 		"docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
-	}
-
-	typealias Output = Bool
-
-	func parse(shellOutput: String) -> Bool {
-		!shellOutput.isEmpty
 	}
 }
 
