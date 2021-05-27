@@ -32,7 +32,7 @@ func isContainerRunning(_ name: String) -> String {
   "docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
 }
 
-struct ContainerIsRunning: ShellQuery {
+struct ContainerIsRunning: ParsableShellQuery {
 	let name: String
 	var text: String {
 		"docker ps -aq -f name=\(name) --format \"{{ .Names }}\" | grep -w \(name)"
@@ -40,15 +40,15 @@ struct ContainerIsRunning: ShellQuery {
 
 	typealias Output = Bool
 
-	func parse(output: String) -> Bool {
-		
+	func parse(shellOutput output: String) -> Bool {
+		!output.isEmpty
 	}
 }
 
-let isRedisRunning = ContainerIsRunning(redisName)
-let isPostgresRunning = BooleanShellCommand(isContainerRunning(postgresName))
-let isNetworkExisting = BooleanShellCommand("docker network -aq -f name=\(networkName) | grep -w \(networkName)", .equals(networkName))
-let isVolumeExisting = BooleanShellCommand("docker volume -aq -f name=\(volumeName) | grep -w \(volumeName)", .equals(volumeName))
+let isRedisRunning = ContainerIsRunning(name: redisName)
+let isPostgresRunning = ContainerIsRunning(name: postgresName)
+let isNetworkExisting = sh("docker network -aq -f name=\(networkName) | grep -w \(networkName)", .equals(networkName))
+let isVolumeExisting = sh("docker volume -aq -f name=\(volumeName) | grep -w \(volumeName)", .equals(volumeName))
 
 let teardownRedis = sh("docker rm -f \(redisName)")
 let teardownPostgres = sh("docker rm -f \(postgresName)")
@@ -64,7 +64,7 @@ func teardownAll() throws {
         teardownRedis()
     }
 
-    if isVolumeExisting.booleanValue {
+	if try isVolumeExisting().get() {
         teardownVolume()
     }
 }

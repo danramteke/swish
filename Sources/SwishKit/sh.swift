@@ -8,9 +8,9 @@ public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> Concr
 	ConcreteShellQuery<T>(text)
 }
 
-//public func shq<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> Result<T, Error> {
-//	ShellQuery<T>(text).execute()
-//}
+public func sh(_ text: String, _ interpretation: BooleanShellQuery.Interpretation) -> BooleanShellQuery {
+	BooleanShellQuery(text, interpretation: interpretation)
+}
 
 public func sh(_ text: String, dependsOn commands: [Command]) -> DependentShellCommand {
 	DependentShellCommand(text, dependsOn: commands)
