@@ -17,6 +17,7 @@ public enum BooleanStringInterpretation {
 	case isNotEmpty
 	case equals(String)
 	case equalsTrimming(String)
+	case contains(String)
 	case notEquals(String)
 
 	func interpret(shellOutput: String) -> Bool {
@@ -29,6 +30,8 @@ public enum BooleanStringInterpretation {
 			return string == shellOutput
 		case .equalsTrimming(let string):
 			return string == shellOutput.trimmingCharacters(in: .whitespacesAndNewlines)
+		case .contains(let string):
+			return shellOutput.contains(string)
 		case .notEquals(let string):
 			return string != shellOutput
 		}

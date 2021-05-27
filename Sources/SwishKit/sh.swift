@@ -10,5 +10,5 @@ public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) -> Concr
 }
 
 public func sh(_ text: String, _ interpretation: BooleanStringInterpretation) -> ConcreteBooleanShellQuery {
-	ConcreteBooleanShellQuery(text, interpretation: interpretation, shellRunner: SharedShellRunner)
+	ConcreteBooleanShellQuery(text, interpretation, shellRunner: SharedShellRunner)
 }

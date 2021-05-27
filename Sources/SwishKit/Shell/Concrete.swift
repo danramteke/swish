@@ -30,7 +30,7 @@ open class ConcreteBooleanShellQuery: BooleanShellQuery {
 	public let text: String
 	public let interpretation: BooleanStringInterpretation
 
-	public init(_ text: String, interpretation: BooleanStringInterpretation, shellRunner: ShellRunner = SharedShellRunner) {
+	public init(_ text: String, _ interpretation: BooleanStringInterpretation, shellRunner: ShellRunner = SharedShellRunner) {
 		self.text = text
 		self.interpretation = interpretation
 		self.shellRunner = shellRunner

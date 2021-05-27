@@ -34,7 +34,7 @@ class ContainerIsRunning: ConcreteBooleanShellQuery {
 	init(name: String) {
 		self.name = name
 		let text = "docker ps -aq -f name=\(name) --format \"{{ .Names }}\""
-		super.init(text, interpretation: .equalsTrimming(name))
+		super.init(text, .equalsTrimming(name))
 	}
 }
 
