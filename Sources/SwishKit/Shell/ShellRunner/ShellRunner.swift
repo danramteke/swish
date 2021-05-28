@@ -2,7 +2,7 @@ import Foundation
 import MPath
 
 public class ShellRunner {
-	private var logger = ShellLogger()
+	private var logger = ConsoleLogger()
 
 	public var settings: Settings = Settings() {
 		didSet {
@@ -14,8 +14,8 @@ public class ShellRunner {
 
 	public init() {}
 
-	private var count = AtomicValue(initial: 0, label: "ShellRunner.count")
-	private var isStarted = AtomicValue<Bool>(initial: false, label: "ShellRunner.isStarted")
+	private let count = AtomicValue(initial: 0, label: "ShellRunner.count")
+	private let isStarted = AtomicValue(initial: false, label: "ShellRunner.isStarted")
 
 	public func execute(runnable: ShellRunnable) throws -> ShellOutput {
 

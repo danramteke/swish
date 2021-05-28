@@ -1,7 +1,7 @@
 import Foundation
 import Rainbow
 
-class ShellLogger {
+class ConsoleLogger {
     func warnChangingSettingsAfterStart() {
         let message = "Warning, editing settings after script has started is not supported".yellow
         self.display(message)
