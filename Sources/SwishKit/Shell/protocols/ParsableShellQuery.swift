@@ -7,7 +7,7 @@ public protocol ParsableShellQuery: ShellRunnable, Query {
 extension ParsableShellQuery {
 	
 	public func execute() throws -> Output {
-        let string = try runShell().stdOutput()
+		let string = try runShell().stdOutput()
 		return try self.parse(string: string)
 	}
 

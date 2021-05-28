@@ -4,52 +4,52 @@ import Foundation
 
 public class AtomicValue<Value> {
 
-  private var _value: Value
-  private let queue: DispatchQueue 
+	private var _value: Value
+	private let queue: DispatchQueue
 
-  public init(initial: Value, label maybeLabel: String? = nil) {
-    self._value = initial
-    let queueLabel = maybeLabel ?? String(describing: Self.self)
-    self.queue = DispatchQueue(
-      label: "\(queueLabel).\(UUID().uuidString)", 
-      qos: .utility, 
-      attributes: .concurrent,
-      autoreleaseFrequency: .inherit, 
-      target: .global())
-  }
+	public init(initial: Value, label maybeLabel: String? = nil) {
+		self._value = initial
+		let queueLabel = maybeLabel ?? String(describing: Self.self)
+		self.queue = DispatchQueue(
+			label: "\(queueLabel).\(UUID().uuidString)",
+			qos: .utility,
+			attributes: .concurrent,
+			autoreleaseFrequency: .inherit,
+			target: .global())
+	}
 
-  public var value: Value {
-    get { 
-      queue.sync { _value }
-    }
-    set { 
-      queue.async(flags: .barrier) { [weak self] in 
-        self?._value = newValue
-      }
-    }
-  }
+	public var value: Value {
+		get {
+			queue.sync { _value }
+		}
+		set {
+			queue.async(flags: .barrier) { [weak self] in
+				self?._value = newValue
+			}
+		}
+	}
 }
 
 extension AtomicValue where Value == Int {
-  public func claim() -> Int { //increment, after returning currentvalue
-    queue.sync(flags: .barrier) { 
-      let current = _value
-      let next = current + 1
-      _value = next
-      return current
-    }
-  }
+	public func claim() -> Int { //increment, after returning currentvalue
+		queue.sync(flags: .barrier) {
+			let current = _value
+			let next = current + 1
+			_value = next
+			return current
+		}
+	}
 }
 
 extension AtomicValue where Value == Bool {
-    public func switchOn(block: ()->Void) {
-        queue.sync(flags: .barrier) {
-            if _value {
-                return
-            }
+	public func switchOn(block: ()->Void) {
+		queue.sync(flags: .barrier) {
+			if _value {
+				return
+			}
 
-            _value = true
-            block()
-        }
-    }
+			_value = true
+			block()
+		}
+	}
 }
