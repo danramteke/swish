@@ -44,7 +44,8 @@ public class ShellRunner {
 
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
-		process.environment = combineEnvironments(base: ProcessInfo.processInfo.environment, overrides: runnable.environment)
+		process.environment = combineEnvironments(base: ProcessInfo.processInfo.environment,
+																							overrides: runnable.environment)
 		process.arguments = ["-c", runnable.text]
 		process.standardOutput = stdoutHandle
 		process.standardError = stderrHandle
@@ -53,18 +54,6 @@ public class ShellRunner {
 
 		try stdoutHandle.close()
 		try stderrHandle.close()
-
-
-
-
-		func logStatus(for path: Path) throws -> ShellOutput.LogStatus {
-			if try path.isEmpty() {
-				try path.delete()
-				return .empty
-			} else {
-				return .present(path)
-			}
-		}
 
 		let stdoutLogStatus: ShellOutput.LogStatus = try logStatus(for: stdout)
 		let stderrLogStatus: ShellOutput.LogStatus = try logStatus(for: stderr)
@@ -84,6 +73,15 @@ public class ShellRunner {
 
 	public struct NonZeroShellTermination: Error {
 		public let status: Int32
+	}
+
+	private func logStatus(for path: Path) throws -> ShellOutput.LogStatus {
+		if try path.isEmpty() {
+			try path.delete()
+			return .empty
+		} else {
+			return .present(path)
+		}
 	}
 
 	private func combineEnvironments(base maybeBase: [String: String]?, overrides maybeOverrides: [String: String]?) -> [String: String]? {
