@@ -8,8 +8,8 @@ let postgresName = "\(env)-postgres"
 let redisName = "\(env)-redis"
 
 
-let createNetwork = sh("docker network create \(networkName)")
-let runRedis = sh("""
+let createNetwork = cmd("docker network create \(networkName)")
+let runRedis = cmd("""
 docker run -d --rm --name \(redisName) \
 --platform linux/amd64 \
 --network-alias \(redisName) \
@@ -17,8 +17,8 @@ docker run -d --rm --name \(redisName) \
 -p 6379:6379 \
 redis:alpine
 """)
-let createPostgresVolume = sh("docker volume create \(volumeName)")
-let runPostgres = sh("""
+let createPostgresVolume = cmd("docker volume create \(volumeName)")
+let runPostgres = cmd("""
 docker run -d --rm --name \(postgresName) \
 --platform linux/amd64 \
 --network-alias \(postgresName) \
@@ -38,15 +38,19 @@ class ContainerIsRunning: ConcreteBooleanShellQuery {
 	}
 }
 
-let isRedisRunning = ContainerIsRunning(name: redisName)
-let isPostgresRunning = ContainerIsRunning(name: postgresName)
-let isNetworkExisting = sh("docker network ls -q -f name=\(networkName) --format \"{{ .Name }}\"", .equalsTrimming(networkName))
-let isVolumeExisting = sh("docker volume ls -q -f name=\(volumeName) --format \"{{ .Name }}\"", .equalsTrimming(volumeName))
+func containerIsRunning(name: String) -> ConcreteBooleanShellQuery {
+	cmd("docker ps -aq -f name=\(name) --format \"{{ .Names }}\"", .equalsTrimming(name))
+}
 
-let teardownRedis = sh("docker rm -f \(redisName)")
-let teardownPostgres = sh("docker rm -f \(postgresName)")
-let teardownVolume = sh("docker volume rm \(volumeName)")
-let teardownNetwork = sh("docker network rm \(networkName)")
+let isRedisRunning = ContainerIsRunning(name: redisName)
+let isPostgresRunning = containerIsRunning(name: postgresName)
+let isNetworkExisting = cmd("docker network ls -q -f name=\(networkName) --format \"{{ .Name }}\"", .equalsTrimming(networkName))
+let isVolumeExisting = cmd("docker volume ls -q -f name=\(volumeName) --format \"{{ .Name }}\"", .equalsTrimming(volumeName))
+
+let teardownRedis = cmd("docker rm -f \(redisName)")
+let teardownPostgres = cmd("docker rm -f \(postgresName)")
+let teardownVolume = cmd("docker volume rm \(volumeName)")
+let teardownNetwork = cmd("docker network rm \(networkName)")
 
 func teardownAll() throws {
 	if try isRedisRunning() {
