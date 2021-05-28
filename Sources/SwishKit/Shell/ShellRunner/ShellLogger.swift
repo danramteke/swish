@@ -2,13 +2,14 @@ import Foundation
 import Rainbow
 
 class ShellLogger {
-    enum Theme {
-        case light, dark
+    func warnChangingSettingsAfterStart() {
+        let message = "Warning, editing settings after script has started is not supported".yellow
+        self.display(message)
     }
 
     func start(label: String, message: String) {
-        let styledLabel = label.white.bold
-        let styledMessage = message.lightWhite
+        let styledLabel = label.cyan
+        let styledMessage = message.bold
         let combined = styledLabel + " " + styledMessage
 
         self.display(combined)
@@ -16,8 +17,8 @@ class ShellLogger {
 
     func nonZeroTermination(stdout: String, stderr: String) {
         let combined =
-            "stdout".yellow + " " + stdout.lightWhite + "\n" +
-            "stderr".yellow + " " + stderr.lightWhite
+            "stdout".yellow + " " + stdout + "\n" +
+            "stderr".yellow + " " + stderr
 
         self.display(combined)
     }

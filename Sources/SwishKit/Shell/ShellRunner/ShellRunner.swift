@@ -2,34 +2,34 @@ import Foundation
 import MPath
 
 public class ShellRunner {
-    private var logger = ShellLogger()
+	private var logger = ShellLogger()
 
-    public var settings: Settings = Settings() {
-        didSet {
-            if isStarted.value {
-                fatalError("cannot edit settings after script has started")
-            }
-        }
-    }
+	public var settings: Settings = Settings() {
+		didSet {
+			if isStarted.value {
+				logger.warnChangingSettingsAfterStart()
+			}
+		}
+	}
 
 	public init() {}
 
 	private var count = AtomicValue(initial: 0, label: "ShellRunner.count")
-    private var isStarted = AtomicValue<Bool>(initial: false, label: "ShellRunner.isStarted")
+	private var isStarted = AtomicValue<Bool>(initial: false, label: "ShellRunner.isStarted")
 
 	public func execute(runnable: ShellRunnable) throws -> ShellOutput {
 
-        isStarted.switchOn {
-            if settings.isClearingPreviousLogsOnNewSession {
-                try? settings.rootLogsDirectory.delete()
-            }
-        }
+		isStarted.switchOn {
+			if settings.isClearingPreviousLogsOnNewSession {
+				try? settings.rootLogsDirectory.delete()
+			}
+		}
 
 		let count: Int = count.claim()
 
 		let logDirectoryName = [String(format: "%03d", count), runnable.label].compactMap({$0}).joined(separator: "-")
 		let logsDirectory = settings.sessionLogsDirectory + Path(logDirectoryName)
-        try logsDirectory.createDirectories()
+		try logsDirectory.createDirectories()
 
 		let stdout = logsDirectory + Path("stdout.log")
 		try stdout.createEmptyFile()
@@ -39,7 +39,7 @@ public class ShellRunner {
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
 
-        logger.start(label: "Running", message: runnable.text)
+		logger.start(label: "Running", message: runnable.text)
 
 
 		let process = Process()
@@ -51,18 +51,18 @@ public class ShellRunner {
 		try process.run()
 		process.waitUntilExit()
 
-        try stdoutHandle.close()
-        try stderrHandle.close()
+		try stdoutHandle.close()
+		try stderrHandle.close()
 
 		if 0 != process.terminationStatus {
-            logger.nonZeroTermination(stdout: stdout.absolute().path, stderr: stderr.absolute().path)
+			logger.nonZeroTermination(stdout: stdout.absolute().path, stderr: stderr.absolute().path)
 			throw NonZeroShellTermination(status: process.terminationStatus)
 		}
 
 		return ShellOutput(
 			stdOut: stdout,
-            stdErr: stderr,
-            status: process.terminationStatus
+			stdErr: stderr,
+			status: process.terminationStatus
 		)
 	}
 
