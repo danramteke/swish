@@ -53,6 +53,7 @@ let teardownVolume = cmd("docker volume rm \(volumeName)")
 let teardownNetwork = cmd("docker network rm \(networkName)")
 
 func teardownAll() throws {
+
 	if try isRedisRunning() {
 		try teardownRedis()
 	}

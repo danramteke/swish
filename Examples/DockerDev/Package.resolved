@@ -27,15 +27,6 @@
           "revision": "986d191f94cec88f6350056da59c2e59e83d1229",
           "version": "0.4.3"
         }
-      },
-      {
-        "package": "Version",
-        "repositoryURL": "https://github.com/mxcl/Version.git",
-        "state": {
-          "branch": null,
-          "revision": "200046c93f6d5d78a6d72bfd9c0b27a95e9c0a2b",
-          "version": "1.2.0"
-        }
       }
     ]
   },

@@ -2,30 +2,34 @@ import Foundation
 import MPath
 
 public class ShellRunner {
-	let rootLogsDirectory: Path
-	let sessionLogsDirectory: Path
-	public init(logsDirectory: Path, clearPreviousLogs: Bool = true) {
-		self.rootLogsDirectory = logsDirectory
-		self.sessionLogsDirectory = logsDirectory + Path(Self.dateFormatter.string(from: Date()))
+    private var logger = ShellLogger()
 
-		if clearPreviousLogs {
-			try? logsDirectory.delete()
-		}
-	}
+    public var settings: Settings = Settings() {
+        didSet {
+            if isStarted.value {
+                fatalError("cannot edit settings after script has started")
+            }
+        }
+    }
+
+	public init() {}
 
 	private var count = AtomicValue(initial: 0, label: "ShellRunner.count")
-
-	private static let dateFormatter: DateFormatter = {
-		let df = DateFormatter()
-		df.dateFormat = "YYYY-MM-dd'T'HHmmss"
-		return df
-	}()
+    private var isStarted = AtomicValue<Bool>(initial: false, label: "ShellRunner.isStarted")
 
 	public func execute(runnable: ShellRunnable) throws -> ShellOutput {
+
+        isStarted.switchOn {
+            if settings.isClearingPreviousLogsOnNewSession {
+                try? settings.rootLogsDirectory.delete()
+            }
+        }
+
 		let count: Int = count.claim()
-		try sessionLogsDirectory.createDirectories()
-		let logDirectoryName = [String(format: "%02d", count), runnable.label].compactMap({$0}).joined(separator: "-")
-		let logsDirectory = sessionLogsDirectory + Path(logDirectoryName)
+
+		let logDirectoryName = [String(format: "%03d", count), runnable.label].compactMap({$0}).joined(separator: "-")
+		let logsDirectory = settings.sessionLogsDirectory + Path(logDirectoryName)
+        try logsDirectory.createDirectories()
 
 		let stdout = logsDirectory + Path("stdout.log")
 		try stdout.createEmptyFile()
@@ -35,7 +39,8 @@ public class ShellRunner {
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
 
-		print("Running".red, runnable.text.cyan)
+        logger.start(label: "Running", message: runnable.text)
+
 
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
@@ -50,8 +55,7 @@ public class ShellRunner {
         try stderrHandle.close()
 
 		if 0 != process.terminationStatus {
-			print("stdout".yellow, stdout.absolute().path)
-			print("stderr".yellow, stderr.absolute().path)
+            logger.nonZeroTermination(stdout: stdout.absolute().path, stderr: stderr.absolute().path)
 			throw NonZeroShellTermination(status: process.terminationStatus)
 		}
 

@@ -1,5 +1,4 @@
 import Foundation
-import Rainbow
 
 public protocol ShellCommand: ShellRunnable, Command {
 	var text: String { get }

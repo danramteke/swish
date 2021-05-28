@@ -1,5 +1,5 @@
 import MPath
-public let SharedShellRunner = ShellRunner(logsDirectory: Path.current + Path(".swish/logs"))
+public let SharedShellRunner = ShellRunner()
 
 public func cmd(_ text: String) -> ShellCommand {
 	ConcreteShellCommand(text, shellRunner: SharedShellRunner)

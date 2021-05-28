@@ -32,11 +32,24 @@ public class AtomicValue<Value> {
 
 extension AtomicValue where Value == Int {
   public func claim() -> Int { //increment, after returning currentvalue
-    queue.sync { 
+    queue.sync(flags: .barrier) { 
       let current = _value
       let next = current + 1
       _value = next
       return current
     }
   }
+}
+
+extension AtomicValue where Value == Bool {
+    public func switchOn(block: ()->Void) {
+        queue.sync(flags: .barrier) {
+            if _value {
+                return
+            }
+
+            _value = true
+            block()
+        }
+    }
 }

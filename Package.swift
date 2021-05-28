@@ -26,7 +26,8 @@ let package = Package(
         .target(
             name: "SwishKit",
             dependencies: [
-              "Rainbow", "MPath",
+                "Rainbow",
+                "MPath",
             ]),
         .testTarget(
             name: "SwishKitTests",
