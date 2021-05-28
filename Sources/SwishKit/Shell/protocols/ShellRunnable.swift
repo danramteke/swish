@@ -9,6 +9,7 @@ public protocol ShellRunnable {
 }
 
 extension ShellRunnable {
+
 	public func runShell() throws -> ShellOutput {
 		try shellRunner.execute(runnable: self)
 	}
