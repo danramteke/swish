@@ -1,11 +1,4 @@
-extension Int: ShellOutputInitable {
-
-    public init(shellOutput: ShellOutput) throws {
-        try self.init(stdOutput: try shellOutput.stdOutput())
-	}
-}
-
-
+extension Int: ShellOutputInitable {}
 extension Int: StdOutputInitable {
 
     public init(stdOutput: String) throws {
