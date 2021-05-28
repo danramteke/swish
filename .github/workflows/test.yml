@@ -23,3 +23,6 @@ jobs:
 
       - name: Test
         run: swift test
+      
+      - name: "Build example: DockerDev"
+        run: swift build --package-path Examples/DockerDev
