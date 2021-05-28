@@ -21,7 +21,7 @@ public class ShellRunner {
 		return df
 	}()
 
-	public func execute(runnable: ShellRunnable) throws -> String {
+	public func execute(runnable: ShellRunnable) throws -> ShellOutput {
 		let count: Int = count.claim()
 		try sessionLogsDirectory.createDirectories()
 		let logDirectoryName = [String(format: "%02d", count), runnable.label].compactMap({$0}).joined(separator: "-")
@@ -46,9 +46,8 @@ public class ShellRunner {
 		try process.run()
 		process.waitUntilExit()
 
-		if try stderr.isEmpty() {
-			try stderr.delete()
-		}
+        try stdoutHandle.close()
+        try stderrHandle.close()
 
 		if 0 != process.terminationStatus {
 			print("stdout".yellow, stdout.absolute().path)
@@ -56,11 +55,11 @@ public class ShellRunner {
 			throw NonZeroShellTermination(status: process.terminationStatus)
 		}
 
-		if runnable.usesStdOut {
-			return try stdout.read(encoding: .utf8)
-		} else {
-			return String()
-		}
+		return ShellOutput(
+			stdOut: stdout,
+            stdErr: stderr,
+            status: process.terminationStatus
+		)
 	}
 
 	public struct NonZeroShellTermination: Error {

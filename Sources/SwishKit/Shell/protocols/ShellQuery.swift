@@ -4,7 +4,7 @@ public protocol ShellQuery: ShellRunnable, Query where Output: ShellOutputInitab
 }
 
 extension ShellQuery {
-	public var usesStdOut: Bool { true }
+
 	public func execute() throws -> Output {
 		let output = try self.runShell()
 		return try Output.init(shellOutput: output)

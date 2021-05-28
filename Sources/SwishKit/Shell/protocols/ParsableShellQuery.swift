@@ -1,15 +1,14 @@
 import Foundation
 
 public protocol ParsableShellQuery: ShellRunnable, Query {
-	func parse(shellOutput: String) throws -> Output
+	func parse(stdOutput: String) throws -> Output
 }
 
 extension ParsableShellQuery {
-	public var usesStdOut: Bool { true }
 	
 	public func execute() throws -> Output {
-		let output = try runShell()
-		return try self.parse(shellOutput: output)
+        let string = try runShell().stdOutput()
+		return try self.parse(stdOutput: string)
 	}
 
 	public func callAsFunction() throws -> Output {

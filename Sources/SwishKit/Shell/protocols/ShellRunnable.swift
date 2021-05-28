@@ -6,17 +6,13 @@ public protocol ShellRunnable {
 
 	var environment: [String: String]? { get }
 	var label: String? { get }
-
-	var usesStdOut: Bool { get }
 }
 
 extension ShellRunnable {
-	public func runShell() throws -> String {
+	public func runShell() throws -> ShellOutput {
 		try shellRunner.execute(runnable: self)
 	}
 
 	public var environment: [String: String]? { nil }
 	public var label: String? { nil }
-
-	public var usesStdOut: Bool { false }
 }
