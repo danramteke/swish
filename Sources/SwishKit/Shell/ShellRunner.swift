@@ -13,7 +13,7 @@ public class ShellRunner {
 		}
 	}
 
-	private var count = 0
+	private var count = AtomicValue(initial: 0, label: "ShellRunner.count")
 
 	private static let dateFormatter: DateFormatter = {
 		let df = DateFormatter()
@@ -22,9 +22,7 @@ public class ShellRunner {
 	}()
 
 	public func execute(runnable: ShellRunnable) throws -> String {
-		defer {
-			count += 1
-		}
+		let count: Int = count.claim()
 		try sessionLogsDirectory.createDirectories()
 		let logDirectoryName = [String(format: "%02d", count), runnable.label].compactMap({$0}).joined(separator: "-")
 		let logsDirectory = sessionLogsDirectory + Path(logDirectoryName)
