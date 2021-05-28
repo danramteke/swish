@@ -17,6 +17,13 @@ public struct ShellOutput {
 				return try path.read(encoding: .utf8)
 			}
 		}
+
+		var path: Path? {
+			switch self {
+			case .empty: return nil
+			case .present(let path): return path
+			}
+		}
 	}
 }
 

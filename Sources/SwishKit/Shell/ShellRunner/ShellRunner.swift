@@ -54,23 +54,26 @@ public class ShellRunner {
 		try stdoutHandle.close()
 		try stderrHandle.close()
 
-		if 0 != process.terminationStatus {
-			logger.nonZeroTermination(stdout: stdout.absolute().path, stderr: stderr.absolute().path)
-			throw NonZeroShellTermination(status: process.terminationStatus)
-		}
+
 
 
 		func logStatus(for path: Path) throws -> ShellOutput.LogStatus {
-			if try stdout.isEmpty() {
-				try stdout.delete()
+			if try path.isEmpty() {
+				try path.delete()
 				return .empty
 			} else {
-				return .present(stdout)
+				return .present(path)
 			}
 		}
 
 		let stdoutLogStatus: ShellOutput.LogStatus = try logStatus(for: stdout)
 		let stderrLogStatus: ShellOutput.LogStatus = try logStatus(for: stderr)
+
+		if 0 != process.terminationStatus {
+			logger.nonZeroTermination(stdout: stdoutLogStatus.path?.string,
+																stderr: stderrLogStatus.path?.string)
+			throw NonZeroShellTermination(status: process.terminationStatus)
+		}
 
 		return ShellOutput(
 			stdOut: stdoutLogStatus,

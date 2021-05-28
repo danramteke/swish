@@ -15,10 +15,10 @@ class ConsoleLogger {
 		self.display(combined)
 	}
 
-	func nonZeroTermination(stdout: String, stderr: String) {
+	func nonZeroTermination(stdout: String?, stderr: String?) {
 		let combined =
-			"stdout".yellow + " " + stdout + "\n" +
-			"stderr".yellow + " " + stderr
+			"stdout".yellow + " " + (stdout ?? "empty".italic) + "\n" +
+			"stderr".yellow + " " + (stderr ?? "empty".italic)
 
 		self.display(combined)
 	}
