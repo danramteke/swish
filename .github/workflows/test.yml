@@ -13,9 +13,7 @@ jobs:
       matrix:
         include:
           - os: macos-11.0
-            BUILD_CMD: swift build -c release
           - os: ubuntu-20.04
-            BUILD_CMD: swift build -c release -Xswiftc -static-executable 
     steps:
       - uses: actions/checkout@v2
       - uses: fwal/setup-swift@v1
