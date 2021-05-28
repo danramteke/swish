@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "MPath",
+        "repositoryURL": "https://github.com/danramteke/MPath.git",
+        "state": {
+          "branch": null,
+          "revision": "c6e93f8e4ba5415bdbb82c18a0b6d44959eeb66a",
+          "version": "0.9.7"
+        }
+      },
+      {
+        "package": "Rainbow",
+        "repositoryURL": "https://github.com/onevcat/Rainbow.git",
+        "state": {
+          "branch": null,
+          "revision": "626c3d4b6b55354b4af3aa309f998fae9b31a3d9",
+          "version": "3.2.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
