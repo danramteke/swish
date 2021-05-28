@@ -11,15 +11,15 @@ struct IconFilename {
   }
 
   private var head: String {
-    "Icon-\(app.filename)-"
+    "Icon-\(app.name)-"
   }
 
   private var body: String {
-    switch size.data.scale {
+    switch size.scale {
     case .one:
-      return "\(size.data.pixelWidth)"
+      return "\(size.pixelWidth)"
     case .two, .three:
-      return "\(size.data.pixelWidth)-\(size.data.baseWidth)\(size.data.scale.suffix)"
+      return "\(size.pixelWidth)-\(size.baseWidth)\(size.scale.suffix)"
     }
   }
 }

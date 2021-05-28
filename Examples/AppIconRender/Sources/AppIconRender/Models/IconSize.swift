@@ -12,11 +12,19 @@ enum IconSize: CaseIterable {
   case iPadPro2x
   case AppStore
 
-  var edge: Decimal {
+  var pixelWidth: Decimal {
     self.data.pixelWidth
   }
 
-  var data: Data {
+  var scale: IconScale {
+    self.data.scale
+  }
+
+  var baseWidth: Decimal {
+    self.data.baseWidth
+  }
+
+  private var data: Data {
     switch self {
       case .iPhoneNotification2x: return .iPhoneNotification2x
       case .iPhoneNotification3x: return .iPhoneNotification3x
@@ -39,7 +47,7 @@ enum IconSize: CaseIterable {
     }
   }
 
-  struct Data {
+  private struct Data {
     let baseWidth: Decimal
     let scale: IconScale
 
@@ -64,12 +72,9 @@ enum IconSize: CaseIterable {
 
     var pixelWidth: Decimal {
       switch scale {
-        case .one:
-          return baseWidth
-        case .two:
-          return baseWidth * 2
-        case .three:
-          return baseWidth * 3
+      case .one: return baseWidth
+      case .two: return baseWidth * 2
+      case .three: return baseWidth * 3
       }
     }
 
@@ -79,4 +84,3 @@ enum IconSize: CaseIterable {
     }
   }  
 }
-

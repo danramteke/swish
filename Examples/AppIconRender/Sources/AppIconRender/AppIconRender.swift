@@ -2,13 +2,13 @@ import ArgumentParser
 
 struct AppIconRender: ParsableCommand {
     @Argument(help: "which action to run. Available actions: \(ActionID.allCases.map { $0.rawValue }.joined(separator: ", "))")
-    var action: ActionID
+    var actionID: ActionID
 
     @Flag(name: .shortAndLong, help: "run the task, even if its requirements imply it doesn't need to run")
     var force: Bool = false
 
     func run() throws {
-        action.run(force: force)
+        actionID.run(force: force)
     }
 }
 

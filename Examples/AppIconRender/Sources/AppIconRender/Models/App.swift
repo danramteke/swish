@@ -2,7 +2,7 @@ enum App {
     case appstore
     case alpha
 
-    var filename: String {
+    var name: String {
         switch self {
             case .appstore: return "AppStore"
             case .alpha: return "Alpha"
