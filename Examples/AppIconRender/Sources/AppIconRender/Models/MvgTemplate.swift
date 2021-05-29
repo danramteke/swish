@@ -30,13 +30,13 @@ struct MvgTemplate {
         push graphic-context
             viewbox 0 0 \(edge) \(edge)
             push graphic-context
-                fill \(backgroundColor)
+                fill '\(backgroundColor)'
                 rectangle 0,0 \(edge),\(edge)
             pop graphic-context
 
             push graphic-context
-                fill \(foregroundColor)
-                path \(path) 
+                fill '\(foregroundColor)'
+                path '\(path)'
             pop graphic-context
         pop graphic-context
         """
@@ -56,8 +56,8 @@ extension Array where Element == Point {
     }
 
     let firstPoint = self.first!.asImageMagickPoint
-    let otherPoints = self.dropFirst().map { $0.asImageMagickPoint }.joined(separator: " ")
+    let linesToOtherPoints = self.dropFirst().map { "L" + $0.asImageMagickPoint }.joined(separator: " ")
 
-    return "M\(firstPoint) L\(otherPoints)" 
+    return "M\(firstPoint) \(linesToOtherPoints) Z" 
   }
 }
