@@ -15,4 +15,7 @@ A task runner written in swift
 ## usage
 
 
-swish
+## Development
+
+    docker run --rm -it  -v `pwd`:`pwd` -w `pwd` --platform linux/amd64 swift:5.4.1-focal
+    apt-get update && apt-get install -y imagemagick
