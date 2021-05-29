@@ -1,8 +1,7 @@
 import MPath
 import SwishKit
 
-
-struct IconsAction: Action {
+struct IconsAction: FileAction {
     let id: ActionID = .icons
     var inputs: [Path] { filenames.map { Path($0.mvg) } }
     var outputs: [Path] { filenames.map { Path($0.png) } }

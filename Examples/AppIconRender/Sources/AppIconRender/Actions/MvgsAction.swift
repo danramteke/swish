@@ -1,6 +1,6 @@
 import MPath
 
-struct MvgsAction: Action {
+struct MvgsAction: FileAction {
 
     let id: ActionID = .mvgs
     let inputs: [Path] = []

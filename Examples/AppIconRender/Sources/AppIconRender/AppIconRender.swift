@@ -8,13 +8,20 @@ struct AppIconRender: ParsableCommand {
     var force: Bool = false
 
     func run() throws {
-        try actionID.execute(force: force)
+        try Resolver().go(action: actionID.action)
+        // try actionID.execute(force: force)
     }
 }
 
 struct Resolver {
     func go(action: Action) throws {
+        try action.dependsOn.forEach {
+            try go(action: $0.action)
+        }
 
+        if action.isNeeded {
+            try action.execute()
+        }
     }
 }
 
@@ -25,7 +32,22 @@ enum ActionID: String, CaseIterable, ExpressibleByArgument {
     case render // render icons and alpha
     case clean // clean rendered files
 
-    func execute(force: Bool) throws {
+    var action: Action {
+        switch self {
+        case .mvgs:
+            return MvgsAction()
+        case .icons:
+            return IconsAction()
+        case .alpha:
+            return AlphaAction()
+        case .render:
+            return RenderAction()
+        case .clean:
+            return CleanAction()
+        }
+    }
+
+    private func execute(force: Bool) throws {
         switch self {
         case .mvgs:
             try MvgsAction().execute()
