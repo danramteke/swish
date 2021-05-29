@@ -23,7 +23,6 @@ struct MvgsAction: Action {
     func execute() throws {
         try Config.mvgRendersDirectory.createDirectories()
 
-        let filenames = IconFilename.allFilenames(for: app)
         for filename in filenames {
             let renderedTemplate = MvgTemplate(edge: filename.size.baseWidth).render()
             try renderedTemplate.write(to: renderPath(for: filename))

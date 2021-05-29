@@ -11,9 +11,9 @@ struct MvgTemplate {
         let factor: Decimal = edge/Decimal(512)
         self.points = [   
             Point(70,70),
-            Point(134,70),
-            Point(134,134),
-            Point(70,134),
+            Point(234,70),
+            Point(334,334),
+            Point(70,234),
         ].map { $0.scaled(by: factor) }
     }
 
@@ -45,7 +45,7 @@ struct MvgTemplate {
 
 extension Point {
   var asImageMagickPoint: String {
-    return "\(self.x),\(self.y)"
+    "\(self.x),\(self.y)"
   }
 }
 

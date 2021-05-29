@@ -28,6 +28,8 @@ enum ActionID: String, CaseIterable, ExpressibleByArgument {
         switch self {
         case .mvgs:
             try MvgsAction().execute()
+        case .icons:
+            try IconsAction().execute()
         case .clean:
             try CleanAction().execute()
         default:
