@@ -8,6 +8,7 @@ public protocol ActionID {
 }
 
 public extension ActionID {
+
 	func resolve(force: Bool) throws {
 		let action = self.action
 		try action.dependsOn.forEach {
