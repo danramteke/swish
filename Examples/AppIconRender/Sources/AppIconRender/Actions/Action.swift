@@ -20,9 +20,26 @@ protocol FileAction: Action {
 	var outputs: [Path] { get }
 }
 
+struct Resolver {
+    func go(action: Action) throws {
+        try action.dependsOn.forEach {
+            try go(action: $0.action)
+        }
+
+        if action.isNeeded {
+            try action.execute()
+        } else {
+            print("Skipping \(action.id), not needed".red)
+        }
+    }
+}
+
 extension FileAction {
 	var isNeeded: Bool {
 		do {
+			guard outputs.allExist else {
+				return true
+			}
 			guard let maxInputDate = try inputs.map({ try $0.modificationDate() }).max() else {
 				return true
 			}
@@ -30,7 +47,11 @@ extension FileAction {
 				return true
 			}
 
-			return maxInputDate < minOutputDate
+			guard maxInputDate < minOutputDate else {
+				return true
+			}
+
+			return false
 		} catch {
 			print("error getting isNeeded for \(id.rawValue)", error)
 			return true

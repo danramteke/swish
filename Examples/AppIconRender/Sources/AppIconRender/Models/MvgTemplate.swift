@@ -12,7 +12,7 @@ struct MvgTemplate {
         self.points = [   
             Point(70,70),
             Point(234,70),
-            Point(334,334),
+            Point(234,234),
             Point(70,234),
         ].map { $0.scaled(by: factor) }
     }

@@ -3,8 +3,8 @@ import SwishKit
 
 struct IconsAction: FileAction {
     let id: ActionID = .icons
-    var inputs: [Path] { filenames.map { Path($0.mvg) } }
-    var outputs: [Path] { filenames.map { Path($0.png) } }
+    var inputs: [Path] { filenames.map { Config.mvgRendersDirectory + Path($0.mvg) } }
+    var outputs: [Path] { filenames.map { Config.appStoreIconRendersDirectory + Path($0.png) } }
 
     var filenames: [IconFilename] {
         IconFilename.allFilenames(for: .appstore)

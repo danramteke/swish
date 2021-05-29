@@ -16,9 +16,11 @@ struct MvgsAction: FileAction {
         Config.mvgRendersDirectory + Path(filename.mvg)
     }
 
-
-
     var dependsOn: [ActionID] { [] }
+
+    var isNeeded: Bool {
+        !outputs.allExist
+    }
 
     func execute() throws {
         try Config.mvgRendersDirectory.createDirectories()

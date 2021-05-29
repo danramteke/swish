@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.0.0"),
-        .package(url: "https://github.com/danramteke/MPath.git", from: "0.9.7"),
+        .package(url: "https://github.com/danramteke/MPath.git", from: "0.9.8"),
     ],
     targets: [
         .executableTarget(
