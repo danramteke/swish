@@ -1,12 +1,12 @@
 import Foundation
 import MPath
 
-public protocol FileAction: Action {
+public protocol FileTarget: Target {
 	var inputs: [Path] { get }
 	var outputs: [Path] { get }
 }
 
-public extension FileAction {
+public extension FileTarget {
 	var isNeeded: Bool {
 		do {
 			guard outputs.allExist else {
