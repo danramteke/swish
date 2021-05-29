@@ -1,11 +1,11 @@
-extension RawRepresentable where RawValue == String {
+extension ShellOutputInitable where Self: RawRepresentable, RawValue == String, Self: StdOutputInitable {
 
 	public init(shellOutput: ShellOutput) throws {
 		try self.init(stdOutput: try shellOutput.stdOutput())
 	}
 }
 
-extension RawRepresentable where RawValue == String {
+extension StdOutputInitable where Self: RawRepresentable, RawValue == String {
 
 	public init(stdOutput: String) throws {
 		let trimmedOutput = stdOutput.trimmingCharacters(in: .whitespacesAndNewlines)
