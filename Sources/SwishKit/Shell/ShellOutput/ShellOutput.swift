@@ -1,6 +1,7 @@
 import MPath
 
 public struct ShellOutput {
+	public let cmdOut: Path
 	public let stdOut: ShellOutput.LogStatus
 	public let stdErr: ShellOutput.LogStatus
 	public let status: Int32

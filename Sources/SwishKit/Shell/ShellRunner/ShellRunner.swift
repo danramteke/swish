@@ -2,7 +2,7 @@ import Foundation
 import MPath
 
 public class ShellRunner {
-	private var logger = ConsoleLogger()
+	lazy var logger = ConsoleLogger(isQuiet: settings.isQuietLogging)
 
 	public var settings: Settings = Settings() {
 		didSet {
@@ -35,6 +35,8 @@ public class ShellRunner {
 		try stdout.createEmptyFile()
 		let stderr = logsDirectory + Path("stderr.log")
 		try stderr.createEmptyFile()
+		let cmdout = logsDirectory + Path("cmd.log")
+		try cmdout.write(runnable.text, encoding: .utf8)
 
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
@@ -59,12 +61,14 @@ public class ShellRunner {
 		let stderrLogStatus: ShellOutput.LogStatus = try logStatus(for: stderr)
 
 		if 0 != process.terminationStatus {
-			logger.nonZeroTermination(stdout: stdoutLogStatus.path?.string,
+			logger.nonZeroTermination(cmd: runnable.text,
+																stdout: stdoutLogStatus.path?.string,
 																stderr: stderrLogStatus.path?.string)
 			throw NonZeroShellTermination(status: process.terminationStatus)
 		}
 
 		return ShellOutput(
+			cmdOut: cmdout,
 			stdOut: stdoutLogStatus,
 			stdErr: stderrLogStatus,
 			status: process.terminationStatus
