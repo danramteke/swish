@@ -1,8 +1,8 @@
 import MPath
+import SwishKit
 
 struct MvgsAction: FileAction {
 
-    let id: ActionID = .mvgs
     let inputs: [Path] = []
     var outputs: [Path] {
         filenames.map(renderPath(for:))
@@ -16,7 +16,7 @@ struct MvgsAction: FileAction {
         Config.mvgRendersDirectory + Path(filename.mvg)
     }
 
-    var dependsOn: [ActionID] { [] }
+    var dependsOn: [AppIconRenderActionID] { [] }
 
     var isNeeded: Bool {
         !outputs.allExist

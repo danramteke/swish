@@ -1,8 +1,9 @@
 import ArgumentParser
+import SwishKit
 
 struct AppIconRender: ParsableCommand {
-    @Argument(help: "which action to run. Available actions: \(ActionID.allCases.map { $0.rawValue }.joined(separator: ", "))")
-    var actionID: ActionID
+    @Argument(help: "which action to run. Available actions: \(AppIconRenderActionID.allCases.map { $0.rawValue }.joined(separator: ", "))")
+    var actionID: AppIconRenderActionID
 
     @Flag(name: .shortAndLong, help: "run the task, even if its requirements imply it doesn't need to run")
     var force: Bool = false
@@ -12,7 +13,7 @@ struct AppIconRender: ParsableCommand {
     }
 }
 
-enum ActionID: String, CaseIterable, ExpressibleByArgument {
+enum AppIconRenderActionID: String, CaseIterable, ExpressibleByArgument, ActionID {
     case mvgs // render mvgs - text-based scripts that ImageMagick can read to render images 
     case icons // render the mvgs to pngs
     case alpha // duplicate the app icons, and place an alpha water mark on them

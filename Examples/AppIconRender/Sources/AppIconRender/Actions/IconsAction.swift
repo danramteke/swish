@@ -2,7 +2,7 @@ import MPath
 import SwishKit
 
 struct IconsAction: FileAction {
-    let id: ActionID = .icons
+
     var inputs: [Path] { filenames.map { Config.mvgRendersDirectory + Path($0.mvg) } }
     var outputs: [Path] { filenames.map { Config.appStoreIconRendersDirectory + Path($0.png) } }
 
@@ -10,7 +10,7 @@ struct IconsAction: FileAction {
         IconFilename.allFilenames(for: .appstore)
     }
 
-    var dependsOn: [ActionID] { [.mvgs] }
+    var dependsOn: [AppIconRenderActionID] { [.mvgs] }
 
     func execute() throws {
         try Config.appStoreIconRendersDirectory.createDirectories()
