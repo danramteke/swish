@@ -1,4 +1,4 @@
- push graphic-context
+push graphic-context
   viewbox 0 0 512 512
   push graphic-context
     fill 'black'
@@ -6,7 +6,7 @@
   pop graphic-context
 
   push graphic-context
-    fill 'white'
+    fill 'blue'
      path 'M70,70 L134,70 L134,134 L70,134 Z' 
   pop graphic-context
 pop graphic-context

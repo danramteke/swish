@@ -8,20 +8,30 @@ struct AppIconRender: ParsableCommand {
     var force: Bool = false
 
     func run() throws {
-        actionID.run(force: force)
+        try actionID.run(force: force)
     }
 }
 
 enum ActionID: String, CaseIterable, ExpressibleByArgument {
-    case icons // render the mvg to app icon sizes
+    case mvgs // render mvgs - text-based scripts that ImageMagick can read to render images 
+    case icons // render the mvgs to pngs
     case alpha // duplicate the app icons, and place an alpha water mark on them
     case render // render icons and alpha
     case clean // clean rendered files
     
-    func run(force: Bool) {
+    func run(force: Bool) throws {
         print("running", self.rawValue)
         if force {
             print("with force")
+        }
+
+        switch self {
+        case .mvgs:
+            try MvgsAction().execute()
+        case .clean:
+            try CleanAction().execute()
+        default:
+            print("not yet implemented")
         }
     }
 }
