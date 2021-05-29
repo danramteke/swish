@@ -26,6 +26,4 @@ public extension ActionID where Self: RawRepresentable, RawValue == String {
 	var name: String {
 		String(describing: Self.self) + rawValue
 	}
-
-
 }

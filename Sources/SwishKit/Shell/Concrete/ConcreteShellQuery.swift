@@ -1,5 +1,3 @@
-import Foundation
-
 open class ConcreteShellQuery<T: ShellOutputInitable>: ShellQuery {
 
 	public typealias Output = T

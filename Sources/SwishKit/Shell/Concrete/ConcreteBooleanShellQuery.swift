@@ -1,4 +1,3 @@
-
 open class ConcreteBooleanShellQuery: BooleanShellQuery {
 	public let shellRunner: ShellRunner
 
