@@ -8,7 +8,13 @@ struct AppIconRender: ParsableCommand {
     var force: Bool = false
 
     func run() throws {
-        try actionID.run(force: force)
+        try actionID.execute(force: force)
+    }
+}
+
+struct Resolver {
+    func go(action: Action) throws {
+
     }
 }
 
@@ -18,22 +24,19 @@ enum ActionID: String, CaseIterable, ExpressibleByArgument {
     case alpha // duplicate the app icons, and place an alpha water mark on them
     case render // render icons and alpha
     case clean // clean rendered files
-    
-    func run(force: Bool) throws {
-        print("running", self.rawValue)
-        if force {
-            print("with force")
-        }
 
+    func execute(force: Bool) throws {
         switch self {
         case .mvgs:
             try MvgsAction().execute()
         case .icons:
             try IconsAction().execute()
+        case .alpha:
+            try AlphaAction().execute()
+        case .render:
+            try RenderAction().execute()
         case .clean:
             try CleanAction().execute()
-        default:
-            print("not yet implemented")
         }
     }
 }
