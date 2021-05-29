@@ -9,14 +9,14 @@ struct MvgsAction: Action {
     }
 
     var filenames: [IconFilename] {
-        IconFilename.allFilenames(for: app)
+        IconFilename.allFilenames(for: .appstore)
     }
 
     func renderPath(for filename: IconFilename) -> Path {
         Config.mvgRendersDirectory + Path(filename.mvg)
     }
 
-    let app: App = .appstore
+
 
     var dependsOn: [ActionID] { [] }
 

@@ -4,27 +4,21 @@ import SwishKit
 
 struct IconsAction: Action {
     let id: ActionID = .icons
-    let inputs: [Path] = MvgsAction().outputs
-    var outputs: [Path] {
-        inputs.map(outputPath(for:))
+    var inputs: [Path] { filenames.map { Path($0.mvg) } }
+    var outputs: [Path] { filenames.map { Path($0.png) } }
+
+    var filenames: [IconFilename] {
+        IconFilename.allFilenames(for: .appstore)
     }
-
-    func outputPath(for inputPath: Path) -> Path {
-        let components = inputPath.components
-            
-        let newFilename = String(components.last!.split(separator: ".")[0]) + ".png"
-
-        return Path("/") + Path(components: components.dropLast()) + Path(newFilename)
-    }
-
-    let app: App = .appstore
 
     var dependsOn: [ActionID] { [.mvgs] }
 
     func execute() throws {
-        for input in inputs {
-            let outputPath = self.outputPath(for: input)
-            try sh("convert mvg:\(input.path) \(outputPath.path)")
+        try Config.appStoreIconRendersDirectory.createDirectories()
+        for filename in filenames {
+            let input = Config.mvgRendersDirectory + Path(filename.mvg)
+            let output = Config.appStoreIconRendersDirectory + Path(filename.png)
+            try sh("convert mvg:\(input.path) \(output.path)")
         }
     }
 }
