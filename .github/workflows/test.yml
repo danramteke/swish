@@ -24,3 +24,6 @@ jobs:
       
       - name: "Build example: DockerDev"
         run: swift build --package-path Examples/DockerDev
+
+      - name: "Build example: AppIconRender"
+        run: swift build --package-path Examples/AppIconRender
