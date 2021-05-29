@@ -8,8 +8,7 @@ struct AppIconRender: ParsableCommand {
     var force: Bool = false
 
     func run() throws {
-        try Resolver().go(action: actionID.action)
-        // try actionID.execute(force: force)
+        try actionID.action.resolve(force: force)
     }
 }
 

@@ -8,30 +8,29 @@ protocol Action {
 	var isNeeded: Bool { get }
 
 	func execute() throws
+
+	func resolve(force: Bool) throws
 }
 
 extension Action {
 	var dependsOn: [ActionID] { [] }
 	var isNeeded: Bool { true }
+	func resolve(force: Bool) throws {
+		try self.dependsOn.forEach {
+			try $0.action.resolve(force: force)
+		}
+
+    if self.isNeeded || force {
+			try self.execute()
+    } else {
+    	//print("Skipping \(self.id), not needed".red)
+    }
+	}
 }
 
 protocol FileAction: Action {
 	var inputs: [Path] { get }
 	var outputs: [Path] { get }
-}
-
-struct Resolver {
-    func go(action: Action) throws {
-        try action.dependsOn.forEach {
-            try go(action: $0.action)
-        }
-
-        if action.isNeeded {
-            try action.execute()
-        } else {
-            print("Skipping \(action.id), not needed".red)
-        }
-    }
 }
 
 extension FileAction {
