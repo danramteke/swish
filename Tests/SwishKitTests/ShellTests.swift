@@ -26,7 +26,7 @@ class ShellTests: XCTestCase {
 	}
 
 	func testParsingReturnValues() throws {
-		XCTAssertEqual(11, try sh("echo -n 'example' | wc -c"))
-		XCTAssertEqual(11, try sh("echo -n 'example' | wc -c", as: Int.self))
+		XCTAssertEqual(7, try sh("echo 'example' | xargs echo -n |  wc -c", as: Int.self))
+		XCTAssertEqual(7, try sh("echo 'example' | xargs echo -n |  wc -c"))
 	}
 }
