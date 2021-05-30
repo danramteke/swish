@@ -24,4 +24,9 @@ class ShellTests: XCTestCase {
 		let stdout = try sh("EXAMPLE=example; echo $EXAMPLE", as: String.self)
 		XCTAssertEqual(stdout, "example")
 	}
+
+	func testParsingReturnValues() throws {
+		XCTAssertEqual(11, try sh("echo -n 'example' | wc -c"))
+		XCTAssertEqual(11, try sh("echo -n 'example' | wc -c", as: Int.self))
+	}
 }

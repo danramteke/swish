@@ -18,6 +18,10 @@ public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type) throws -
 	try cmd(text, as: type).execute()
 }
 
+public func sh<T: ShellOutputInitable>(_ text: String) throws -> T {
+	try cmd(text, as: T.self).execute()
+}
+
 public func cmd(_ text: String, _ interpretation: BooleanStringInterpretation) -> ConcreteBooleanShellQuery {
 	ConcreteBooleanShellQuery(text, interpretation, shellRunner: SharedShellRunner)
 }
