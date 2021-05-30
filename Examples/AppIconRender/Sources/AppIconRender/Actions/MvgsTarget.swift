@@ -1,7 +1,7 @@
 import MPath
 import SwishKit
 
-struct MvgsAction: FileAction {
+struct MvgsTarget: FileTarget {
 
     let inputs: [Path] = []
     var outputs: [Path] {

@@ -1,5 +1,5 @@
 import SwishKit
-struct AllAction: Action {
+struct AllTarget: Target {
 
     var dependsOn: [AppIconRenderActionID] {
         [.icons, .alpha]

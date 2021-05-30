@@ -13,25 +13,25 @@ struct AppIconRender: ParsableCommand {
     }
 }
 
-enum AppIconRenderActionID: String, CaseIterable, ExpressibleByArgument, ActionID {
+enum AppIconRenderActionID: String, CaseIterable, ExpressibleByArgument, TargetID {
     case mvgs // render mvgs - text-based scripts that ImageMagick can read to render images 
     case icons // render the mvgs to pngs
     case alpha // duplicate the app icons, and place an alpha water mark on them
     case all // render icons and alpha
     case clean // clean rendered files
 
-    var action: Action {
+    var target: Target {
         switch self {
         case .mvgs:
-            return MvgsAction()
+            return MvgsTarget()
         case .icons:
-            return IconsAction()
+            return IconsTarget()
         case .alpha:
-            return AlphaAction()
+            return AlphaTarget()
         case .all:
-            return AllAction()
+            return AllTarget()
         case .clean:
-            return CleanAction()
+            return CleanTarget()
         }
     }
 }

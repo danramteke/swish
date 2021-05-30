@@ -1,5 +1,6 @@
 import SwishKit
-struct CleanAction: Action {
+
+struct CleanTarget: Target {
 
     func execute() throws {
         if Config.rootRendersDirectory.exists {
