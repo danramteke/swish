@@ -10,8 +10,4 @@ extension ParsableShellQuery {
 		let string = try runShell().stdOutput()
 		return try self.parse(string: string)
 	}
-
-	public func callAsFunction() throws -> Output {
-		try execute()
-	}
 }

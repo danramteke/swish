@@ -43,6 +43,59 @@ There are two example projects in the `Examples` folder
 ## Usage
 
 - Create a swift package with your scripts models and logic, importing `SwishKit`.
+- use `sh` to create a command and execute it immediately. (e.g. `let gitRoot: Path = try sh("git rev-parse --show-toplevel")`)
+- use `cmd` to create a command, and save it for later. This can be useful when setting up longer scripts. For example:
+
+```
+let name = "Example"
+let checkIfExampleIsRunning = cmd("docker ps -aq -f name=\(name) --format \"{{ .Names }}\"", .equalsTrimming(name))`
+```
+
+You can then compose these building blocks into your own script. For example, we can compose a function to check if a docker container named `name` is currently running:
+
+```
+func containerIsRunning(name: String) -> ConcreteBooleanShellQuery {
+  cmd("docker ps -aq -f name=\(name) --format \"{{ .Names }}\"", .equalsTrimming(name))
+}
+```
+and it would be used like this: `let isExampleRunning: Bool = containerIsRunning(name: "example").execute()`
+
+Or we can subclass `ConcreteBooleanShellQuery` to achieve the same thing: 
+
+```
+class ContainerIsRunning: ConcreteBooleanShellQuery {
+  let name: String
+  init(name: String) {
+    self.name = name
+    let text = "docker ps -aq -f name=\(name) --format \"{{ .Names }}\""
+    super.init(text, .equalsTrimming(name))
+  }
+}
+```
+which would be used like `let isExampleRunning: Bool = ContainerIsRunning(name: "Example").execute()`
+
+### Callable as function
+
+All `Command`s and `Query`s implement Swift's `callAsFunction()`, which simply delegates to `execute`. This can aid slightly in readability. Consider 
+
+```
+let startExampleContainer = cmd("docker run -d -p 8080:80 --name Example example/example:1.0")
+let checkIfExampleIsRunning = containerIsRunning(name: "Example")
+// ...
+if !checkIfExampleIsRunning() {
+    startExampleContainer()
+}
+```
+
+## Architecture
+
+There are two things you typically do with a shell. Run `Command`s and ask `Query`s. An example of a `Command` might be `xcodebuild ...`, where we aren't necessarily concerned about the output, just if it passes or fails. An example of a `Query` might be `git status --porcelain`, where we are going to parse the output and do something with it. A second kind of query might be a `BooleanShellQuery` where we translate the output of `git status --porcelain` into a boolean value: whether or not the git working copy is clean, in this example.
+
+The `sh` and `cmd` helpers reference the `SharedShellRunner` global object, which provides context to the shell invocations, such as where to write the logs.
+
+
+Not everything you want to needs to be done as a shell command. For example, you may want to use [Alamofire](https://github.com/Alamofire/Alamofire.git) instead of shelling out to `curl`. Just make your type adhere to `Command` or `Query` if needed.
+
 
 
 ## Development

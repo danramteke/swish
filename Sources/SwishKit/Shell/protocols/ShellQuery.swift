@@ -9,8 +9,4 @@ extension ShellQuery {
 		let output = try self.runShell()
 		return try Output.init(shellOutput: output)
 	}
-
-	public func callAsFunction() throws -> Output {
-		try execute()
-	}
 }

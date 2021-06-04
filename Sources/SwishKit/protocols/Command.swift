@@ -1,3 +1,9 @@
 public protocol Command {
-	func execute() throws
+	func execute() throws  
+}
+
+public extension Command {
+    func callAsFunction() throws {
+        try execute()
+    }
 }
