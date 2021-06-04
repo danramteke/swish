@@ -1,47 +1,38 @@
 import Foundation
-import Rainbow
+import Logging
 
 class ConsoleLogger {
-	let isQuiet: Bool
-	init(isQuiet: Bool) {
-		self.isQuiet = isQuiet
-	}
+    let logger = Logger(label: "ShellRunner")
 
-	func warnChangingSettingsAfterStart() {
-		let message = "Warning, editing settings after script has started is not supported".yellow
-		self.display(message)
-	}
+    let isQuiet: Bool
+    init(isQuiet: Bool) {
 
-	func start(label: String, message: String) {
-		if isQuiet { return }
+        self.isQuiet = isQuiet
+    }
 
-		let styledLabel = label.cyan
-		let styledMessage = message.bold
-		let combined = styledLabel + " " + styledMessage
+    func warnChangingSettingsAfterStart() {
+        let message: Logger.Message = "[Warning] editing settings after script has started is not supported"
+        logger.warning(message)
+    }
 
-		self.display(combined)
-	}
+    func start(label: String, message: String) {
+        if isQuiet { return }
 
-	func nonZeroTermination(cmd: String, stdout: String?, stderr: String?) {
-		let combined =
-			"non-zero termination of:\n" +
-			"\(cmd)\n" +
-			"stdout".yellow + " " + (stdout ?? "empty".italic) + "\n" +
-			"stderr".yellow + " " + (stderr ?? "empty".italic)
+        let styledLabel = "[\(label)]"
+        let styledMessage = "$ \(label)"
+        let message: Logger.Message = "\(styledLabel) \(styledMessage)"
 
-		self.display(combined)
-	}
+        logger.info(message)
+    }
 
-	private func display(_ string: String) {
-		queue.async {
-			print(string)
-		}
-	}
+    func nonZeroTermination(cmd: String, stdout: String?, stderr: String?) {
 
-	private let queue = DispatchQueue(
-		label: "ShellLogger.\(UUID().uuidString)",
-		qos: .utility,
-		attributes: [],
-		autoreleaseFrequency: .inherit,
-		target: .global())
+        let label = "[non-zero termination]"
+        let cmdLine = "$ \(cmd)"
+        let stdoutLine = "(stdout)" + " " + (stdout ?? "<empty>")
+        let stderrLine = "(stderr)" + " " + (stderr ?? "<empty>")
+
+        let message: Logger.Message = "\(label)\n\(cmdLine)\n\(stdoutLine)\n\(stderrLine)"
+        logger.error(message)
+    }
 }

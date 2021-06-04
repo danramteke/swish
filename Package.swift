@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "SwishKit", targets: ["SwishKit"])
     ],
     dependencies: [
-        .package(url: "https://github.com/onevcat/Rainbow.git", from: "3.0.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.2"),
         .package(url: "https://github.com/danramteke/MPath.git", from: "0.9.8"),
     ],
     targets: [
@@ -21,15 +21,19 @@ let package = Package(
             dependencies: [
                 "SwishKit",
                 "MPath",
+                .product(name: "Logging", package: "swift-log"),
             ]),
         .target(
             name: "SwishKit",
             dependencies: [
-                "Rainbow",
                 "MPath",
+                .product(name: "Logging", package: "swift-log"),
             ]),
         .testTarget(
             name: "SwishKitTests",
-            dependencies: ["SwishKit"]),
+            dependencies: [
+                "SwishKit",
+                .product(name: "Logging", package: "swift-log"),
+            ]),
     ]
 )
