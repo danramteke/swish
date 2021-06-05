@@ -1,5 +1,6 @@
 import ArgumentParser
 import MPath
+import Foundation
 import SwishKit
 
 struct AppStore: ParsableCommand {
@@ -12,16 +13,27 @@ struct AppStore: ParsableCommand {
     var tmpDir: Path { projectDir + "tmp/swish" }
     
     var archivePath: Path { tmpDir + "ExampleApp.xcarchive" }
-    var xcodeprojPath: Path { projectDir + Path("ExampleApp.xcodeproj" }
-    var exportOptionsPath: Path { tmpDir + "appstore-export-options.plist"}
+    var xcodeprojPath: Path { projectDir + "ExampleApp.xcodeproj" }
+    var exportOptionsPath: Path { tmpDir + "appstore-export-options.plist" }
+    var altoolUsername: String!
+    var altoolPassword: String!
 
     mutating func run() throws {
-        // try printIntro()
+        loadAppstoreCredentials()
         try makeTmpDir()
         try archive()
         try writeExportOptions()
         try exportArchive()
-        // try uploadArchive()
+        try uploadArchive()
+    }
+
+    mutating func loadAppstoreCredentials() {
+        guard let username = ProcessInfo.processInfo.environment["ALTOOL_USERNAME"],
+        let password = ProcessInfo.processInfo.environment["ALTOOL_PASSWORD"] else {
+            fatalError("supply appstore uploader credentials in `ALTOOL_USERNAME` & `ALTOOL_PASSWORD`")
+        }
+        self.altoolUsername = username
+        self.altoolPassword = password
     }
 
     var makeTmpDir: Command {
@@ -48,7 +60,7 @@ struct AppStore: ParsableCommand {
 
         let exportOptions = ExportOptions(teamID: self.appDevelopmentTeam)
         let plistData = try PropertyListEncoder().encode(exportOptions)
-        try plistData.write(to: expor
+        try plistData.write(to: exportOptionsPath)
     }
 
     var exportArchive: Command {
@@ -57,8 +69,15 @@ struct AppStore: ParsableCommand {
             -exportOptionsPlist \(exportOptionsPath) \
             -exportPath \(tmpDir) \
             -allowProvisioningUpdates -allowProvisioningDeviceRegistration
-          """
+          """)
     }
 
+    var uploadArchive: Command {
+        cmd("""
+          xcrun altool --upload-app -t ios \
+            -f \(tmpDir)/ExampleApp.ipa \
+            -u \(altoolUsername) -p @env:ALTOOL_PASSWORD
+        """
+    }
 }
 
