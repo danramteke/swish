@@ -5,3 +5,5 @@ Packages
 .swish
 .idea
 .swiftpm
+tmp
+.tmp
