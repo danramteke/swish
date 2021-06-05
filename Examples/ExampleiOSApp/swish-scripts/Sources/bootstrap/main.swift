@@ -1,0 +1,1 @@
+BootstrapCommand.main()

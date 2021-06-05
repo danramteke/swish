@@ -1,0 +1,56 @@
+name: "ExampleApp"
+options:
+  deploymentTarget:
+    iOS: "14.0"
+targets:
+  ExampleApp:
+    type: application
+    sources: 
+      - path: ExampleApp
+    platform: iOS
+    settings:
+      DEVELOPMENT_TEAM: ${APP_DEVELOPMENT_TEAM}
+      CODE_SIGN_STYLE: Automatic
+      ORGANIZATIONNAME: "Swish Example"
+      PRODUCT_BUNDLE_IDENTIFIER: swish.example.app
+      TARGETED_DEVICE_FAMILY: 1,2
+      VERSIONING_SYSTEM: apple-generic
+      SWIFT_VERSION: 5.4
+      CURRENT_PROJECT_VERSION: ${APP_BUILD_NUMBER}
+    info:
+      path: ExampleApp/Info.plist
+      properties:
+        CFBundleVersion: ${APP_BUILD_NUMBER}
+        CFBundleShortVersionString: ${APP_BUILD_VERSION}
+        CFBundleDevelopmentRegion: en
+        CFBundleDisplayName: Example
+        ITSAppUsesNonExemptEncryption: false
+        LSRequiresIPhoneOS: true
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+        UIApplicationSupportsIndirectInputEvents: true
+        UILaunchScreen: {}
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+        UIRequiredDeviceCapabilities: [armv7]
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+  ExampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    dependencies:
+      - target: ExampleApp
+    sources: 
+      - path: ExampleTests
+    info:
+      path: ExampleTests/Info.plist
+      properties:
+        CFBundleVersion: ${APP_BUILD_NUMBER}
+        CFBundleShortVersionString: ${APP_BUILD_VERSION}
+        CFBundleDevelopmentRegion: en
+        CFBundleSignature: "????"
