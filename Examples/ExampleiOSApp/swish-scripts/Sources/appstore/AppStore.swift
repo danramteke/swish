@@ -5,7 +5,7 @@ import SwishKit
 
 struct AppStore: ParsableCommand {
     @Argument(help: "Project directory")
-    var projectDir: Path
+    var projectDir: Path = Path.current
 
     var appDevelopmentTeam: String = "EXAMPLE1"
   
@@ -42,7 +42,7 @@ struct AppStore: ParsableCommand {
 
     var archive: Command {
         cmd("""
-            xcodebuild -project \(xcodeprojPath) -scheme \(scheme) \
+            xcrun xcodebuild -project \(xcodeprojPath) -scheme \(scheme) \
                 -sdk iphoneos \
                 archive -archivePath \(archivePath) \
                 -allowProvisioningUpdates -allowProvisioningDeviceRegistration  
@@ -65,7 +65,7 @@ struct AppStore: ParsableCommand {
 
     var exportArchive: Command {
         cmd("""
-          xcodebuild -exportArchive -archivePath \(archivePath) \
+          xcrun xcodebuild -exportArchive -archivePath \(archivePath) \
             -exportOptionsPlist \(exportOptionsPath) \
             -exportPath \(tmpDir) \
             -allowProvisioningUpdates -allowProvisioningDeviceRegistration
@@ -76,8 +76,8 @@ struct AppStore: ParsableCommand {
         cmd("""
           xcrun altool --upload-app -t ios \
             -f \(tmpDir)/ExampleApp.ipa \
-            -u \(altoolUsername) -p @env:ALTOOL_PASSWORD
-        """
+            -u \(altoolUsername!) -p @env:ALTOOL_PASSWORD
+        """)
     }
 }
 

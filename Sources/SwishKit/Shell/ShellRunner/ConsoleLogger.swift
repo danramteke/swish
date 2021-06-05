@@ -19,7 +19,7 @@ class ConsoleLogger {
         if isQuiet { return }
 
         let styledLabel = "[\(label)]"
-        let styledMessage = "$ \(label)"
+        let styledMessage = "$ \(message)"
         let message: Logger.Message = "\(styledLabel) \(styledMessage)"
 
         logger.info(message)

@@ -19,7 +19,7 @@ jobs:
       - uses: fwal/setup-swift@v1
       - run: swift --version   
 
-      - name: Test
+      - name: Swish Tests
         run: swift test
       
       - name: "Build example: DockerDev"
@@ -27,3 +27,6 @@ jobs:
 
       - name: "Build example: AppIconRender"
         run: swift build --package-path Examples/AppIconRender
+
+      - name: "Build example: Example iOS App"
+        run: swift build --package-path Examples/ExampleiOSApp

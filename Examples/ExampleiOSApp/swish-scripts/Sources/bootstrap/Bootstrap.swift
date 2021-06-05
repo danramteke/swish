@@ -5,7 +5,7 @@ import SwishKit
 struct Bootstrap: ParsableCommand {
 
     @Argument(help: "Project directory")
-    var projectDir: Path
+    var projectDir: Path = Path.current
 
     var appDevelopmentTeam: String = "EXAMPLE1"
     var appBuildVersion: String = "1.0"
