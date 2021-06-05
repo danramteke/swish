@@ -98,7 +98,7 @@ struct DockerDev: ParsableCommand {
 
 	mutating func run() throws {
 		try action.run()
-		print("Success".green)
+		print("Success")
 	}
 }
 
