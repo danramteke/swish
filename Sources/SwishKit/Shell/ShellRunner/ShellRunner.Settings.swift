@@ -10,7 +10,7 @@ extension ShellRunner {
 		let sessionStartDate: Date = Date()
 
 		public init(isClearingPreviousLogsOnNewSession: Bool = true,
-								rootLogsDirectory: Path = Path.current + Path(".swish/logs"),
+								rootLogsDirectory: Path = Path.current + Path("tmp/logs"),
 								isQuietLogging: Bool = false
 		) {
 			self.isClearingPreviousLogsOnNewSession = isClearingPreviousLogsOnNewSession
