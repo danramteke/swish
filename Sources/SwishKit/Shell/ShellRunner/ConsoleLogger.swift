@@ -2,7 +2,7 @@ import Foundation
 import Logging
 
 class ConsoleLogger {
-    let logger = Logger(label: "ShellRunner")
+    let logger = Logger(label: "Swish")
 
     let isQuiet: Bool
     init(isQuiet: Bool) {
