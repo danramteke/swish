@@ -9,7 +9,7 @@ struct AppIconRender: ParsableCommand {
 	var force: Bool = false
 
 	func run() throws {
-		try actionID.resolve(force: force)
+		try resolve(actionID, force: force)
 	}
 }
 
@@ -34,8 +34,8 @@ enum AppIconRenderActionID: String, CaseIterable, ExpressibleByArgument, TargetI
 		case .clean:
 			return []
 		}
-
 	}
+
 	var target: Target {
 		switch self {
 		case .mvgs:

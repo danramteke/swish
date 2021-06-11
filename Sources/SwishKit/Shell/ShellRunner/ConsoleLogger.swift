@@ -35,4 +35,13 @@ class ConsoleLogger {
 		let message: Logger.Message = "\(label)\n\(cmdLine)\n\(stdoutLine)\n\(stderrLine)"
 		logger.error(message)
 	}
+
+	func startResolution(of targetName: String, dependsOn: [String]) {
+		let dependsOnJoined = dependsOn.joined(separator: ", ")
+		logger.info("Resolving: \(targetName), depends on: \(dependsOnJoined)")
+	}
+
+	func skipping(_ targetName: String) {
+		logger.info("Skipping \(targetName), not needed")
+	}
 }

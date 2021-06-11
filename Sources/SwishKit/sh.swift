@@ -8,7 +8,6 @@ Provides a global Shell Runner so that `cmd` and `sh` are easily usable from you
 These global `cmd` and `sh` functions delegate to the global SharedShellRunner. To customize the behavior, instantiate your own `ShellRunner`, or set the settings on the `SharedShellRunner`
 */
 
-public var SwishLogger = Logger(label: "Swish")
 public let SharedShellRunner = ShellRunner()
 
 public func cmd(_ text: String, env: [String: String]? = nil) -> ShellCommand {
@@ -37,4 +36,8 @@ public func cmd(_ text: String, _ interpretation: BooleanStringInterpretation, e
 
 public func sh(_ text: String, _ interpretation: BooleanStringInterpretation, env: [String: String]? = nil) throws -> Bool {
 	try SharedShellRunner.sh(text, interpretation, env: env)
+}
+
+public func resolve<T: TargetID>(_ targetID: T, force: Bool) throws {
+	try SharedShellRunner.resolve(targetID, force: force)
 }
