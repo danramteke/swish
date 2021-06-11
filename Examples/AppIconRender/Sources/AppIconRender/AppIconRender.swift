@@ -36,7 +36,7 @@ enum AppIconRenderTarget: String, CaseIterable, ExpressibleByArgument, Target {
 		}
 	}
 
-	var command: RequirableCommand {
+	var command: Command? {
 		switch self {
 		case .mvgs:
 			return MvgsCommand()
@@ -45,7 +45,7 @@ enum AppIconRenderTarget: String, CaseIterable, ExpressibleByArgument, Target {
 		case .alpha:
 			return AlphaCommand()
 		case .all:
-			return AllCommand()
+			return nil
 		case .clean:
 			return CleanCommand()
 		}

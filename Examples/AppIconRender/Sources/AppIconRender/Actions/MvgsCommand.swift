@@ -1,7 +1,7 @@
 import MPath
 import SwishKit
 
-struct MvgsCommand: FileRequiringCommand {
+struct MvgsCommand: Command {
 
     let inputs: [Path] = []
     var outputs: [Path] {
@@ -19,6 +19,12 @@ struct MvgsCommand: FileRequiringCommand {
     var isNeeded: Bool {
         !outputs.allExist
     }
+
+  init?() {
+    guard isNeeded else {
+      return nil
+    }
+  }
 
     func execute() throws {
         try Config.mvgRendersDirectory.createDirectories()

@@ -49,10 +49,10 @@ class ConsoleLogger {
 	}
 
 	func skipping(_ targetName: String) {
-		logger.info("Skipping \(targetName), not needed")
+		logger.info("Nothing to run for \(targetName). Skipping.")
 	}
 
 	func alreadyResolved(_ targetName: String) {
-		logger.debug("Already resolved \(targetName). Skipping")
+		logger.debug("Already resolved \(targetName). Skipping.")
 	}
 }

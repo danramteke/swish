@@ -1,7 +1,7 @@
 import MPath
 import SwishKit
 
-struct IconsCommand: FileRequiringCommand {
+struct IconsCommand: Command {
 
     var inputs: [Path] { filenames.map { Config.mvgRendersDirectory + Path($0.mvg) } }
     var outputs: [Path] { filenames.map { Config.appStoreIconRendersDirectory + Path($0.png) } }
@@ -9,6 +9,12 @@ struct IconsCommand: FileRequiringCommand {
     var filenames: [IconFilename] {
         IconFilename.allFilenames(for: .appstore)
     }
+
+  init?() {
+    guard FileModifiedHelper(inputs: inputs, outputs: outputs).isOutdated() else {
+      return nil
+    }
+  }
 
     func execute() throws {
         try Config.appStoreIconRendersDirectory.createDirectories()

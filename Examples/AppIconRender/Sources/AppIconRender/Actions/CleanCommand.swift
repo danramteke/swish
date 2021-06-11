@@ -1,10 +1,13 @@
 import SwishKit
 
-struct CleanCommand: RequirableCommand {
-
-    func execute() throws {
-        if Config.rootRendersDirectory.exists {
-            try Config.rootRendersDirectory.delete()
-        }
+struct CleanCommand: Command {
+  init?() {
+    guard Config.rootRendersDirectory.exists else {
+      return nil
     }
+  }
+  
+  func execute() throws {
+    try Config.rootRendersDirectory.delete()
+  }
 }

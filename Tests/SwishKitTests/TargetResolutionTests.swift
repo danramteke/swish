@@ -56,7 +56,7 @@ private enum MyTarget: String, Target {
 		}
 	}
 
-	var command: RequirableCommand {
+	var command: Command? {
 		switch self {
 		case .a: return TargetA()
 		case .b: return TargetB()
@@ -65,16 +65,16 @@ private enum MyTarget: String, Target {
 		}
 	}
 
-	struct TargetA: RequirableCommand {
+	struct TargetA: Command {
 		func execute() throws { }
 	}
-	struct TargetB: RequirableCommand {
+	struct TargetB: Command {
 		func execute() throws { }
 	}
-	struct TargetC: RequirableCommand {
+	struct TargetC: Command {
 		func execute() throws { }
 	}
-	struct TargetD: RequirableCommand {
+	struct TargetD: Command {
 		func execute() throws { }
 	}
 }
