@@ -1,21 +1,22 @@
 import Foundation
 import MPath
+import Logging
 
 extension ShellRunner {
 	public struct Settings {
 
 		public let isClearingPreviousLogsOnNewSession: Bool
 		public let rootLogsDirectory: Path
-		public let isQuietLogging: Bool
+		public let logLevel: Logging.Logger.Level
 		let sessionStartDate: Date = Date()
 
 		public init(isClearingPreviousLogsOnNewSession: Bool = true,
 								rootLogsDirectory: Path = Path.current + Path("tmp/logs"),
-								isQuietLogging: Bool = false
+								logLevel: Logging.Logger.Level = .debug
 		) {
 			self.isClearingPreviousLogsOnNewSession = isClearingPreviousLogsOnNewSession
 			self.rootLogsDirectory = rootLogsDirectory
-			self.isQuietLogging = isQuietLogging
+			self.logLevel = logLevel
 		}
 
 		var sessionLogsDirectory: Path {

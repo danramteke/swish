@@ -2,37 +2,37 @@ import Foundation
 import Logging
 
 class ConsoleLogger {
-    let logger = Logger(label: "Swish")
+	let logger: Logger
 
-    let isQuiet: Bool
-    init(isQuiet: Bool) {
+	init(logLevel: Logging.Logger.Level) {
+		var logger = Logger(label: "Swish")
+		logger.logLevel = logLevel
 
-        self.isQuiet = isQuiet
-    }
+		self.logger = logger
+	}
 
-    func warnChangingSettingsAfterStart() {
-        let message: Logger.Message = "[Warning] editing settings after script has started is not supported"
-        logger.warning(message)
-    }
+	func warnChangingSettingsAfterStart() {
+		let message: Logger.Message = "[Warning] editing settings after script has started is not supported"
+		logger.warning(message)
+	}
 
-    func start(label: String, message: String) {
-        if isQuiet { return }
+	func start(label: String, message: String) {
 
-        let styledLabel = "[\(label)]"
-        let styledMessage = "$ \(message)"
-        let message: Logger.Message = "\(styledLabel) \(styledMessage)"
+		let styledLabel = "[\(label)]"
+		let styledMessage = "$ \(message)"
+		let message: Logger.Message = "\(styledLabel) \(styledMessage)"
 
-        logger.info(message)
-    }
+		logger.info(message)
+	}
 
-    func nonZeroTermination(cmd: String, stdout: String?, stderr: String?) {
+	func nonZeroTermination(cmd: String, stdout: String?, stderr: String?) {
 
-        let label = "[non-zero termination]"
-        let cmdLine = "$ \(cmd)"
-        let stdoutLine = "(stdout)" + " " + (stdout ?? "<empty>")
-        let stderrLine = "(stderr)" + " " + (stderr ?? "<empty>")
+		let label = "[non-zero termination]"
+		let cmdLine = "$ \(cmd)"
+		let stdoutLine = "(stdout)" + " " + (stdout ?? "<empty>")
+		let stderrLine = "(stderr)" + " " + (stderr ?? "<empty>")
 
-        let message: Logger.Message = "\(label)\n\(cmdLine)\n\(stdoutLine)\n\(stderrLine)"
-        logger.error(message)
-    }
+		let message: Logger.Message = "\(label)\n\(cmdLine)\n\(stdoutLine)\n\(stderrLine)"
+		logger.error(message)
+	}
 }

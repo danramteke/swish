@@ -16,7 +16,7 @@ let package = Package(
   ],
   targets: [
     .executableTarget(name: "bootstrap", 
-        dependencies: [
+        dependencies: 
             .product(name: "SwishKit", package: "Swish"),
             .product(name: "ArgumentParser", package: "swift-argument-parser")]),
     .executableTarget(name: "appstore", 

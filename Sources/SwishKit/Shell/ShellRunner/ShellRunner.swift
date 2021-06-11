@@ -2,7 +2,7 @@ import Foundation
 import MPath
 
 public class ShellRunner {
-	lazy var logger = ConsoleLogger(isQuiet: settings.isQuietLogging)
+	lazy var logger = ConsoleLogger(logLevel: settings.logLevel)
 
 	public var settings: Settings = Settings() {
 		didSet {

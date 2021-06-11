@@ -1,31 +1,38 @@
 import MPath
 
+/**
+
+Provides a global Shell Runner so that `cmd` and `sh` are easily usable from your code.
+
+These global `cmd` and `sh` functions delegate to the global SharedShellRunner. To customize the behavior, instantiate your own `ShellRunner`, or set the settings on the `SharedShellRunner`
+*/
+
 public let SharedShellRunner = ShellRunner()
 
 public func cmd(_ text: String, env: [String: String]? = nil) -> ShellCommand {
-	ConcreteShellCommand(text, environment: env, shellRunner: SharedShellRunner)
+	SharedShellRunner.cmd(text, env: env)
 }
 
 public func sh(_ text: String, env: [String: String]? = nil) throws {
-	try cmd(text, env: env).execute()
+	try SharedShellRunner.sh(text, env: env)
 }
 
 public func cmd<T: ShellOutputInitable>(_ text: String, as type: T.Type, env: [String: String]? = nil) -> ConcreteShellQuery<T> {
-	ConcreteShellQuery<T>(text, environment: env, shellRunner: SharedShellRunner)
+	SharedShellRunner.cmd(text, as: type, env: env)
 }
 
 public func sh<T: ShellOutputInitable>(_ text: String, as type: T.Type, env: [String: String]? = nil) throws -> T {
-	try cmd(text, as: type, env: env).execute()
+	try SharedShellRunner.sh(text, as: type, env: env)
 }
 
 public func sh<T: ShellOutputInitable>(_ text: String, env: [String: String]? = nil) throws -> T {
-	try cmd(text, as: T.self, env: env).execute()
+	try SharedShellRunner.sh(text, env: env)
 }
 
 public func cmd(_ text: String, _ interpretation: BooleanStringInterpretation, env: [String: String]? = nil) -> ConcreteBooleanShellQuery {
-	ConcreteBooleanShellQuery(text, interpretation, environment: env, shellRunner: SharedShellRunner)
+	SharedShellRunner.cmd(text, interpretation, env: env)
 }
 
 public func sh(_ text: String, _ interpretation: BooleanStringInterpretation, env: [String: String]? = nil) throws -> Bool {
-	try cmd(text, interpretation, env: env).execute()
+	try SharedShellRunner.sh(text, interpretation, env: env)
 }
