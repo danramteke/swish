@@ -10,8 +10,6 @@ struct IconsTarget: FileTarget {
         IconFilename.allFilenames(for: .appstore)
     }
 
-    var dependsOn: [AppIconRenderActionID] { [.mvgs] }
-
     func execute() throws {
         try Config.appStoreIconRendersDirectory.createDirectories()
         for filename in filenames {

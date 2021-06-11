@@ -1,24 +1,29 @@
 import Foundation
+import Logging
 
 public protocol TargetID {
-	var target: Target { get }
 	var name: String { get }
+	var target: Target { get }
 
+	var dependsOn: [Self] { get }
 	func resolve(force: Bool) throws
 }
 
 public extension TargetID {
 
 	func resolve(force: Bool) throws {
-		let target = self.target
-		try target.dependsOn.forEach {
-			try $0.resolve(force: force)
+
+		SwishLogger.info("Resolving: \(self), depends on: \(self.dependsOn)")
+
+		for dependentTargetId in self.dependsOn {
+			try dependentTargetId.resolve(force: force)
 		}
 
+		let target = self.target
 		if target.isNeeded || force {
 			try target.execute()
 		} else {
-			//print("Skipping \(self.id), not needed".red)
+			SwishLogger.info("Skipping \(self), not needed")
 		}
 	}
 }

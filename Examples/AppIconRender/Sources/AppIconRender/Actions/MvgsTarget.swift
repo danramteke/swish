@@ -16,8 +16,6 @@ struct MvgsTarget: FileTarget {
         Config.mvgRendersDirectory + Path(filename.mvg)
     }
 
-    var dependsOn: [AppIconRenderActionID] { [] }
-
     var isNeeded: Bool {
         !outputs.allExist
     }
