@@ -25,7 +25,7 @@ public extension FileRequiringCommand {
 
 			return false
 		} catch {
-			print("error getting `isNeeded` for \(self)", error)
+			fatalError("error getting `isNeeded` for \(self)", error)
 			return true
 		}
 	}
