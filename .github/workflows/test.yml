@@ -31,7 +31,7 @@ jobs:
 
       - run: brew install imagemagick
       - name: "Run example: AppIconRender"
-        run: swift run --package-path Examples/AppIconRender all
+        run: swift run --package-path Examples/AppIconRender AppIconRender all
       
 
       - name: "Build example: Example iOS App"
