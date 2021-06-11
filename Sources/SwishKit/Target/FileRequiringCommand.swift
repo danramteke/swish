@@ -1,13 +1,13 @@
 import Foundation
 import MPath
 
-public protocol FileTarget: Target {
+public protocol FileRequiringCommand: RequirableCommand {
 	var inputs: [Path] { get }
 	var outputs: [Path] { get }
 }
 
-public extension FileTarget {
-	var isNeeded: Bool {
+public extension FileRequiringCommand {
+	var isRequired: Bool {
 		do {
 			guard outputs.allExist else {
 				return true

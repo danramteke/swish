@@ -2,7 +2,7 @@ import Foundation
 
 extension ShellRunner {
 
-	public func resolve<T: TargetID>(_ targetID: T, force: Bool = false) throws {
+	public func resolve<T: Target>(_ targetID: T, force: Bool = false) throws {
 
 		if resolutionLog.contains(targetID.id) {
 			self.logger.alreadyResolved(targetID.id)
@@ -15,8 +15,8 @@ extension ShellRunner {
 			try self.resolve(dependentTargetId, force: force)
 		}
 
-		let target = targetID.target
-		if target.isNeeded || force {
+		let target = targetID.command
+		if target.isRequired || force {
 			try target.execute()
 			self.resolutionLog.append(targetID.id)
 		} else {

@@ -13,7 +13,7 @@ final class TargetResolutionTests: XCTestCase {
 	}
 
 	func testResolvesA() throws {
-			try runner.resolve(MyTargetID.a)
+			try runner.resolve(MyTarget.a)
 			XCTAssertEqual(runner.resolutionLog, [
 											"MyTargetID.d",
 											"MyTargetID.c",
@@ -22,7 +22,7 @@ final class TargetResolutionTests: XCTestCase {
 	}
 
 	func testResolvesB() throws {
-		try runner.resolve(MyTargetID.b)
+		try runner.resolve(MyTarget.b)
 		XCTAssertEqual(runner.resolutionLog, [
 										"MyTargetID.d",
 										"MyTargetID.c",
@@ -30,17 +30,17 @@ final class TargetResolutionTests: XCTestCase {
 	}
 
 	func testResolvesC() throws {
-		try runner.resolve(MyTargetID.c)
+		try runner.resolve(MyTarget.c)
 		XCTAssertEqual(runner.resolutionLog, ["MyTargetID.d", "MyTargetID.c"])
 	}
 
 	func testResolvesD() throws {
-			try runner.resolve(MyTargetID.d)
+			try runner.resolve(MyTarget.d)
 			XCTAssertEqual(runner.resolutionLog, ["MyTargetID.d"])
 	}
 }
 
-private enum MyTargetID: String, TargetID {
+private enum MyTarget: String, Target {
 	case a, b, c, d
 
 	var dependsOn: [Self] {
@@ -56,7 +56,7 @@ private enum MyTargetID: String, TargetID {
 		}
 	}
 
-	var target: Target {
+	var command: RequirableCommand {
 		switch self {
 		case .a: return TargetA()
 		case .b: return TargetB()
@@ -65,16 +65,16 @@ private enum MyTargetID: String, TargetID {
 		}
 	}
 
-	struct TargetA: Target {
+	struct TargetA: RequirableCommand {
 		func execute() throws { }
 	}
-	struct TargetB: Target {
+	struct TargetB: RequirableCommand {
 		func execute() throws { }
 	}
-	struct TargetC: Target {
+	struct TargetC: RequirableCommand {
 		func execute() throws { }
 	}
-	struct TargetD: Target {
+	struct TargetD: RequirableCommand {
 		func execute() throws { }
 	}
 }

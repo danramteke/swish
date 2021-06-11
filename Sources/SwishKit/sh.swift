@@ -38,6 +38,6 @@ public func sh(_ text: String, _ interpretation: BooleanStringInterpretation, en
 	try SharedShellRunner.sh(text, interpretation, env: env)
 }
 
-public func resolve<T: TargetID>(_ targetID: T, force: Bool) throws {
+public func resolve<T: Target>(_ targetID: T, force: Bool) throws {
 	try SharedShellRunner.resolve(targetID, force: force)
 }
