@@ -58,7 +58,7 @@ private enum MyTarget: String, Target {
 
 	var command: Command? {
 		switch self {
-		case .a: return TargetA()
+		case .a: return nil
 		case .b: return TargetB()
 		case .c: return TargetC()
 		case .d: return TargetD()

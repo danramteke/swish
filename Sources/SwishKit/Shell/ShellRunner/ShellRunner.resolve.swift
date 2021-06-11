@@ -21,12 +21,13 @@ extension ShellRunner {
 	}
 
 	private func runCommand<T: Target>(of target: T, force: Bool) throws {
-    guard let command = target.command else {
+    if let command = target.command {
+      self.logger.running(target.id)
+      try command.execute()
+    } else {
       self.logger.skipping(target.id)
-      return
     }
-    self.logger.running(target.id)
-    try command.execute()
+
     self.resolutionLog.append(target.id)
 	}
 }
