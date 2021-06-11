@@ -15,28 +15,28 @@ final class TargetResolutionTests: XCTestCase {
 	func testResolvesA() throws {
 			try runner.resolve(MyTarget.a)
 			XCTAssertEqual(runner.resolutionLog, [
-											"MyTargetID.d",
-											"MyTargetID.c",
-											"MyTargetID.b",
-											"MyTargetID.a"])
+											"MyTarget.d",
+											"MyTarget.c",
+											"MyTarget.b",
+											"MyTarget.a"])
 	}
 
 	func testResolvesB() throws {
 		try runner.resolve(MyTarget.b)
 		XCTAssertEqual(runner.resolutionLog, [
-										"MyTargetID.d",
-										"MyTargetID.c",
-										"MyTargetID.b"])
+										"MyTarget.d",
+										"MyTarget.c",
+										"MyTarget.b"])
 	}
 
 	func testResolvesC() throws {
 		try runner.resolve(MyTarget.c)
-		XCTAssertEqual(runner.resolutionLog, ["MyTargetID.d", "MyTargetID.c"])
+		XCTAssertEqual(runner.resolutionLog, ["MyTarget.d", "MyTarget.c"])
 	}
 
 	func testResolvesD() throws {
 			try runner.resolve(MyTarget.d)
-			XCTAssertEqual(runner.resolutionLog, ["MyTargetID.d"])
+			XCTAssertEqual(runner.resolutionLog, ["MyTarget.d"])
 	}
 }
 

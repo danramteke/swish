@@ -36,9 +36,16 @@ class ConsoleLogger {
 		logger.error(message)
 	}
 
+
+	//-----------------------
+	// target resolution logging
 	func startResolution(of targetName: String, dependsOn: [String]) {
 		let dependsOnJoined = dependsOn.joined(separator: ", ")
 		logger.info("Resolving: \(targetName), depends on: \(dependsOnJoined)")
+	}
+
+	func running(_ targetName: String) {
+		logger.info("Running \(targetName)")
 	}
 
 	func skipping(_ targetName: String) {

@@ -2,25 +2,32 @@ import Foundation
 
 extension ShellRunner {
 
-	public func resolve<T: Target>(_ targetID: T, force: Bool = false) throws {
+	public func resolve<T: Target>(_ target: T, force: Bool = false) throws {
 
-		if resolutionLog.contains(targetID.id) {
-			self.logger.alreadyResolved(targetID.id)
+		if resolutionLog.contains(target.id) {
+			self.logger.alreadyResolved(target.id)
 			return
 		}
 
-		self.logger.startResolution(of: targetID.id, dependsOn: targetID.dependsOn.map { $0.id })
+		try self.runDependencies(of: target, force: force)
+		try self.runCommand(of: target, force: force)
+	}
 
-		for dependentTargetId in targetID.dependsOn {
+	private func runDependencies<T: Target>(of target: T, force: Bool) throws {
+		self.logger.startResolution(of: target.id, dependsOn: target.dependsOn.map { $0.id })
+		for dependentTargetId in target.dependsOn {
 			try self.resolve(dependentTargetId, force: force)
 		}
+	}
 
-		let target = targetID.command
-		if target.isRequired || force {
-			try target.execute()
-			self.resolutionLog.append(targetID.id)
+	private func runCommand<T: Target>(of target: T, force: Bool) throws {
+		let command = target.command
+		if command.isRequired || force {
+			self.logger.running(target.id)
+			try command.execute()
+			self.resolutionLog.append(target.id)
 		} else {
-			self.logger.skipping(targetID.id)
+			self.logger.skipping(target.id)
 		}
 	}
 }
