@@ -13,7 +13,7 @@ public struct ShellOutput {
 		public func read() throws -> String {
 			switch self {
 			case .empty:
-				throw TriedToReadOutputFileWhenThereWasNoOutput()
+				return ""
 			case .present(let path):
 				return try path.read(encoding: .utf8)
 			}
@@ -37,5 +37,3 @@ extension ShellOutput {
 		try stdErr.read()
 	}
 }
-
-struct TriedToReadOutputFileWhenThereWasNoOutput: Error { }
