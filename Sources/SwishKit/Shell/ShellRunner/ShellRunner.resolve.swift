@@ -2,7 +2,12 @@ import Foundation
 
 extension ShellRunner {
 
-	public func resolve<T: TargetID>(_ targetID: T, force: Bool) throws {
+	public func resolve<T: TargetID>(_ targetID: T, force: Bool = false) throws {
+
+		if resolutionLog.contains(targetID.name) {
+			self.logger.alreadyResolved(targetID.name)
+			return
+		}
 
 		self.logger.startResolution(of: targetID.name, dependsOn: targetID.dependsOn.map { $0.name })
 
@@ -13,6 +18,7 @@ extension ShellRunner {
 		let target = targetID.target
 		if target.isNeeded || force {
 			try target.execute()
+			self.resolutionLog.append(targetID.name)
 		} else {
 			self.logger.skipping(targetID.name)
 		}

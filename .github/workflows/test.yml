@@ -25,8 +25,14 @@ jobs:
       - name: "Build example: DockerDev"
         run: swift build --package-path Examples/DockerDev
 
+      
       - name: "Build example: AppIconRender"
         run: swift build --package-path Examples/AppIconRender
+
+      - run: brew install imagemagick
+      - name: "Run example: AppIconRender"
+        run: swift run --package-path Examples/AppIconRender all
+      
 
       - name: "Build example: Example iOS App"
         run: swift build --package-path Examples/ExampleiOSApp

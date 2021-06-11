@@ -14,6 +14,13 @@ public class ShellRunner {
 
 	public init() {}
 
+	convenience init(settings: Settings) {
+		self.init()
+		self.settings = settings
+	}
+
+	var resolutionLog: [String] = []
+
 	private let count = AtomicValue(initial: 0, label: "ShellRunner.count")
 	private let isStarted = AtomicValue(initial: false, label: "ShellRunner.isStarted")
 

@@ -12,6 +12,6 @@ public protocol TargetID {
 public extension TargetID where Self: RawRepresentable, RawValue == String {
 
 	var name: String {
-		String(describing: Self.self) + rawValue
+		String(describing: Self.self) + "." + rawValue
 	}
 }
