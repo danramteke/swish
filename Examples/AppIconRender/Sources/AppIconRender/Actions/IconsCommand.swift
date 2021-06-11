@@ -1,7 +1,7 @@
 import MPath
 import SwishKit
 
-struct IconsTarget: FileTarget {
+struct IconsCommand: FileRequiringCommand {
 
     var inputs: [Path] { filenames.map { Config.mvgRendersDirectory + Path($0.mvg) } }
     var outputs: [Path] { filenames.map { Config.appStoreIconRendersDirectory + Path($0.png) } }

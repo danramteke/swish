@@ -1,6 +1,6 @@
 import SwishKit
 
-struct AlphaTarget: Target {
+struct AlphaCommand: RequirableCommand {
 
     func execute() throws {
         print("Alpha Target not yet implmented")
