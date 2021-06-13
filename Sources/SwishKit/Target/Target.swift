@@ -1,5 +1,4 @@
 import Foundation
-import Logging
 
 public protocol Target: Identifiable {
 	/// ID of the target. Swish uses the id to track if a target has run already.

@@ -2,14 +2,11 @@ import ArgumentParser
 import SwishKit
 
 struct AppIconRender: ParsableCommand {
-	@Argument(help: "which action to run. Available actions: \(AppIconRenderTarget.allCases.map { $0.rawValue }.joined(separator: ", "))")
-	var actionID: AppIconRenderTarget
-
-	@Flag(name: .shortAndLong, help: "run the task, even if its requirements imply it doesn't need to run")
-	var force: Bool = false
+	@Argument(help: "which target to run. Available targets: \(AppIconRenderTarget.allCases.map { $0.rawValue }.joined(separator: ", "))")
+	var target: AppIconRenderTarget
 
 	func run() throws {
-		try resolve(actionID, force: force)
+		try resolve(target)
 	}
 }
 

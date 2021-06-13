@@ -40,16 +40,3 @@ extension AtomicValue where Value == Int {
 		}
 	}
 }
-
-extension AtomicValue where Value == Bool {
-	public func switchOn(block: ()->Void) {
-		queue.sync(flags: .barrier) {
-			if _value {
-				return
-			}
-
-			_value = true
-			block()
-		}
-	}
-}

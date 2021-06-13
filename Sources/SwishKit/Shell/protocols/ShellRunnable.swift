@@ -15,5 +15,4 @@ extension ShellRunnable {
 	}
 
 	public var environment: [String: String]? { nil }
-	public var label: String? { nil }
 }

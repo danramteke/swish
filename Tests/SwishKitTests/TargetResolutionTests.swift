@@ -4,17 +4,17 @@ import Foundation
 
 final class TargetResolutionTests: XCTestCase {
 
-	var runner: ShellRunner!
+	var resolver: TargetResolver!
 
 	override func setUpWithError() throws {
 		try super.setUpWithError()
 
-		runner = ShellRunner()
+		resolver = TargetResolver(logLevel: .debug)
 	}
 
 	func testResolvesA() throws {
-			try runner.resolve(MyTarget.a)
-			XCTAssertEqual(runner.resolutionLog, [
+			try resolver.resolve(MyTarget.a)
+			XCTAssertEqual(resolver.resolutionLog, [
 											"MyTarget.d",
 											"MyTarget.c",
 											"MyTarget.b",
@@ -22,21 +22,21 @@ final class TargetResolutionTests: XCTestCase {
 	}
 
 	func testResolvesB() throws {
-		try runner.resolve(MyTarget.b)
-		XCTAssertEqual(runner.resolutionLog, [
+		try resolver.resolve(MyTarget.b)
+		XCTAssertEqual(resolver.resolutionLog, [
 										"MyTarget.d",
 										"MyTarget.c",
 										"MyTarget.b"])
 	}
 
 	func testResolvesC() throws {
-		try runner.resolve(MyTarget.c)
-		XCTAssertEqual(runner.resolutionLog, ["MyTarget.d", "MyTarget.c"])
+		try resolver.resolve(MyTarget.c)
+		XCTAssertEqual(resolver.resolutionLog, ["MyTarget.d", "MyTarget.c"])
 	}
 
 	func testResolvesD() throws {
-			try runner.resolve(MyTarget.d)
-			XCTAssertEqual(runner.resolutionLog, ["MyTarget.d"])
+			try resolver.resolve(MyTarget.d)
+			XCTAssertEqual(resolver.resolutionLog, ["MyTarget.d"])
 	}
 }
 

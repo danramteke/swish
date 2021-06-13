@@ -1,41 +1,25 @@
 import Foundation
 import MPath
+import Logging
 
 public class ShellRunner {
-	lazy var logger = ConsoleLogger(logLevel: settings.logLevel)
+	let logger: ShellRunnerLogger
 
-	public var settings: Settings = Settings() {
-		didSet {
-			if isStarted.value {
-				logger.warnChangingSettingsAfterStart()
-			}
-		}
+	let logDirectory: Path
+
+	public init(logDirectory: Path, logLevel: Logging.Logger.Level) {
+		self.logDirectory = logDirectory
+		logger = ShellRunnerLogger(logLevel: logLevel)
 	}
-
-	public init() {}
-
-	convenience init(settings: Settings) {
-		self.init()
-		self.settings = settings
-	}
-
-	var resolutionLog: [String] = []
 
 	private let count = AtomicValue(initial: 0, label: "ShellRunner.count")
-	private let isStarted = AtomicValue(initial: false, label: "ShellRunner.isStarted")
 
 	public func execute(runnable: ShellRunnable) throws -> ShellOutput {
-
-		isStarted.switchOn {
-			if settings.isClearingPreviousLogsOnNewSession {
-				try? settings.rootLogsDirectory.delete()
-			}
-		}
 
 		let count: Int = count.claim()
 
 		let logDirectoryName = [String(format: "%03d", count), runnable.label].compactMap({$0}).joined(separator: "-")
-		let logsDirectory = settings.sessionLogsDirectory + Path(logDirectoryName)
+		let logsDirectory = self.logDirectory + Path(logDirectoryName)
 		try logsDirectory.createDirectories()
 
 		let stdout = logsDirectory + Path("stdout.log")
@@ -48,7 +32,7 @@ public class ShellRunner {
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
 
-		logger.start(label: "Running", message: runnable.text)
+		logger.start(label: runnable.label, message: runnable.text)
 
 
 		let process = Process()
