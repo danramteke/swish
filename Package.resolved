@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/danramteke/MPath.git",
         "state": {
           "branch": null,
-          "revision": "02ac4eac7d9165ca50409aea7866e676d3b88139",
-          "version": "0.9.8"
+          "revision": "7336fc4d64f18b38935249652257820e59310e93",
+          "version": "0.9.9"
+        }
+      },
+      {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
+        "state": {
+          "branch": null,
+          "revision": "986d191f94cec88f6350056da59c2e59e83d1229",
+          "version": "0.4.3"
         }
       },
       {
@@ -17,6 +26,15 @@
           "branch": null,
           "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
           "version": "1.4.2"
+        }
+      },
+      {
+        "package": "Yams",
+        "repositoryURL": "https://github.com/jpsim/Yams",
+        "state": {
+          "branch": null,
+          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
+          "version": "4.0.6"
         }
       }
     ]

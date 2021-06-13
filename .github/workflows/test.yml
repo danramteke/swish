@@ -36,3 +36,9 @@ jobs:
 
       - name: "Build example: Example iOS App"
         run: swift build --package-path Examples/ExampleiOSApp
+
+      - name: "JSON scripts"
+        run: swift run swish -f Examples/SwishScriptsExample/Scripts.json ls
+
+      - name: "yaml scripts"
+        run: swift run swish -f Examples/SwishScriptsExample/Scripts.yaml ls

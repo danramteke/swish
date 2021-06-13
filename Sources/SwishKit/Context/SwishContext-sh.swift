@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Daniel Ramteke on 6/11/21.
-//
-
 import Foundation
 
 extension SwishContext {
