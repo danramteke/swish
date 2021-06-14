@@ -8,7 +8,9 @@ Bash scripts have gotten us pretty far, but it's difficult reasoning about contr
 
 Another motivation is a script fails, and you make some fixes, and you want to run only the command that failed. However, the command that failed had lots of `$VARIABLE` substitutions that are difficult to recreate.
 
-These issues have bothered me for many years, through mountains of bash scripts, and I think I have something worth suggesting. I would love your feedback on it.
+Many command line tools already have decent interfaces, it's just the control flow of bash (and typing!) that could use some improvements.
+
+
 
 ## Approach
 Swish is a Swift task runner that lets you reason about your script in Swift, easily calling shell commands and using their output in your Swift program. It also

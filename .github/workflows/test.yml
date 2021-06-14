@@ -19,6 +19,9 @@ jobs:
       - uses: fwal/setup-swift@v1
       - run: swift --version   
 
+      - name: build
+        run: swift build -c release
+
       - name: Swish Tests
         run: swift test
       
