@@ -3,6 +3,7 @@ import Foundation
 import MPath
 
 extension Script {
+    /// Run the script after changing directory to the Swish file.
     func run(in directory: Path) throws {
         switch self {
         case .text(let text):

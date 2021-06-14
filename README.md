@@ -74,6 +74,19 @@ class ContainerIsRunning: ConcreteBooleanShellQuery {
 ```
 which would be used like `let isExampleRunning: Bool = ContainerIsRunning(name: "Example").execute()`
 
+- Finally, create a Swish file, in either JSON, YAML or Swift format (swift format not yet implmented). This should feel familiar to users of Yarn.
+
+```yaml
+scripts:
+  startContainers: swift run --package-path swift-scripts startContainers
+```
+
+- And run that script like this:
+
+```
+$ swish startContainers
+```
+
 ### Callable as function
 
 All `Command`s and `Query`s implement Swift's `callAsFunction()`, which simply delegates to `execute`. This can aid slightly in readability. Consider 
@@ -91,7 +104,7 @@ if !checkIfExampleIsRunning() {
 
 There are two things you typically do with a shell. Run `Command`s and ask `Query`s. An example of a `Command` might be `xcodebuild ...`, where we aren't necessarily concerned about the output, just if it passes or fails. An example of a `Query` might be `git status --porcelain`, where we are going to parse the output and do something with it. A second kind of query might be a `BooleanShellQuery` where we translate the output of `git status --porcelain` into a boolean value: whether or not the git working copy is clean, in this example.
 
-The `sh` and `cmd` helpers reference the `SharedShellRunner` global object, which provides context to the shell invocations, such as where to write the logs.
+The `sh` and `cmd` helpers reference the `SwishContext.default` global object, which provides context to the shell invocations, such as where to write the logs.
 
 
 Not everything you want to needs to be done as a shell command. For example, you may want to use [Alamofire](https://github.com/Alamofire/Alamofire.git) instead of shelling out to `curl`. Just make your type adhere to `Command` or `Query` if needed.
