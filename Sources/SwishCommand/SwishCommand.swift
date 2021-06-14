@@ -4,10 +4,10 @@ import MPath
 
 public struct SwishCommand: ParsableCommand {
 
-	@Option(name: .shortAndLong, help: "The path for the swish file.")
+	@Option(name: .shortAndLong, help: "The path to the Swish file. Can be relative or absolute.")
 	public var file: Path?
 
-	@Argument(help: "script to run in the Swish file")
+	@Argument(help: "Name of script to run in the Swish file")
 	public var script: String
 
 	public mutating func run() throws {
@@ -23,7 +23,7 @@ public struct SwishCommand: ParsableCommand {
 			throw ActionNotFoundInFileError()
 		}
 
-		try script.run()
+		try script.run(in: loadedFile.parent())
 	}
 
 	private func loadFileOrThrow() throws -> Path {
