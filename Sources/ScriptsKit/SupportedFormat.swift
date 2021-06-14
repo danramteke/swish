@@ -6,6 +6,7 @@ import Yams
 enum SupportedFormat: String {
 	case json
 	case yaml, yml
+	// case swift <-- not yet supported :(
 
 	func load(path: Path) throws -> Scripts {
 		let data: Data = try path.read()

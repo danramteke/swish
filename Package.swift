@@ -42,7 +42,6 @@ let package = Package(
 			name: "ScriptsKit",
 			dependencies: [
 				"ScriptsDescription",
-				"SwishKit",
 				.product(name: "ArgumentParser", package: "swift-argument-parser"),
 				"Yams",
 			]
