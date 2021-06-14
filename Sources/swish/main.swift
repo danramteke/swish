@@ -1,2 +1,2 @@
-import ScriptsKit
+import SwishCommand
 SwishCommand.main()

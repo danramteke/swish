@@ -1,5 +1,5 @@
 import XCTest
-import ScriptsDescription
+import SwishDescription
 import Yams
 
 final class ParseTest: XCTestCase {
@@ -15,7 +15,7 @@ final class ParseTest: XCTestCase {
 		}
 		"""
 
-		let description = try JSONDecoder().decode(Scripts.self, from: json.data(using: .utf8)!)
+		let description = try JSONDecoder().decode(Swish.self, from: json.data(using: .utf8)!)
 
 		XCTAssertEqual(description.scripts.count, 3)
 		XCTAssertEqual(description.scripts["clean"], "swift package clean")
@@ -30,7 +30,7 @@ scripts:
   ls: ls
 """
 
-		let description = try YAMLDecoder().decode(Scripts.self, from: yml.data(using: .utf8)!)
+		let description = try YAMLDecoder().decode(Swish.self, from: yml.data(using: .utf8)!)
 
 		XCTAssertEqual(description.scripts.count, 3)
 		XCTAssertEqual(description.scripts["clean"], "swift package clean")

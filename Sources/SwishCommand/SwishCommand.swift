@@ -1,22 +1,23 @@
 import ArgumentParser
+import SwishDescription
 import MPath
 
 public struct SwishCommand: ParsableCommand {
 
-	@Option(name: .shortAndLong, help: "The path to use.")
+	@Option(name: .shortAndLong, help: "The path for the swish file.")
 	public var file: Path?
 
-	@Argument(help: "script to run in the Scripts dictionary")
+	@Argument(help: "script to run in the Swish file")
 	public var script: String
 
 	public mutating func run() throws {
 		let loadedFile = try loadFileOrThrow()
 
 		guard let ext = loadedFile.extension, let format = SupportedFormat(rawValue: ext) else {
-			throw UnsuportedExtensionError()
+			throw UnsupportedExtensionError()
 		}
 
-		let description = try format.load(path: loadedFile)
+		let description: Swish = try format.load(path: loadedFile)
 
 		guard let script = description.scripts[self.script] else {
 			throw ActionNotFoundInFileError()
@@ -34,14 +35,14 @@ public struct SwishCommand: ParsableCommand {
 	}
 
 	private func defaultFileOrThrow() throws -> Path {
-		if Path("Scripts.swift").exists { 
-			return Path("Scripts.swift") 
-		} else if Path("Scripts.json").exists {
-			return Path("Scripts.json")
-		} else if Path("Scripts.yaml").exists {
-			return Path("Scripts.yaml")
-		} else if Path("Scripts.yml").exists {
-			return Path("Scripts.yml")
+		if Path("Swish.swift").exists { 
+			return Path("Swish.swift") 
+		} else if Path("Swish.json").exists {
+			return Path("Swish.json")
+		} else if Path("Swish.yaml").exists {
+			return Path("Swish.yaml")
+		} else if Path("Swish.yml").exists {
+			return Path("Swish.yml")
 		} else {
 			throw FileNotFoundError()
 		}
@@ -51,5 +52,5 @@ public struct SwishCommand: ParsableCommand {
 }
 
 struct FileNotFoundError: Error {}
-struct UnsuportedExtensionError: Error {}
+struct UnsupportedExtensionError: Error {}
 struct ActionNotFoundInFileError: Error {}

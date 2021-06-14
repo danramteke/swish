@@ -9,8 +9,8 @@ let package = Package(
 	],
 	products: [
 		.library(name: "SwishKit", targets: ["SwishKit"]),
-		.library(name: "ScriptsDescription", targets: ["ScriptsDescription"]),
-		.library(name: "ScriptsKit", targets: ["ScriptsKit"]),
+		.library(name: "SwishDescription", targets: ["SwishDescription"]),
+		.library(name: "SwishCommand", targets: ["SwishCommand"]),
 		.executable(name: "swish", targets: ["swish"]),
 	],
 	dependencies: [
@@ -34,25 +34,25 @@ let package = Package(
 			]),
 
 		.target(
-			name: "ScriptsDescription",
+			name: "SwishDescription",
 			dependencies: []
 		),
 
 		.target(
-			name: "ScriptsKit",
+			name: "SwishCommand",
 			dependencies: [
-				"ScriptsDescription",
-                "MPath",
-				.product(name: "ArgumentParser", package: "swift-argument-parser"),
+				"SwishDescription",
+				"MPath",
 				"Yams",
+				.product(name: "ArgumentParser", package: "swift-argument-parser"),
 			]
 		),
 
-		.testTarget(name: "ScriptsDescriptionTests", dependencies: ["ScriptsDescription", "Yams"]),
+		.testTarget(name: "SwishDescriptionTests", dependencies: ["SwishDescription", "Yams"]),
 
 		.target(
 			name: "swish",
-			dependencies: ["ScriptsDescription", "ScriptsKit"]
+			dependencies: ["SwishDescription", "SwishCommand"]
 		)
 	]
 )

@@ -1,4 +1,4 @@
-import ScriptsDescription
+import SwishDescription
 import Foundation
 
 extension Script {

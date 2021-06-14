@@ -1,7 +1,7 @@
 import Foundation
-/// import ScriptDescription
+/// import SwishDescription
 ///
-/// let scripts = Scripts(
+/// let swish = Swish(
 ///   scripts: [
 ///     .script("clean", "rm -fr .build; rm -fr tmp"),
 ///     .script("build", "swift build"),
@@ -12,9 +12,9 @@ import Foundation
 /// )
 
 
-/// import ScriptDescription
+/// import SwishDescription
 ///
-/// let scripts = Scripts(
+/// let swish = Swish(
 ///   scripts: [
 ///     "clean": "rm -fr .build; rm -fr tmp",
 ///     "build": "swift build",
@@ -40,7 +40,7 @@ import Foundation
 }
 */
 
-public struct Scripts: Codable {
+public struct Swish: Codable {
 	public let scripts: [String: Script]
 	public init(scripts: [String: Script]) {
 		self.scripts = scripts

@@ -1,6 +1,6 @@
 import Foundation
 import MPath
-import ScriptsDescription
+import SwishDescription
 import Yams
 
 enum SupportedFormat: String {
@@ -8,13 +8,13 @@ enum SupportedFormat: String {
 	case yaml, yml
 	// case swift <-- not yet supported :(
 
-	func load(path: Path) throws -> Scripts {
+	func load(path: Path) throws -> Swish {
 		let data: Data = try path.read()
 		switch self {
 		case .json:
-			return try JSONDecoder().decode(ScriptsDescription.Scripts.self, from: data)
+			return try JSONDecoder().decode(SwishDescription.Swish.self, from: data)
 		case .yml, .yaml:
-			return try YAMLDecoder().decode(ScriptsDescription.Scripts.self, from: data)
+			return try YAMLDecoder().decode(SwishDescription.Swish.self, from: data)
 		}
 	}
 }
