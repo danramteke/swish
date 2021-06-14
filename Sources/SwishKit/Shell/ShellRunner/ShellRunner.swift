@@ -16,9 +16,9 @@ public class ShellRunner {
 
 	public func execute(runnable: ShellRunnable) throws -> ShellOutput {
 
-		let count: Int = count.claim()
+		let runNumber: Int = count.claim()
 
-		let logDirectoryName = [String(format: "%03d", count), runnable.label].compactMap({$0}).joined(separator: "-")
+		let logDirectoryName = [String(format: "%03d", runNumber), runnable.label].compactMap({$0}).joined(separator: "-")
 		let logsDirectory = self.logDirectory + Path(logDirectoryName)
 		try logsDirectory.createDirectories()
 
