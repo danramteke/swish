@@ -10,7 +10,7 @@ final class ParseTest: XCTestCase {
 			"scripts": {
 				"clean": "swift package clean",
 				"status": "git status -b porcelain",
-				"ls": "ls"
+				"bootstrap": "swift run --package-path swift-scripts bootstrap",
 			}
 		}
 		"""
@@ -19,7 +19,8 @@ final class ParseTest: XCTestCase {
 
 		XCTAssertEqual(description.scripts.count, 3)
 		XCTAssertEqual(description.scripts["clean"], "swift package clean")
-
+		XCTAssertEqual(description.scripts["status"], "git status -b porcelain")
+		XCTAssertEqual(description.scripts["bootstrap"], "swift run --package-path swift-scripts bootstrap")
 	}
 
 	func testParseYAML() throws {
@@ -27,13 +28,14 @@ final class ParseTest: XCTestCase {
 scripts:
   clean: "swift package clean"
   status: "git status -b porcelain"
-  ls: ls
+  bootstrap: swift run --package-path swift-scripts bootstrap
 """
 
 		let description = try YAMLDecoder().decode(Swish.self, from: yml.data(using: .utf8)!)
 
 		XCTAssertEqual(description.scripts.count, 3)
 		XCTAssertEqual(description.scripts["clean"], "swift package clean")
-
+		XCTAssertEqual(description.scripts["status"], "git status -b porcelain")
+		XCTAssertEqual(description.scripts["bootstrap"], "swift run --package-path swift-scripts bootstrap")
 	}
 }
