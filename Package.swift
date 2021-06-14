@@ -8,10 +8,10 @@ let package = Package(
 		.macOS(.v11)
 	],
 	products: [
-		.library(name: "SwishKit", targets: ["SwishKit"]),
-		.library(name: "SwishDescription", targets: ["SwishDescription"]),
-		.library(name: "SwishCommand", targets: ["SwishCommand"]),
 		.executable(name: "swish", targets: ["swish"]),
+		.library(name: "SwishDescription", targets: ["SwishDescription"]),
+
+		.library(name: "SwishKit", targets: ["SwishKit"]),
 	],
 	dependencies: [
 		.package(url: "https://github.com/apple/swift-log.git", from: "1.4.2"),
@@ -20,26 +20,29 @@ let package = Package(
 		.package(url: "https://github.com/danramteke/MPath.git", from: "0.9.10"),
 	],
 	targets: [
+
 		.target(
-			name: "SwishKit",
+			name: "swish", // main executable
+			dependencies: [
+				"SwishDescription", 
+				"SwishCommand",
+			]
+		),
+
+		.target(
+			name: "SwishKit", // library to use in your own scripting projects
 			dependencies: [
 				"MPath",
 				.product(name: "Logging", package: "swift-log"),
 			]),
-		.testTarget(
-			name: "SwishKitTests",
-			dependencies: [
-				"SwishKit",
-				.product(name: "Logging", package: "swift-log"),
-			]),
 
 		.target(
-			name: "SwishDescription",
+			name: "SwishDescription", // Description of Swish.swift/Swish.yaml/Swish.json
 			dependencies: []
 		),
 
 		.target(
-			name: "SwishCommand",
+			name: "SwishCommand", // code for `swish` executable
 			dependencies: [
 				"SwishDescription",
 				"MPath",
@@ -48,11 +51,19 @@ let package = Package(
 			]
 		),
 
-		.testTarget(name: "SwishDescriptionTests", dependencies: ["SwishDescription", "Yams"]),
+// Tests //
 
-		.target(
-			name: "swish",
-			dependencies: ["SwishDescription", "SwishCommand"]
-		)
+		.testTarget(name: "SwishDescriptionTests", dependencies: [
+			"SwishDescription", 
+			"Yams",
+		]),
+
+		.testTarget(
+			name: "SwishKitTests",
+			dependencies: [
+				"SwishKit",
+				.product(name: "Logging", package: "swift-log"),
+			]
+		),		
 	]
 )
