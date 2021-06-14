@@ -2,24 +2,31 @@ import ScriptsDescription
 import Foundation
 
 extension Script {
-    func execute() throws {
+    func run() throws {
         switch self {
         case .text(let text):
-            print("$ \(text)")
-            print()
+            announce(text: text)
+            try execute(text: text)
+        }
+    }
 
-            let process = Process()
-            process.executableURL = URL(fileURLWithPath: "/bin/sh")
-            process.arguments = ["-c", text]
+    private func announce(text: String) {
+        print("$ \(text)")
+        print()
+    }
 
-            process.standardOutput = FileHandle.standardOutput
-            process.standardError = FileHandle.standardError
-            try process.run()
-            process.waitUntilExit()
+    private func execute(text: String) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/bin/sh")
+        process.arguments = ["-c", text]
 
-            if 0 != process.terminationStatus {
-                throw NonZeroShellTermination(status: process.terminationStatus)
-            }
+        process.standardOutput = FileHandle.standardOutput
+        process.standardError = FileHandle.standardError
+        try process.run()
+        process.waitUntilExit()
+
+        if 0 != process.terminationStatus {
+            throw NonZeroShellTermination(status: process.terminationStatus)
         }
     }
 }

@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -50,7 +50,7 @@ let package = Package(
 
 		.testTarget(name: "ScriptsDescriptionTests", dependencies: ["ScriptsDescription", "Yams"]),
 
-		.executableTarget(
+		.target(
 			name: "swish",
 			dependencies: ["ScriptsDescription", "ScriptsKit"]
 		)

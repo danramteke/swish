@@ -17,11 +17,12 @@ public struct SwishCommand: ParsableCommand {
 		}
 
 		let description = try format.load(path: loadedFile)
+
 		guard let script = description.scripts[self.script] else {
 			throw ActionNotFoundInFileError()
 		}
 
-		try script.execute()
+		try script.run()
 	}
 
 	private func loadFileOrThrow() throws -> Path {
