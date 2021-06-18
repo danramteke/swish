@@ -44,7 +44,7 @@ jobs:
         run: swift run swish -f Examples/SwishScriptsExample/Swish.json bootstrap
 
       - name: "JSON scripts"
-        run: swift run swish -f Examples/SwishScriptsExample/Swish.json plain
+        run: swift run swish -f Examples/SwishScriptsExample/Swish.json bootstrap-plain
 
       - name: "yaml scripts"
         run: swift run swish -f Examples/SwishScriptsExample/Swish.yaml bootstrap
