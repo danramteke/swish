@@ -30,13 +30,13 @@ import Foundation
 
 /*json
 {
-	"scripts": {
-		"build": "swift build",
-		"stew": {
-			"path": "swift-scripts",
-			"target: "stew",
-		}
-	}
+"scripts": {
+"build": "swift build",
+"stew": {
+"path": "swift-scripts",
+"target: "stew",
+}
+}
 }
 */
 
@@ -47,30 +47,60 @@ public struct Swish: Codable {
 	}
 }
 
-public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
+//public enum Swishable: Codable {
+//	case script(Script)
+//	case swishKit(path: String, target: String)
+//
+//	init(string: String) {
+//		self = .script(Script(stringLiteral: string))
+//	}
+//
+//	public init(from decoder: Decoder) throws {
+//		let container = try decoder.singleValueContainer()
+//		let string = try container.decode(String.self)
+//
+//		self = .script(Script(stringLiteral: string))
+//	}
+//}
 
+public struct SwishKitTarget: Codable, Equatable {
+	public let path: String
+	public let target: String
+}
+
+public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
+	case swishKit(SwishKitTarget)
 	case text(String)
+
+
 
 	public func encode(to encoder: Encoder) throws {
 		switch self {
 		case .text(let string):
 			var container = encoder.singleValueContainer()
 			try container.encode(string)
+		case .swishKit(let swishKitTarget):
+			try swishKitTarget.encode(to: encoder)
 		}
 	}
 
 	public init(from decoder: Decoder) throws {
-		let container = try decoder.singleValueContainer()
-		let string = try container.decode(String.self)
+		do {
+			let swishKitTarget = try SwishKitTarget(from: decoder)
+			self = .swishKit(swishKitTarget)
+		} catch {
+			let container = try decoder.singleValueContainer()
+			let string = try container.decode(String.self)
 
-		self = .text(string)
+			self = .text(string)
+		}
 	}
 	
 
 	public init(extendedGraphemeClusterLiteral value: Self.StringLiteralType) {
 		self = .text(value)
 	}
-
+	
 	public init(stringLiteral value: Self.StringLiteralType) {
 		self = .text(value)
 	}

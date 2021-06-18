@@ -1,4 +1,7 @@
 scripts:
   clean: "swift package clean"
   status: "git status -b porcelain"
-  bootstrap: swift run --package-path swift-scripts bootstrap
+  bootstrap-plain: swift run --package-path swift-scripts bootstrap
+  bootstrap:
+    path: "swift-scripts"
+    target: bootstrap
