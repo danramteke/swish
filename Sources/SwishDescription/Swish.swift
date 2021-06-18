@@ -63,16 +63,14 @@ public struct Swish: Codable {
 //	}
 //}
 
-public struct SwishKitTarget: Codable, Equatable {
+public struct SwishKit: Codable, Equatable {
 	public let path: String
 	public let target: String
 }
 
 public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
-	case swishKit(SwishKitTarget)
+	case swishKit(SwishKit)
 	case text(String)
-
-
 
 	public func encode(to encoder: Encoder) throws {
 		switch self {
@@ -86,7 +84,7 @@ public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
 
 	public init(from decoder: Decoder) throws {
 		do {
-			let swishKitTarget = try SwishKitTarget(from: decoder)
+			let swishKitTarget = try SwishKit(from: decoder)
 			self = .swishKit(swishKitTarget)
 		} catch {
 			let container = try decoder.singleValueContainer()
@@ -95,7 +93,6 @@ public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
 			self = .text(string)
 		}
 	}
-	
 
 	public init(extendedGraphemeClusterLiteral value: Self.StringLiteralType) {
 		self = .text(value)
@@ -107,4 +104,8 @@ public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
 
 	public typealias StringLiteralType = String
 	public typealias ExtendedGraphemeClusterLiteralType = String
+}
+
+protocol SwishScriptConvertible {
+	var asScript: Script { get }
 }
