@@ -9,7 +9,7 @@ final class SwiftManifestLoader {
         try workDir.parent().createDirectories()
 
 
-        let resourcePath = Path(Bundle.module.bundlePath) + Path("ManifestLoading")
+        let resourcePath = Path(Bundle.module.resourcePath!) + Path("ManifestLoading")
 
         try resourcePath.copy(to: workDir)
         try path.copy(to: workDir + "src/Swish.swift")
