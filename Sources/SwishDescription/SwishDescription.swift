@@ -1,31 +1,17 @@
 import Foundation
-/// import SwishDescription
+/// Example:
 ///
-/// let swish = Swish(
-///   scripts: [
-///     .script("clean", "rm -fr .build; rm -fr tmp"),
-///     .script("build", "swift build"),
-///     .script("test", "swift test"),
-///     .script("clean", "rm -fr"),
-///     .script("icons", "swift run icons"),
-///   ]
-/// )
-
-
-/// import SwishDescription
-///
+/// ```
 /// let swish = Swish(
 ///   scripts: [
 ///     "clean": "rm -fr .build; rm -fr tmp",
 ///     "build": "swift build",
 ///     "test": "swift test",
-///     "clean", "rm -fr",
-///     "icons", "swift run icons",
-///     "stew", "swift run --package-path swift-scripts stew"
-///     "stew", .swift(path: "swift-scripts", target: "stew")
-///     "local", .swift("local")
+///     "icons": "swift run icons",
+///     "icons": .swift(path: "swift-scripts", target: "icons"),
 ///   ]
 /// )
+/// ```
 
 
 public struct Swish: Codable {
