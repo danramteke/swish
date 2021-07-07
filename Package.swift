@@ -50,7 +50,7 @@ let package = Package(
 				"Yams",
 
 				.product(name: "ArgumentParser", package: "swift-argument-parser"),
-			],
+			]
 		),
 
 // Tests //
