@@ -28,64 +28,39 @@ import Foundation
 /// )
 
 
-/*json
-{
-"scripts": {
-"build": "swift build",
-"stew": {
-"path": "swift-scripts",
-"target: "stew",
-}
-}
-}
-*/
-
 public struct Swish: Codable {
 	public let scripts: [String: Script]
-	public init(scripts: [String: Script]) {
-		self.scripts = scripts
+	public init(scripts: [String: ScriptConvertible]) {
+        self.scripts = scripts.mapValues { $0.asScript }
 	}
 }
 
-//public enum Swishable: Codable {
-//	case script(Script)
-//	case swishKit(path: String, target: String)
-//
-//	init(string: String) {
-//		self = .script(Script(stringLiteral: string))
-//	}
-//
-//	public init(from decoder: Decoder) throws {
-//		let container = try decoder.singleValueContainer()
-//		let string = try container.decode(String.self)
-//
-//		self = .script(Script(stringLiteral: string))
-//	}
-//}
-
-public struct SwishKit: Codable, Equatable {
-	public let path: String
-	public let target: String
-}
-
-public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
-	case swishKit(SwishKit)
+public enum Script: Codable, Equatable {
+	case swiftTarget(SwiftTarget)
 	case text(String)
+
+    public static func swift(path: String, target: String) -> Script {
+        .swiftTarget(SwiftTarget(path: path, target: target))
+    }
+
+    public static func swift(path: String, target: String, arguments: String) -> Script {
+        .swiftTarget(SwiftTarget(path: path, target: target, arguments: arguments))
+    }
 
 	public func encode(to encoder: Encoder) throws {
 		switch self {
 		case .text(let string):
 			var container = encoder.singleValueContainer()
 			try container.encode(string)
-		case .swishKit(let swishKitTarget):
-			try swishKitTarget.encode(to: encoder)
+		case .swiftTarget(let swiftTarget):
+			try swiftTarget.encode(to: encoder)
 		}
 	}
 
 	public init(from decoder: Decoder) throws {
 		do {
-			let swishKitTarget = try SwishKit(from: decoder)
-			self = .swishKit(swishKitTarget)
+			let swiftTarget = try SwiftTarget(from: decoder)
+			self = .swiftTarget(swiftTarget)
 		} catch {
 			let container = try decoder.singleValueContainer()
 			let string = try container.decode(String.self)
@@ -93,19 +68,31 @@ public enum Script: Codable, ExpressibleByStringLiteral, Equatable {
 			self = .text(string)
 		}
 	}
-
-	public init(extendedGraphemeClusterLiteral value: Self.StringLiteralType) {
-		self = .text(value)
-	}
-	
-	public init(stringLiteral value: Self.StringLiteralType) {
-		self = .text(value)
-	}
-
-	public typealias StringLiteralType = String
-	public typealias ExtendedGraphemeClusterLiteralType = String
 }
 
-protocol SwishScriptConvertible {
+public struct SwiftTarget: Codable, Equatable {
+    public let path: String
+    public let target: String
+    public let arguments: String?
+    public init(path: String, target: String, arguments: String? = nil) {
+        self.path = path
+        self.target = target
+        self.arguments = arguments
+    }
+}
+
+public protocol ScriptConvertible {
 	var asScript: Script { get }
+}
+
+extension SwiftTarget: ScriptConvertible {
+    public var asScript: Script {
+        .swiftTarget(self)
+    }
+}
+
+extension String: ScriptConvertible {
+    public var asScript: Script {
+        .text(self)
+    }
 }

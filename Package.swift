@@ -16,8 +16,9 @@ let package = Package(
 	dependencies: [
 		.package(url: "https://github.com/apple/swift-log.git", from: "1.4.2"),
 		.package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.4.0"),
-		.package(url: "https://github.com/jpsim/Yams", from: "4.0.0"),
+		.package(url: "https://github.com/jpsim/Yams.git", from: "4.0.0"),
 		.package(url: "https://github.com/danramteke/MPath.git", from: "0.9.10"),
+    
 	],
 	targets: [
 
@@ -47,8 +48,12 @@ let package = Package(
 				"SwishDescription",
 				"MPath",
 				"Yams",
+
 				.product(name: "ArgumentParser", package: "swift-argument-parser"),
-			]
+			],
+            resources: [
+                .copy("ManifestLoading")
+            ]
 		),
 
 // Tests //

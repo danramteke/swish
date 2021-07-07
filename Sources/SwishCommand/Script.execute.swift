@@ -9,15 +9,19 @@ extension Script {
 		case .text(let text):
 			announce(text: text)
 			try execute(text: text, in: directory)
-		case .swishKit(let swishKit):
-			announce(swishKit: swishKit)
-			try self.execute(text: "swift run \(swishKit.target)", in: directory + Path(swishKit.path))
+		case .swiftTarget(let swiftTarget):
+			announce(swiftTarget: swiftTarget)
+
+            let argString: String = {
+                return swiftTarget.arguments ?? ""
+            }()
+            try self.execute(text: "swift run \(swiftTarget.target) \(argString)", in: directory + Path(swiftTarget.path))
 		}
 	}
 
-	private func announce(swishKit: SwishKit) {
+	private func announce(swiftTarget: SwiftTarget) {
 		print()
-		print("Running `\(swishKit.target)` at \(swishKit.path)")
+		print("Running `\(swiftTarget.target)` at \(swiftTarget.path)")
 		print()
 	}
 
