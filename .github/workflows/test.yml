@@ -24,6 +24,9 @@ jobs:
 
       - name: Swish Tests
         run: swift test
+
+      - name: "Swift scripts"
+        run: swift run swish -f Examples/SwishScriptsExample/Swish.swift bootstrap-with-args
       
       - name: "Build example: DockerDev"
         run: swift build --package-path Examples/DockerDev
