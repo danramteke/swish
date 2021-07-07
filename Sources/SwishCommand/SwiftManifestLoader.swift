@@ -8,13 +8,8 @@ final class SwiftManifestLoader {
         try? workDir.delete()
         try workDir.parent().createDirectories()
 
-
-        let resourcePath = Path(Bundle.module.resourcePath!) + Path("ManifestLoading")
-
-        try resourcePath.copy(to: workDir)
-        try path.copy(to: workDir + "src/Swish.swift")
-
-
+        try Scaffold().scaffold(at: workDir, manifestPath: path)
+  
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/sh")
         process.arguments = ["-c", "swift run --package-path \"\(workDir.absolute())\"" ]
