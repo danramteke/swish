@@ -35,7 +35,8 @@ extension Script {
 	private func execute(text: String, in directory: Path) throws {
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
-		process.arguments = ["-c", "cd \(directory) && \(text)"]
+		process.arguments = ["-c", text]
+		process.currentDirectoryURL = directory.url
 
 		process.standardOutput = FileHandle.standardOutput
 		process.standardError = FileHandle.standardError
