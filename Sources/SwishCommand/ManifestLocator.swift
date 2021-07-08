@@ -7,21 +7,48 @@ class ManifestLocator {
         if let commandLineFile = commandLineArgument, commandLineFile.exists {
             return commandLineFile
         } else {
-            return try defaultFileOrThrow()
+            return try searchForFile()
         }
     }
 
-    private func defaultFileOrThrow() throws -> Path {
-        if Path("Swish.swift").exists {
-            return Path("Swish.swift")
-        } else if Path("Swish.json").exists {
-            return Path("Swish.json")
-        } else if Path("Swish.yaml").exists {
-            return Path("Swish.yaml")
-        } else if Path("Swish.yml").exists {
-            return Path("Swish.yml")
-        } else {
-            throw FileNotFoundError()
+    private func searchForFile() throws -> Path {
+        if let file = recursiveParentSearch(in: Path.current) {
+            return file
+        } else if let file = file(in: Path.home) {
+            return file
+        } else if let file = file(in: Path.home + ".swish") {
+            return file
         }
+
+        throw FileNotFoundError()
+    }
+
+    private func recursiveParentSearch(in dir: Path) -> Path? {
+        guard dir.exists else {
+            return nil
+        }
+
+        if let file = file(in: dir) {
+            return file
+        }
+
+        return recursiveParentSearch(in: dir.parent())
+    }
+
+    private func file(in dir: Path) -> Path? {
+
+        let candidates: [Path] = ["Swish.swift",
+                                  "Swish.json",
+                                  "Swish.yml",
+                                  "Swish.yaml"]
+
+        for candidate in candidates {
+            let fullCandidate: Path = dir + candidate
+            if fullCandidate.exists && fullCandidate.isReadable {
+                return fullCandidate
+            }
+        }
+
+        return nil
     }
 }
