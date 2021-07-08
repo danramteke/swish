@@ -11,41 +11,19 @@ public struct SwishCommand: ParsableCommand {
 	public var script: String
 
 	public mutating func run() throws {
-		let loadedFile = try loadFileOrThrow()
+        let manifestPath = try ManifestLocator().locate(commandLineArgument: file) 
 
-		guard let ext = loadedFile.extension, let format = SupportedFormat(rawValue: ext) else {
+		guard let ext = manifestPath.extension, let format = SupportedFormat(rawValue: ext) else {
 			throw UnsupportedExtensionError()
 		}
 
-		let description: Swish = try format.load(path: loadedFile)
+		let swishDescription: Swish = try format.load(path: manifestPath)
 
-		guard let script = description.scripts[self.script] else {
-			throw ActionNotFoundInFileError()
+		guard let script = swishDescription.scripts[self.script] else {
+            throw ActionNotFoundInFileError(action: self.script)
 		}
 
-		try script.run(in: loadedFile.parent())
-	}
-
-	private func loadFileOrThrow() throws -> Path {
-		if let commandLineFile = file, commandLineFile.exists {
-			return commandLineFile
-		} else {
-			return try defaultFileOrThrow()
-		}
-	}
-
-	private func defaultFileOrThrow() throws -> Path {
-		if Path("Swish.swift").exists { 
-			return Path("Swish.swift") 
-		} else if Path("Swish.json").exists {
-			return Path("Swish.json")
-		} else if Path("Swish.yaml").exists {
-			return Path("Swish.yaml")
-		} else if Path("Swish.yml").exists {
-			return Path("Swish.yml")
-		} else {
-			throw FileNotFoundError()
-		}
+		try script.run(in: manifestPath.parent())
 	}
 
 	public init() {}
@@ -53,4 +31,6 @@ public struct SwishCommand: ParsableCommand {
 
 struct FileNotFoundError: Error {}
 struct UnsupportedExtensionError: Error {}
-struct ActionNotFoundInFileError: Error {}
+struct ActionNotFoundInFileError: Error {
+    let action: String
+}
