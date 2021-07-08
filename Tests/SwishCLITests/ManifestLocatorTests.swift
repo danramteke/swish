@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 import MPath
-@testable import SwishCommand
+@testable import SwishCLI
 
 class ManifestLocatorTests: XCTestCase {
 

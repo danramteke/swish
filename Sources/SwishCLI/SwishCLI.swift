@@ -2,7 +2,7 @@ import ArgumentParser
 import SwishDescription
 import MPath
 
-public struct SwishCommand: ParsableCommand {
+public struct SwishCLI: ParsableCommand {
 
 	@Option(name: .shortAndLong, help: "The path to the Swish file. Can be relative or absolute.")
 	public var file: Path?

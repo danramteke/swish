@@ -26,7 +26,7 @@ let package = Package(
 			name: "swish", // main executable
 			dependencies: [
 				"SwishDescription", 
-				"SwishCommand",
+				"SwishCLI",
 			]
 		),
 
@@ -43,7 +43,7 @@ let package = Package(
 		),
 
 		.target(
-			name: "SwishCommand", // code for `swish` executable
+			name: "SwishCLI", // code for `swish` executable
 			dependencies: [
 				"SwishDescription",
 				"MPath",
@@ -68,8 +68,8 @@ let package = Package(
 			]
 		),
 
-        .testTarget(name: "SwishCommandTests",
+        .testTarget(name: "SwishCLITests",
                     dependencies: ["MPath",
-                                   "SwishCommand"]),
+                                   "SwishCLI"]),
 	]
 )

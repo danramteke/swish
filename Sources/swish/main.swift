@@ -1,2 +1,2 @@
-import SwishCommand
-SwishCommand.main()
+import SwishCLI
+SwishCLI.main()
