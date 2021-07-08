@@ -2,6 +2,10 @@ import Foundation
 import MPath
 
 class ManifestLocator {
+    let searchPath: Path
+    init(searchPath: Path = .current) {
+        self.searchPath = searchPath
+    }
 
     func locate(commandLineArgument: Path?) throws -> Path {
         if let commandLineFile = commandLineArgument, commandLineFile.exists {
@@ -12,7 +16,7 @@ class ManifestLocator {
     }
 
     private func searchForFile() throws -> Path {
-        if let file = recursiveParentSearch(in: Path.current) {
+        if let file = recursiveParentSearch(in: searchPath) {
             return file
         } else if let file = file(in: Path.home) {
             return file
