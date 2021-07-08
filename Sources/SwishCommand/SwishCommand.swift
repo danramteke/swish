@@ -11,13 +11,11 @@ public struct SwishCommand: ParsableCommand {
 	public var script: String
 
 	public mutating func run() throws {
-        let manifestPath = try ManifestLocator().locate(commandLineArgument: file) 
+        let manifestPath = try
+            ManifestLocator().locate(commandLineArgument: file)
 
-		guard let ext = manifestPath.extension, let format = SupportedFormat(rawValue: ext) else {
-			throw UnsupportedExtensionError()
-		}
-
-		let swishDescription: Swish = try format.load(path: manifestPath)
+        let swishDescription: Swish = try
+            ManifestFormat.detect(at: manifestPath)
 
 		guard let script = swishDescription.scripts[self.script] else {
             throw ActionNotFoundInFileError(action: self.script)
@@ -30,7 +28,7 @@ public struct SwishCommand: ParsableCommand {
 }
 
 struct FileNotFoundError: Error {}
-struct UnsupportedExtensionError: Error {}
+struct ManifestFormatError: Error {}
 struct ActionNotFoundInFileError: Error {
     let action: String
 }

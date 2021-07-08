@@ -1,9 +1,9 @@
 extension Scaffold {
   static let main = """
-  import Foundation
+import Foundation
 
-  let encoder = JSONEncoder()
-  let jsonData = try! encoder.encode(swish)
-  print(String(data: jsonData, encoding: .utf8)!)
-  """
+let encoder = JSONEncoder()
+let jsonData = try! encoder.encode(swish)
+print(String(data: jsonData, encoding: .utf8)!)
+"""
 }
