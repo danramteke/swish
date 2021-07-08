@@ -6,6 +6,8 @@ public protocol ShellRunnable {
 
 	var environment: [String: String]? { get }
 	var label: String? { get }
+
+    var options: ShellOptions { get }
 }
 
 extension ShellRunnable {

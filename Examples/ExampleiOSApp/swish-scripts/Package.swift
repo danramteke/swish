@@ -12,16 +12,17 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "0.4.0"),
     .package(name: "Swish", path: "../../.."),
-
   ],
   targets: [
     .executableTarget(name: "bootstrap", 
-        dependencies: 
+        dependencies: [
             .product(name: "SwishKit", package: "Swish"),
-            .product(name: "ArgumentParser", package: "swift-argument-parser")]),
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ]),
     .executableTarget(name: "appstore", 
         dependencies: [
             .product(name: "SwishKit", package: "Swish"),
-            .product(name: "ArgumentParser", package: "swift-argument-parser")]),
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ]),
   ]
 )

@@ -18,7 +18,9 @@ public class ShellRunner {
 
 		let runNumber: Int = count.claim()
 
-		let logDirectoryName = [String(format: "%03d", runNumber), runnable.label].compactMap({$0}).joined(separator: "-")
+        let logDirectoryName = [String(format: "%03d", runNumber), runnable.label]
+            .compactMap { $0 }
+            .joined(separator: "-")
 		let logsDirectory = self.logDirectory + Path(logDirectoryName)
 		try logsDirectory.createDirectories()
 
@@ -32,13 +34,14 @@ public class ShellRunner {
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
 
-		logger.start(label: runnable.label, message: runnable.text)
-
+        if runnable.options.contains(.console) {
+            logger.start(label: runnable.label, message: runnable.text)
+        }
 
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
 		process.environment = combineEnvironments(base: ProcessInfo.processInfo.environment,
-																							overrides: runnable.environment)
+                                                  overrides: runnable.environment)
 		process.arguments = ["-c", runnable.text]
 		process.standardOutput = stdoutHandle
 		process.standardError = stderrHandle

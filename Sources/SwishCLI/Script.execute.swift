@@ -5,6 +5,7 @@ import MPath
 extension Script {
 	/// Run the script after changing directory to the Swish file.
 	func run(in directory: Path) throws {
+
 		switch self {
 		case .text(let text):
 			announce(text: text)
@@ -15,7 +16,7 @@ extension Script {
             let argString: String = {
                 return swift.arguments ?? ""
             }()
-            try self.execute(text: "swift run \(swift.target) \(argString)", in: directory + Path(swift.path))
+            try self.execute(text: "swift run --package-path \(swift.path) \(swift.target) \(argString)", in: directory)
 		}
 	}
 

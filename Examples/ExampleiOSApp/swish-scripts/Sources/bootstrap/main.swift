@@ -1,1 +1,1 @@
-BootstrapCommand.main()
+Bootstrap.main()

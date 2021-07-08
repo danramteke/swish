@@ -6,14 +6,17 @@ open class ConcreteShellQuery<T: ShellOutputInitable>: ShellQuery {
 	public let shellRunner: ShellRunner
 	public let environment: [String: String]?
 	public let label: String? 
+    public var options: ShellOptions
 
 	public init(shellRunner: ShellRunner = SwishContext.default.shellRunner,
 							label: String? = nil,
 							_ text: String,
-							environment: [String: String]? = nil) {
+							environment: [String: String]? = nil,
+                            options: ShellOptions = .default) {
 		self.text = text
 		self.environment = environment
 		self.label = label
 		self.shellRunner = shellRunner
+        self.options = options
 	}
 }

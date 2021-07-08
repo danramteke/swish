@@ -4,8 +4,6 @@ import Foundation
 import SwishKit
 
 struct AppStore: ParsableCommand {
-    @Argument(help: "Project directory")
-    var projectDir: Path = Path.current
 
     var appDevelopmentTeam: String = "EXAMPLE1"
   
@@ -17,6 +15,9 @@ struct AppStore: ParsableCommand {
     var exportOptionsPath: Path { tmpDir + "appstore-export-options.plist" }
     var altoolUsername: String!
     var altoolPassword: String!
+
+    @Argument(help: "Project dir")
+    var projectDir: Path = Path.current
 
     mutating func run() throws {
         loadAppstoreCredentials()
@@ -37,7 +38,7 @@ struct AppStore: ParsableCommand {
     }
 
     var makeTmpDir: Command {
-        cmd("mkdir -p \(tmpDir)")
+        cmd("mkdir -p \(tmpDir)", options: [])
     }
 
     var archive: Command {
@@ -81,3 +82,9 @@ struct AppStore: ParsableCommand {
     }
 }
 
+extension Path: ExpressibleByArgument {
+
+    public init(argument: String) {
+        self.init(argument)
+    }
+}
