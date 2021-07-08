@@ -8,7 +8,7 @@ import Foundation
 ///     "build": "swift build",
 ///     "test": "swift test",
 ///     "icons": "swift run icons",
-///     "icons": .swift(path: "swift-scripts", target: "icons"),
+///     "icons": Swift(path: "swift-scripts", target: "icons"),
 ///   ]
 /// )
 /// ```
@@ -22,31 +22,23 @@ public struct Swish: Codable {
 }
 
 public enum Script: Codable, Equatable {
-	case swiftTarget(SwiftTarget)
+	case swift(Swift)
 	case text(String)
-
-    public static func swift(path: String, target: String) -> Script {
-        .swiftTarget(SwiftTarget(path: path, target: target))
-    }
-
-    public static func swift(path: String, target: String, arguments: String) -> Script {
-        .swiftTarget(SwiftTarget(path: path, target: target, arguments: arguments))
-    }
 
 	public func encode(to encoder: Encoder) throws {
 		switch self {
 		case .text(let string):
 			var container = encoder.singleValueContainer()
 			try container.encode(string)
-		case .swiftTarget(let swiftTarget):
-			try swiftTarget.encode(to: encoder)
+		case .swift(let swift):
+			try swift.encode(to: encoder)
 		}
 	}
 
 	public init(from decoder: Decoder) throws {
 		do {
-			let swiftTarget = try SwiftTarget(from: decoder)
-			self = .swiftTarget(swiftTarget)
+			let swift = try Swift(from: decoder)
+			self = .swift(swift)
 		} catch {
 			let container = try decoder.singleValueContainer()
 			let string = try container.decode(String.self)
@@ -56,7 +48,7 @@ public enum Script: Codable, Equatable {
 	}
 }
 
-public struct SwiftTarget: Codable, Equatable {
+public struct Swift: Codable, Equatable {
     public let path: String
     public let target: String
     public let arguments: String?
@@ -71,9 +63,9 @@ public protocol ScriptConvertible {
 	var asScript: Script { get }
 }
 
-extension SwiftTarget: ScriptConvertible {
+extension Swift: ScriptConvertible {
     public var asScript: Script {
-        .swiftTarget(self)
+        .swift(self)
     }
 }
 
