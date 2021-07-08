@@ -32,7 +32,11 @@ class ManifestLocator {
             return file
         }
 
-        return recursiveParentSearch(in: dir.parent())
+        if "/" == dir.normalize() {
+            return nil
+        } else {
+            return recursiveParentSearch(in: dir.parent().normalize())
+        }
     }
 
     private func file(in dir: Path) -> Path? {

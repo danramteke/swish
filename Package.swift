@@ -66,6 +66,10 @@ let package = Package(
 				"SwishKit",
 				.product(name: "Logging", package: "swift-log"),
 			]
-		),		
+		),
+
+        .testTarget(name: "SwishCommandTests",
+                    dependencies: ["MPath",
+                                   "SwishCommand"]),
 	]
 )
