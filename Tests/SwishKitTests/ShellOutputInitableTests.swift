@@ -1,6 +1,7 @@
 import Foundation
 import SwishKit
 import XCTest
+import MPath
 
 class ShellOutputInitableTests: XCTestCase {
 
@@ -17,5 +18,8 @@ class ShellOutputInitableTests: XCTestCase {
 	func testArray() throws {
 		XCTAssertEqual(try Array<Sample>(stdOutput: "a\na\na"), [Sample.a, Sample.a, Sample.a])
 		XCTAssertEqual(try Array<Sample>(stdOutput: "a"), [Sample.a])
+
+		let paths = try sh("ls", as: [Path].self)
+		XCTAssertTrue(paths.contains("Package.swift"))
 	}
 }

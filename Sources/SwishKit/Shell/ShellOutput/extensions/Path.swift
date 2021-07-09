@@ -1,6 +1,5 @@
 import MPath
 
-extension Path: ShellOutputInitable {}
 extension Path: StdOutputInitable {
 
 	public init(stdOutput: String) {

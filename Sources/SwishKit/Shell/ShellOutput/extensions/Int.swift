@@ -1,4 +1,3 @@
-extension Int: ShellOutputInitable {}
 extension Int: StdOutputInitable {
 
 	public init(stdOutput: String) throws {

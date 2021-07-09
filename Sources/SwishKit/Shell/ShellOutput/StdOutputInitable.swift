@@ -1,10 +1,10 @@
 import Foundation
 
-public protocol StdOutputInitable {
+public protocol StdOutputInitable: ShellOutputInitable {
 	init(stdOutput: String) throws
 }
 
-extension ShellOutputInitable where Self:StdOutputInitable  {
+extension StdOutputInitable {
 	public init(shellOutput: ShellOutput) throws {
 		try self.init(stdOutput: try shellOutput.stdOutput())
 	}
