@@ -5,7 +5,7 @@ import MPath
 
 class ShellOutputInitableTests: XCTestCase {
 
-	enum Sample: String, StdOutputInitable, ShellOutputInitable {
+	enum Sample: String, StdOutputInitable {
 		case a
 	}
 
@@ -19,7 +19,7 @@ class ShellOutputInitableTests: XCTestCase {
 		XCTAssertEqual(try Array<Sample>(stdOutput: "a\na\na"), [Sample.a, Sample.a, Sample.a])
 		XCTAssertEqual(try Array<Sample>(stdOutput: "a"), [Sample.a])
 
-		let paths = try sh("ls", as: [Path].self)
-		XCTAssertTrue(paths.contains("Package.swift"))
+		XCTAssertEqual(try sh("echo a; echo a; echo a"), [Sample.a, Sample.a, Sample.a])
+		XCTAssertEqual(try sh("echo a"), [Sample.a])
 	}
 }
