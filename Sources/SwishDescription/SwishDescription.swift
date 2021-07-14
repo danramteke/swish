@@ -52,7 +52,7 @@ public struct Swift: Codable, Equatable {
     public let path: String
     public let target: String
     public let arguments: String?
-    public init(path: String, target: String, arguments: String? = nil) {
+    public init(path: String = ".", target: String, arguments: String? = nil) {
         self.path = path
         self.target = target
         self.arguments = arguments
