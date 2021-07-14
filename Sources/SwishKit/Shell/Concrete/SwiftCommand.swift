@@ -9,7 +9,7 @@ public struct SwiftCommand: ShellCommand {
 
     public init(shellRunner: ShellRunner = SwishContext.default.shellRunner,
                 label: String? = nil,
-                path: String,
+                path: String = ".",
                 target: String,
                 arguments: String,
                 environment: [String: String]? = nil,
