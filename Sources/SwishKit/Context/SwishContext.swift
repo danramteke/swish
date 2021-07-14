@@ -16,7 +16,6 @@ public class SwishContext {
 		self.targetResolver = TargetResolver(logLevel: settings.logLevel)
 
 		if settings.isClearingPreviousLogsOnNewSession {
-			print("deleting", settings.rootLogsDirectory.url)
 			try? settings.rootLogsDirectory.delete()
 		}
 	}

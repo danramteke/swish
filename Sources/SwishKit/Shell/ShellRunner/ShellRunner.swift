@@ -25,7 +25,6 @@ public class ShellRunner {
 
 		let stdout = logsDirectory + Path("stdout.log")
 
-		print("does iexist?", logsDirectory.exists)
 		try stdout.createEmptyFile()
 		let stderr = logsDirectory + Path("stderr.log")
 		try stderr.createEmptyFile()

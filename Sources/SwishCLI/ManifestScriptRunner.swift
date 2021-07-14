@@ -4,7 +4,8 @@ import SwishKit
 import SwishDescription
 
 enum CPUArch {
-	case intel, arm
+	case intel
+	case arm
 
 	var swiftRunArg: String {
 		switch self {
@@ -16,14 +17,29 @@ enum CPUArch {
 	}
 
 	static func detect() -> Self {
-		let info = NXGetLocalArchInfo()
-		let string = String(utf8String: (info!.pointee.description)!)!
 
-		if string.contains("ARM") {
+		let out = UnsafeMutablePointer<utsname>.allocate(capacity: MemoryLayout<utsname>.stride)
+		uname(out)
+		let machine = String.fromTuple(tuple: out.pointee.machine)
+		out.deallocate()
+
+		switch machine {
+		case "arm64", "arm64e":
 			return .arm
-		} else {
+		default:
 			return .intel
 		}
+	}
+}
+
+extension String {
+	static func fromTuple<T>(tuple: T) -> String? {
+		let mirror = Mirror(reflecting: tuple)
+		let cString: [Int8] = mirror
+			.children
+			.compactMap { $0.value as? Int8 }
+
+		return String(cString: cString, encoding: .utf8)
 	}
 }
 
@@ -36,9 +52,8 @@ final class ManifestScriptRunner {
 		self.script = script
 		self.workingDirectory = workingDirectory
 		context = SwishContext(contextName: "SwishCLI", isClearingPreviousLogsOnNewSession: true, rootLogsDirectory: logsDirectory, logLevel: .info)
-
-		
 	}
+
 	func run() throws {
 
 		switch script {
@@ -50,7 +65,6 @@ final class ManifestScriptRunner {
 
 			let argString: String = swift.arguments ?? ""
 			let arch = CPUArch.detect()
-
 			try self.execute(text:  """
 									swift run \
 									--package-path \(swift.path) \
