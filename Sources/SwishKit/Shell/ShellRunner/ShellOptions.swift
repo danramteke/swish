@@ -1,12 +1,5 @@
 import Foundation
 
-public protocol Option: RawRepresentable, Hashable, CaseIterable, Comparable {}
-public extension Set where Element: Option & StringProtocol {
-    var rawValue: String {
-        Array(self).sorted().joined(separator: ",")
-    }
-}
-
 public typealias ShellOptions = Set<ShellOption>
 public enum ShellOption: String, Option {
 
@@ -23,4 +16,19 @@ public enum ShellOption: String, Option {
 
 public extension Set where Element == ShellOption {
     static let `default`: Self = [.console]
+}
+
+public protocol Option: RawRepresentable, Hashable, CaseIterable, Comparable {}
+public extension Set where Element: Option & StringProtocol, Element.RawValue == String {
+	var rawValue: String {
+		Array(self).sorted().joined(separator: ",")
+	}
+
+	init?(rawValue: String) {
+		let values: [Element] = rawValue
+			.split(separator: ",")
+			.map { String($0) }
+			.compactMap { Element.init(rawValue: $0) }
+		self = Set(values)
+	}
 }

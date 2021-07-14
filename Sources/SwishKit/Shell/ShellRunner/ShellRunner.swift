@@ -4,7 +4,6 @@ import Logging
 
 public class ShellRunner {
 	let logger: ShellRunnerLogger
-
 	let logDirectory: Path
 
 	public init(logDirectory: Path, logLevel: Logging.Logger.Level) {
@@ -18,13 +17,15 @@ public class ShellRunner {
 
 		let runNumber: Int = count.claim()
 
-        let logDirectoryName = [String(format: "%03d", runNumber), runnable.label]
-            .compactMap { $0 }
-            .joined(separator: "-")
+		let logDirectoryName = [String(format: "%03d", runNumber), runnable.label]
+			.compactMap { $0 }
+			.joined(separator: "-")
 		let logsDirectory = self.logDirectory + Path(logDirectoryName)
 		try logsDirectory.createDirectories()
 
 		let stdout = logsDirectory + Path("stdout.log")
+
+		print("does iexist?", logsDirectory.exists)
 		try stdout.createEmptyFile()
 		let stderr = logsDirectory + Path("stderr.log")
 		try stderr.createEmptyFile()
@@ -34,14 +35,17 @@ public class ShellRunner {
 		let stdoutHandle = try stdout.fileHandleForWriting()
 		let stderrHandle = try stdout.fileHandleForWriting()
 
-        if runnable.options.contains(.console) {
-            logger.start(label: runnable.label, message: runnable.text)
-        }
+		if runnable.options.contains(.console) {
+			logger.start(label: runnable.label, message: runnable.text)
+		}
 
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/bin/sh")
 		process.environment = combineEnvironments(base: ProcessInfo.processInfo.environment,
-                                                  overrides: runnable.environment)
+																							overrides: runnable.environment)
+		if let workingDirectory = runnable.workingDirectory {
+			process.currentDirectoryURL = workingDirectory.url
+		}
 		process.arguments = ["-c", runnable.text]
 		process.standardOutput = stdoutHandle
 		process.standardError = stderrHandle

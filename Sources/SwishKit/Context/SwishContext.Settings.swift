@@ -13,7 +13,7 @@ extension SwishContext {
 
 		public init(contextName: String = "default",
 								isClearingPreviousLogsOnNewSession: Bool = true,
-								rootLogsDirectory: Path = Path.current + Path("tmp/logs"),
+								rootLogsDirectory: Path = Path.current + Path("tmp/logs/default"),
 								logLevel: Logging.Logger.Level = .debug
 		) {
 			self.contextName = contextName

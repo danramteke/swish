@@ -1,6 +1,7 @@
 import ArgumentParser
 import SwishDescription
 import MPath
+import Foundation
 
 public struct SwishCLI: ParsableCommand {
 
@@ -21,7 +22,10 @@ public struct SwishCLI: ParsableCommand {
             throw ActionNotFoundInFileError(action: self.script)
 		}
 
-		try script.run(in: manifestPath.parent())
+		let runner = ManifestScriptRunner(script: script,
+																			workingDirectory: manifestPath.parent(),
+																			logsDirectory: manifestPath.parent() + Path("tmp/logs/SwishCLI"))
+			try runner.run()
 	}
 
 	public init() {}

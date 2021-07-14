@@ -1,13 +1,15 @@
 import Foundation
+import MPath
 
 public protocol ShellRunnable {
 	var text: String { get }
 	var shellRunner: ShellRunner { get }
 
+	var workingDirectory: Path? { get }
 	var environment: [String: String]? { get }
 	var label: String? { get }
 
-    var options: ShellOptions { get }
+	var options: ShellOptions { get }
 }
 
 extension ShellRunnable {

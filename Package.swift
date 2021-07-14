@@ -48,7 +48,7 @@ let package = Package(
 				"SwishDescription",
 				"MPath",
 				"Yams",
-
+				"SwishKit",
 				.product(name: "ArgumentParser", package: "swift-argument-parser"),
 			]
 		),

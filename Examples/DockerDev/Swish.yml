@@ -1,3 +1,0 @@
-scripts:
-  setup: "swift run DockerDev setup"
-  teardown: "swift run DockerDev teardown"

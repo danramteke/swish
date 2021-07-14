@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/danramteke/MPath.git",
         "state": {
           "branch": null,
-          "revision": "02ac4eac7d9165ca50409aea7866e676d3b88139",
-          "version": "0.9.8"
+          "revision": "d62d92b13c45f914109c2170dab112350aafedec",
+          "version": "0.9.13"
         }
       },
       {
@@ -26,6 +26,15 @@
           "branch": null,
           "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
           "version": "1.4.2"
+        }
+      },
+      {
+        "package": "Yams",
+        "repositoryURL": "https://github.com/jpsim/Yams.git",
+        "state": {
+          "branch": null,
+          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
+          "version": "4.0.6"
         }
       }
     ]
