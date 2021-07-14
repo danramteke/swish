@@ -18,28 +18,22 @@ enum CPUArch {
 
 	static func detect() -> Self {
 
-		let out = UnsafeMutablePointer<utsname>.allocate(capacity: MemoryLayout<utsname>.stride)
-		uname(out)
-		let machine = String.fromTuple(tuple: out.pointee.machine)
-		out.deallocate()
+		let utsname = UnsafeMutablePointer<utsname>.allocate(capacity: MemoryLayout<utsname>.stride)
+		uname(utsname)
+		let machineTuple = utsname.pointee.machine
+		utsname.deallocate()
 
+		let machineCstring = Mirror(reflecting: machineTuple)
+			.children
+			.compactMap { $0.value as? Int8 }
+
+		let machine = String(cString: machineCstring, encoding: .utf8)
 		switch machine {
 		case "arm64", "arm64e":
 			return .arm
 		default:
 			return .intel
 		}
-	}
-}
-
-extension String {
-	static func fromTuple<T>(tuple: T) -> String? {
-		let mirror = Mirror(reflecting: tuple)
-		let cString: [Int8] = mirror
-			.children
-			.compactMap { $0.value as? Int8 }
-
-		return String(cString: cString, encoding: .utf8)
 	}
 }
 
