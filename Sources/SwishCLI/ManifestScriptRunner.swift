@@ -85,20 +85,20 @@ final class ManifestScriptRunner {
 	}
 
 	private func execute(text: String, in directory: Path) throws {
-		try context.sh(text, in: directory)
+		// try context.sh(text, in: directory)
 
-		// let process = Process()
-		// process.executableURL = URL(fileURLWithPath: "/bin/sh")
-		// process.arguments = ["-c", text]
-		// process.currentDirectoryURL = directory.url
+		let process = Process()
+		process.executableURL = URL(fileURLWithPath: "/bin/sh")
+		process.arguments = ["-c", text]
+		process.currentDirectoryURL = directory.url
 
-		// process.standardOutput = FileHandle.standardOutput
-		// process.standardError = FileHandle.standardError
-		// try process.run()
-		// process.waitUntilExit()
+		process.standardOutput = FileHandle.standardOutput
+		process.standardError = FileHandle.standardError
+		try process.run()
+		process.waitUntilExit()
 
-		// if 0 != process.terminationStatus {
-		// 	throw NonZeroShellTermination(status: process.terminationStatus)
-		// }
+		if 0 != process.terminationStatus {
+			throw NonZeroShellTermination(status: process.terminationStatus)
+		}
 	}
 }
