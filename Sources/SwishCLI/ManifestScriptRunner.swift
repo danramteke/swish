@@ -59,13 +59,16 @@ final class ManifestScriptRunner {
 
 			let argString: String = swift.arguments ?? ""
 			let arch = CPUArch.detect()
-			try self.execute(text:  """
-									swift run \
-									--package-path \(swift.path) \
-									\(arch.swiftRunArg) \
-									\(swift.target) \
-									\(argString)
-									""", in: workingDirectory)
+
+			let text = """
+					swift run \
+					--package-path \(swift.path) \
+					\(arch.swiftRunArg) \
+					\(swift.target) \
+					\(argString)
+					"""
+			announce(text: text)
+			try self.execute(text: text, in: workingDirectory)
 		}
 	}
 
@@ -82,20 +85,20 @@ final class ManifestScriptRunner {
 	}
 
 	private func execute(text: String, in directory: Path) throws {
-//		try context.sh(text, in: directory)
+		try context.sh(text, in: directory)
 
-		let process = Process()
-		process.executableURL = URL(fileURLWithPath: "/bin/sh")
-		process.arguments = ["-c", text]
-		process.currentDirectoryURL = directory.url
+		// let process = Process()
+		// process.executableURL = URL(fileURLWithPath: "/bin/sh")
+		// process.arguments = ["-c", text]
+		// process.currentDirectoryURL = directory.url
 
-		process.standardOutput = FileHandle.standardOutput
-		process.standardError = FileHandle.standardError
-		try process.run()
-		process.waitUntilExit()
+		// process.standardOutput = FileHandle.standardOutput
+		// process.standardError = FileHandle.standardError
+		// try process.run()
+		// process.waitUntilExit()
 
-		if 0 != process.terminationStatus {
-			throw NonZeroShellTermination(status: process.terminationStatus)
-		}
+		// if 0 != process.terminationStatus {
+		// 	throw NonZeroShellTermination(status: process.terminationStatus)
+		// }
 	}
 }
